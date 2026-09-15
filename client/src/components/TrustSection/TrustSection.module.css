@@ -1,0 +1,118 @@
+.section {
+	padding: 0 0 clamp(4rem, 8vw, 7rem);
+	background: var(--color-background);
+}
+
+.container {
+	min-width: 0;
+}
+
+.headingGroup {
+	max-width: 38rem;
+	margin-bottom: var(--space-6);
+}
+
+.eyebrow {
+	margin: 0 0 var(--space-3);
+	color: var(--color-primary-dark);
+	font-size: 0.75rem;
+	font-weight: 800;
+	letter-spacing: 0.12em;
+	text-transform: uppercase;
+}
+
+.headingGroup h2,
+.headingGroup > p:last-child {
+	margin: 0;
+}
+
+.headingGroup h2 {
+	color: var(--color-text-strong);
+	font-size: clamp(2rem, 4vw, 3rem);
+	font-weight: 750;
+	letter-spacing: -0.035em;
+	line-height: 1.05;
+}
+
+.headingGroup > p:last-child {
+	margin-top: var(--space-4);
+	color: var(--color-muted);
+	font-size: 1rem;
+	line-height: 1.65;
+}
+
+.grid {
+	display: grid;
+	grid-template-columns: repeat(4, minmax(0, 1fr));
+	gap: var(--space-4);
+	margin: 0;
+	padding: 0;
+	list-style: none;
+}
+
+.point {
+	display: flex;
+	align-items: flex-start;
+	gap: var(--space-4);
+	min-width: 0;
+	padding: var(--space-5);
+	border: 1px solid var(--color-border);
+	border-radius: var(--radius-md);
+	background: var(--color-surface);
+	box-shadow: 0 6px 18px rgba(22, 33, 43, 0.04);
+	transition: border-color var(--transition-standard), box-shadow var(--transition-standard), transform var(--transition-standard);
+}
+
+.point:hover {
+	border-color: rgba(15, 118, 110, 0.4);
+	box-shadow: 0 10px 22px rgba(22, 33, 43, 0.08);
+	transform: translateY(-2px);
+}
+
+.icon {
+	display: grid;
+	flex: 0 0 auto;
+	width: 2.75rem;
+	height: 2.75rem;
+	place-items: center;
+	border: 1px solid rgba(15, 118, 110, 0.2);
+	border-radius: var(--radius-sm);
+	background: var(--color-background-soft);
+	color: var(--color-primary-dark);
+	font-size: 1.25rem;
+}
+
+.point h3,
+.point p {
+	margin: 0;
+}
+
+.point h3 {
+	color: var(--color-text-strong);
+	font-size: 1rem;
+	font-weight: 750;
+	line-height: 1.3;
+}
+
+.point p {
+	margin-top: var(--space-2);
+	color: var(--color-muted);
+	font-size: 0.8125rem;
+	line-height: 1.55;
+}
+
+@media (max-width: 1000px) {
+	.grid {
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+	}
+}
+
+@media (max-width: 560px) {
+	.grid {
+		grid-template-columns: 1fr;
+	}
+
+	.point {
+		padding: var(--space-4);
+	}
+}

@@ -1,0 +1,171 @@
+.header {
+	position: sticky;
+	top: 0;
+	z-index: 10;
+	border-bottom: 1px solid var(--color-border);
+	background: rgba(255, 255, 255, 0.96);
+}
+
+.navbar {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	min-height: 4.5rem;
+	gap: var(--space-6);
+}
+
+.brand {
+	display: inline-flex;
+	align-items: center;
+	gap: var(--space-2);
+	color: var(--color-text-strong);
+	font-size: 1.125rem;
+	font-weight: 800;
+	letter-spacing: 0.12em;
+}
+
+.brandMark {
+	display: grid;
+	width: 2rem;
+	height: 2rem;
+	place-items: center;
+	border-radius: var(--radius-sm);
+	background: var(--color-primary);
+	color: #ffffff;
+	font-size: 1rem;
+	letter-spacing: 0;
+}
+
+.navigation {
+	display: flex;
+	align-items: center;
+	gap: var(--space-7);
+}
+
+.links {
+	display: flex;
+	align-items: center;
+	gap: var(--space-6);
+}
+
+.navLink,
+.loginLink {
+	position: relative;
+	padding: var(--space-2) 0;
+	color: var(--color-muted);
+	font-size: 0.9375rem;
+	font-weight: 600;
+	transition: color var(--transition-fast);
+}
+
+.navLink::after {
+	position: absolute;
+	right: 0;
+	bottom: 0;
+	left: 0;
+	height: 2px;
+	background: var(--color-primary);
+	content: "";
+	transform: scaleX(0);
+	transform-origin: right;
+	transition: transform var(--transition-standard);
+}
+
+.navLink:hover,
+.navLink:focus-visible,
+.loginLink:hover,
+.loginLink:focus-visible {
+	color: var(--color-primary-dark);
+}
+
+.navLink:hover::after,
+.navLink:focus-visible::after {
+	transform: scaleX(1);
+	transform-origin: left;
+}
+
+.loginLink {
+	padding: var(--space-2) var(--space-4);
+	border: 1px solid var(--color-primary);
+	border-radius: var(--radius-sm);
+	color: var(--color-primary-dark);
+	transition: background-color var(--transition-fast), color var(--transition-fast);
+}
+
+.loginLink:hover,
+.loginLink:focus-visible {
+	background: var(--color-primary);
+	color: #ffffff;
+}
+
+.menuButton {
+	display: none;
+	align-items: center;
+	justify-content: center;
+	width: 2.75rem;
+	height: 2.75rem;
+	border-radius: var(--radius-sm);
+	background: transparent;
+	color: var(--color-text-strong);
+	font-size: 1.5rem;
+}
+
+.menuButton:hover {
+	background: var(--color-background-soft);
+}
+
+:where(.brand, .navLink, .loginLink, .menuButton):focus-visible {
+	outline: 3px solid rgba(15, 118, 110, 0.35);
+	outline-offset: 3px;
+}
+
+@media (max-width: 700px) {
+	.navbar {
+		min-height: 4rem;
+	}
+
+	.menuButton {
+		display: inline-flex;
+	}
+
+	.navigation {
+		position: absolute;
+		top: 100%;
+		right: 1rem;
+		left: 1rem;
+		display: none;
+		align-items: stretch;
+		gap: var(--space-4);
+		padding: var(--space-4);
+		border: 1px solid var(--color-border);
+		border-radius: var(--radius-md);
+		background: var(--color-surface);
+		box-shadow: 0 10px 24px rgba(22, 33, 43, 0.08);
+	}
+
+	.navigationOpen {
+		display: flex;
+		flex-direction: column;
+	}
+
+	.links {
+		flex-direction: column;
+		align-items: stretch;
+		gap: var(--space-2);
+	}
+
+	.navLink,
+	.loginLink {
+		display: block;
+		padding: var(--space-3);
+	}
+
+	.navLink::after {
+		right: var(--space-3);
+		left: var(--space-3);
+	}
+
+	.loginLink {
+		text-align: center;
+	}
+}

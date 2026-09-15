@@ -1,0 +1,169 @@
+.section {
+	padding: 0 0 clamp(4rem, 8vw, 7rem);
+	background: var(--color-background);
+}
+
+.container {
+	min-width: 0;
+}
+
+.headingGroup {
+	max-width: 38rem;
+	margin-bottom: var(--space-7);
+}
+
+.eyebrow {
+	margin: 0 0 var(--space-3);
+	color: var(--color-primary-dark);
+	font-size: 0.75rem;
+	font-weight: 800;
+	letter-spacing: 0.12em;
+	text-transform: uppercase;
+}
+
+.headingGroup h2,
+.headingGroup > p:last-child {
+	margin: 0;
+}
+
+.headingGroup h2 {
+	color: var(--color-text-strong);
+	font-size: clamp(2rem, 4vw, 3rem);
+	font-weight: 750;
+	letter-spacing: -0.035em;
+	line-height: 1.05;
+}
+
+.headingGroup > p:last-child {
+	margin-top: var(--space-4);
+	color: var(--color-muted);
+	font-size: 1rem;
+	line-height: 1.65;
+}
+
+.steps {
+	position: relative;
+	display: grid;
+	grid-template-columns: repeat(4, minmax(0, 1fr));
+	gap: var(--space-5);
+	margin: 0;
+	padding: 0;
+	list-style: none;
+}
+
+.steps::before {
+	position: absolute;
+	top: 1.625rem;
+	right: 10%;
+	left: 10%;
+	height: 1px;
+	background: var(--color-border);
+	content: "";
+}
+
+.step {
+	position: relative;
+	z-index: 1;
+	min-width: 0;
+	padding: 0 var(--space-3) var(--space-3);
+}
+
+.stepMarker {
+	display: grid;
+	width: 3.25rem;
+	height: 3.25rem;
+	place-items: center;
+	margin-bottom: var(--space-5);
+	border: 1px solid rgba(15, 118, 110, 0.25);
+	border-radius: 50%;
+	background: var(--color-surface);
+	box-shadow: 0 0 0 0.5rem var(--color-background);
+	color: var(--color-primary-dark);
+	font-size: 1.25rem;
+	transition: background-color var(--transition-standard), color var(--transition-standard), transform var(--transition-standard);
+}
+
+.step:hover .stepMarker {
+	background: var(--color-primary);
+	color: #ffffff;
+	transform: translateY(-2px);
+}
+
+.stepNumber,
+.step h3,
+.description {
+	margin: 0;
+}
+
+.stepNumber {
+	color: var(--color-primary-dark);
+	font-size: 0.75rem;
+	font-weight: 800;
+	letter-spacing: 0.1em;
+	text-transform: uppercase;
+}
+
+.step h3 {
+	max-width: 14rem;
+	margin-top: var(--space-3);
+	color: var(--color-text-strong);
+	font-size: 1.125rem;
+	font-weight: 750;
+	line-height: 1.3;
+}
+
+.description {
+	max-width: 16rem;
+	margin-top: var(--space-3);
+	color: var(--color-muted);
+	font-size: 0.875rem;
+	line-height: 1.6;
+}
+
+@media (max-width: 900px) {
+	.steps {
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+		row-gap: var(--space-7);
+	}
+
+	.steps::before {
+		display: none;
+	}
+}
+
+@media (max-width: 560px) {
+	.headingGroup {
+		margin-bottom: var(--space-6);
+	}
+
+	.steps {
+		grid-template-columns: 1fr;
+		gap: var(--space-5);
+	}
+
+	.step {
+		display: grid;
+		grid-template-columns: 3.25rem minmax(0, 1fr);
+		column-gap: var(--space-4);
+		padding: 0;
+	}
+
+	.stepMarker {
+		grid-row: span 3;
+		margin: 0;
+	}
+
+	.stepNumber,
+	.step h3,
+	.description {
+		grid-column: 2;
+	}
+
+	.step h3 {
+		margin-top: var(--space-2);
+	}
+
+	.description {
+		margin-top: var(--space-2);
+	}
+}
