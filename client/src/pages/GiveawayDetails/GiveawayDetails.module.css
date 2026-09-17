@@ -196,6 +196,30 @@
 	gap: var(--space-3);
 }
 
+.prizeSelection {
+	display: grid;
+	max-width: 24rem;
+	gap: var(--space-2);
+	margin-top: var(--space-5);
+	color: var(--color-text-strong);
+	font-size: 0.8125rem;
+	font-weight: 750;
+}
+
+.prizeSelection select {
+	min-height: 2.75rem;
+	padding: var(--space-3);
+	border: 1px solid var(--color-border);
+	border-radius: var(--radius-sm);
+	background: var(--color-surface);
+	color: var(--color-text);
+}
+
+.prizeSelection select:focus-visible {
+	outline: 3px solid rgba(15, 118, 110, 0.35);
+	outline-offset: 3px;
+}
+
 .primaryButton,
 .primaryLink {
 	display: inline-flex;
@@ -240,6 +264,53 @@
 	color: var(--color-primary);
 }
 
+.insufficient {
+	max-width: 20rem;
+	margin: 0;
+	color: var(--color-danger);
+	font-size: 0.8125rem;
+	line-height: 1.4;
+}
+
+.loginLink,
+.secondaryButton {
+	font-size: 0.8125rem;
+	font-weight: 750;
+}
+
+.loginLink {
+	color: var(--color-primary-dark);
+	text-decoration: underline;
+}
+
+.secondaryButton {
+	min-height: 2.75rem;
+	padding: var(--space-3) var(--space-4);
+	border: 1px solid var(--color-border);
+	border-radius: var(--radius-sm);
+	background: var(--color-background-soft);
+	color: var(--color-muted);
+	cursor: not-allowed;
+}
+
+.success {
+	display: grid;
+	max-width: 20rem;
+	gap: var(--space-2);
+	padding: var(--space-4);
+	border: 1px solid rgba(40, 125, 88, 0.25);
+	border-radius: var(--radius-md);
+	background: rgba(40, 125, 88, 0.08);
+	color: var(--color-muted);
+	font-size: 0.8125rem;
+	line-height: 1.45;
+}
+
+.success strong {
+	color: var(--color-success);
+	font-size: 1.125rem;
+}
+
 .notFound {
 	display: grid;
 	min-height: 70vh;
@@ -278,6 +349,50 @@
 
 .notFoundCard .primaryLink {
 	margin-top: var(--space-6);
+}
+
+.stateActions {
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: center;
+	gap: var(--space-3);
+	margin-top: var(--space-6);
+}
+
+.stateActions .primaryLink,
+.stateActions .primaryButton {
+	margin-top: 0;
+}
+
+.unavailable {
+	margin: 0;
+	padding: var(--space-5);
+	border: 1px solid var(--color-border);
+	border-radius: var(--radius-md);
+	background: var(--color-surface);
+	color: var(--color-muted);
+	text-align: center;
+}
+
+.configuration {
+	display: grid;
+	gap: var(--space-3);
+	margin-top: var(--space-5);
+	color: var(--color-muted);
+	font-size: 0.875rem;
+}
+
+.configuration strong {
+	color: var(--color-text-strong);
+}
+
+.configuration p,
+.configuration ul {
+	margin: var(--space-1) 0 0;
+}
+
+.configuration ul {
+	padding-left: var(--space-5);
 }
 
 @media (max-width: 1000px) {

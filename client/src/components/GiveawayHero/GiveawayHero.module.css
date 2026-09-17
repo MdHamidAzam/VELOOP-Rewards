@@ -1,29 +1,38 @@
 .hero {
 	overflow: hidden;
-	padding: clamp(3.5rem, 8vw, 7rem) 0 clamp(4rem, 9vw, 8rem);
-	background: var(--color-background);
+	padding: clamp(3.2rem, 7vw, 6rem) 0 clamp(3.5rem, 7vw, 6rem);
+	border-bottom: 1px solid var(--color-border);
+	background:
+		radial-gradient(circle at 15% 10%, rgba(156, 107, 255, 0.14), transparent 28%),
+		radial-gradient(circle at 75% 30%, rgba(105, 222, 255, 0.10), transparent 30%),
+		linear-gradient(135deg, rgba(11, 19, 32, 1) 0%, rgba(9, 14, 24, 1) 42%, rgba(17, 23, 39, 1) 100%);
 }
 
 .heroInner {
 	display: grid;
 	grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
 	align-items: center;
-	gap: clamp(2rem, 6vw, 7rem);
+	gap: clamp(2rem, 5vw, 5.5rem);
+	padding: clamp(1.2rem, 2vw, 1.8rem);
+	border: 1px solid rgba(156, 107, 255, 0.28);
+	border-radius: 2rem;
+	background: linear-gradient(135deg, rgba(18, 21, 35, 0.97), rgba(13, 19, 31, 0.85));
+	box-shadow: var(--shadow-soft);
 }
 
 .copy {
 	position: relative;
 	z-index: 1;
-	max-width: 34rem;
+	max-width: 36rem;
 }
 
 .eyebrow {
 	display: inline-flex;
 	align-items: center;
-	gap: var(--space-2);
-	margin: 0 0 var(--space-5);
-	color: var(--color-primary-dark);
-	font-size: 0.75rem;
+	gap: 0.6rem;
+	margin: 0 0 1.1rem;
+	color: #c9b1ff;
+	font-size: 0.72rem;
 	font-weight: 800;
 	letter-spacing: 0.12em;
 	line-height: 1.3;
@@ -32,55 +41,87 @@
 
 .statusDot {
 	display: inline-block;
-	width: 0.5rem;
-	height: 0.5rem;
+	width: 0.56rem;
+	height: 0.56rem;
 	border-radius: 50%;
 	background: var(--color-success);
-	box-shadow: 0 0 0 4px rgba(40, 125, 88, 0.12);
+	box-shadow: 0 0 0 5px rgba(111, 231, 183, 0.12);
+}
+
+.upcoming {
+	background: var(--color-warning);
+	box-shadow: 0 0 0 5px rgba(255, 201, 109, 0.12);
+}
+
+.ended {
+	background: #a5afc6;
+	box-shadow: 0 0 0 5px rgba(165, 175, 198, 0.1);
 }
 
 .copy h1 {
 	max-width: 11ch;
 	margin: 0;
 	color: var(--color-text-strong);
-	font-size: clamp(2.5rem, 5vw, 5rem);
-	font-weight: 750;
-	letter-spacing: -0.04em;
-	line-height: 0.98;
+	font-size: clamp(2.8rem, 5vw, 5.25rem);
+	font-weight: 800;
+	letter-spacing: -0.06em;
+	line-height: 0.96;
 }
 
 .description {
-	max-width: 30rem;
-	margin: var(--space-6) 0 0;
+	max-width: 32rem;
+	margin: 1.5rem 0 0;
 	color: var(--color-muted);
-	font-size: clamp(1rem, 1.5vw, 1.125rem);
+	font-size: clamp(1rem, 1.45vw, 1.18rem);
 	line-height: 1.7;
+}
+
+.metaRow {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 0.7rem;
+	margin-top: 1.5rem;
+}
+
+.metaPill {
+	display: inline-flex;
+	align-items: center;
+	padding: 0.55rem 0.8rem;
+	border: 1px solid rgba(156, 107, 255, 0.3);
+	border-radius: 999px;
+	background: rgba(156, 107, 255, 0.08);
+	color: #ebebff;
+	font-size: 0.72rem;
+	font-weight: 700;
+	letter-spacing: 0.05em;
+	text-transform: uppercase;
 }
 
 .cta {
 	display: inline-flex;
 	align-items: center;
-	gap: var(--space-4);
-	margin-top: var(--space-7);
-	padding: 0.9rem 1.2rem;
-	border: 1px solid var(--color-primary);
-	border-radius: var(--radius-sm);
-	background: var(--color-primary);
+	gap: 0.8rem;
+	margin-top: 1.8rem;
+	padding: 1rem 1.4rem;
+	border: 1px solid rgba(156, 107, 255, 0.8);
+	border-radius: 1rem;
+	background: linear-gradient(135deg, rgba(156, 107, 255, 1), rgba(115, 95, 255, 1));
 	color: #ffffff;
-	font-size: 0.9375rem;
-	font-weight: 750;
-	transition: background-color var(--transition-fast), border-color var(--transition-fast), transform var(--transition-fast);
+	font-size: 1rem;
+	font-weight: 800;
+	box-shadow: 0 16px 32px rgba(122, 74, 224, 0.32);
+	transition: transform var(--transition-fast), box-shadow var(--transition-fast), filter var(--transition-fast);
 }
 
 .cta span {
-	font-size: 1.1rem;
+	font-size: 1.2rem;
 	transition: transform var(--transition-fast);
 }
 
 .cta:hover {
-	border-color: var(--color-primary-dark);
-	background: var(--color-primary-dark);
 	transform: translateY(-2px);
+	box-shadow: 0 20px 36px rgba(122, 74, 224, 0.42);
+	filter: brightness(1.04);
 }
 
 .cta:hover span {
@@ -88,39 +129,44 @@
 }
 
 .cta:focus-visible {
-	outline: 3px solid rgba(15, 118, 110, 0.35);
+	outline: 3px solid rgba(156, 107, 255, 0.62);
 	outline-offset: 4px;
 }
 
 .illustrationFrame {
 	position: relative;
 	display: grid;
-	min-height: clamp(20rem, 42vw, 37rem);
 	place-items: center;
+	min-height: clamp(18rem, 39vw, 31rem);
+	padding: clamp(1rem, 2vw, 2rem);
+	border: 1px solid rgba(156, 107, 255, 0.26);
+	border-radius: 2rem;
+	background: radial-gradient(circle at 50% 15%, rgba(156, 107, 255, 0.22), transparent 32%), rgba(12, 16, 30, 0.9);
+	box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.02), 0 22px 50px rgba(8, 13, 24, 0.5);
 }
 
 .illustrationAccent {
 	position: absolute;
-	width: min(32rem, 80%);
-	aspect-ratio: 1;
-	border: 1px solid rgba(224, 164, 88, 0.42);
+	inset: 12% 8% 8% 8%;
+	border: 1px solid rgba(156, 107, 255, 0.32);
 	border-radius: 50%;
-	transform: rotate(-14deg);
+	background: radial-gradient(circle, rgba(156, 107, 255, 0.16), transparent 60%);
+	transform: rotate(-8deg);
 }
 
 .illustration {
 	position: relative;
 	z-index: 1;
 	display: block;
-	width: min(100%, 38rem);
+	width: min(100%, 35rem);
 	height: auto;
-	filter: drop-shadow(0 20px 18px rgba(22, 33, 43, 0.14));
+	filter: drop-shadow(0 28px 34px rgba(0, 0, 0, 0.42));
 	transition: transform var(--transition-standard), filter var(--transition-standard);
 }
 
 .illustrationFrame:hover .illustration {
-	filter: drop-shadow(0 25px 22px rgba(22, 33, 43, 0.18));
 	transform: translateY(-6px) rotate(1deg);
+	filter: drop-shadow(0 36px 42px rgba(0, 0, 0, 0.5));
 }
 
 @media (max-width: 900px) {
@@ -129,22 +175,23 @@
 	}
 
 	.copy h1 {
-		font-size: clamp(2.5rem, 6vw, 4rem);
+		font-size: clamp(2.7rem, 7vw, 4.4rem);
 	}
 
 	.illustrationFrame {
-		min-height: 22rem;
+		min-height: 21rem;
 	}
 }
 
 @media (max-width: 700px) {
 	.hero {
-		padding: 3rem 0 4rem;
+		padding: 2.5rem 0 3.5rem;
 	}
 
 	.heroInner {
 		grid-template-columns: 1fr;
-		gap: var(--space-7);
+		gap: 2rem;
+		padding: 1rem;
 	}
 
 	.copy {
@@ -153,29 +200,29 @@
 
 	.copy h1 {
 		max-width: 12ch;
-		font-size: clamp(2.5rem, 13vw, 4rem);
+		font-size: clamp(2.6rem, 12vw, 4rem);
 	}
 
 	.description {
-		margin-top: var(--space-5);
+		margin-top: 1.2rem;
+	}
+
+	.metaRow {
+		margin-top: 1.1rem;
 	}
 
 	.cta {
 		justify-content: center;
 		width: 100%;
 		min-height: 3.25rem;
-		margin-top: var(--space-6);
+		margin-top: 1.5rem;
 	}
 
 	.illustrationFrame {
 		min-height: 0;
 	}
 
-	.illustrationAccent {
-		width: 88%;
-	}
-
 	.illustration {
-		width: min(100%, 26rem);
+		width: min(100%, 24rem);
 	}
 }

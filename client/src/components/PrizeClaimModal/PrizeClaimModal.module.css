@@ -1,1 +1,63 @@
-/* PrizeClaimModal styles placeholder. */
+.backdrop {
+	position: fixed;
+	inset: 0;
+	z-index: 20;
+	display: grid;
+	place-items: center;
+	padding: 1rem;
+	background: rgb(16 24 40 / 62%);
+}
+
+.dialog {
+	position: relative;
+	width: min(100%, 38rem);
+	max-height: min(90vh, 48rem);
+	overflow: auto;
+	padding: 2rem;
+	border: 1px solid var(--color-border);
+	border-radius: 1rem;
+	background: var(--color-surface);
+	box-shadow: 0 1.5rem 4rem rgb(16 24 40 / 24%);
+}
+
+.closeButton {
+	position: absolute;
+	top: 1rem;
+	right: 1rem;
+	display: grid;
+	place-items: center;
+	width: 2.5rem;
+	height: 2.5rem;
+	border: 1px solid var(--color-border);
+	border-radius: 50%;
+	background: transparent;
+	color: var(--color-text);
+}
+
+.eyebrow {
+	margin: 0 0 .5rem;
+	color: var(--color-accent);
+	font-size: .75rem;
+	font-weight: 700;
+	letter-spacing: .08em;
+	text-transform: uppercase;
+}
+
+.dialog h2 { margin: 0 0 .75rem; }
+.dialog p { color: var(--color-muted); }
+.fields { display: grid; gap: 1rem; margin: 1.5rem 0; }
+.fields label { display: grid; gap: .4rem; font-weight: 600; }
+.fields input, .fields textarea { width: 100%; padding: .8rem .9rem; border: 1px solid var(--color-border); border-radius: .5rem; background: var(--color-background); color: var(--color-text); font: inherit; }
+.fields textarea { min-height: 6rem; resize: vertical; }
+.error { color: #b42318 !important; }
+.actions { display: flex; justify-content: flex-end; gap: .75rem; }
+.cancelButton, .submitButton { padding: .75rem 1rem; border-radius: .5rem; font: inherit; font-weight: 700; cursor: pointer; }
+.cancelButton { border: 1px solid var(--color-border); background: transparent; color: var(--color-text); }
+.submitButton { border: 1px solid var(--color-accent); background: var(--color-accent); color: white; }
+.cancelButton:focus-visible, .submitButton:focus-visible, .closeButton:focus-visible, .fields input:focus-visible, .fields textarea:focus-visible { outline: 3px solid rgb(25 118 210 / 35%); outline-offset: 2px; }
+
+@media (max-width: 420px) {
+	.dialog { padding: 1.25rem; }
+	.actions { flex-direction: column-reverse; }
+	.cancelButton, .submitButton { width: 100%; }
+}

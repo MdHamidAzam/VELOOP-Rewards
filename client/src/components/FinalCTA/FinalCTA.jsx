@@ -1,6 +1,6 @@
 import { FiArrowRight } from "react-icons/fi";
 import { Link } from "react-router-dom";
-import { CURRENT_GIVEAWAY as currentGiveaway, GIVEAWAY_STATUS } from "../../data/giveawayData.js";
+import { GIVEAWAY_STATUS } from "../../data/giveawayData.js";
 import styles from "./FinalCTA.module.css";
 
 const ctaCopy = {
@@ -24,8 +24,10 @@ const ctaCopy = {
 	},
 };
 
-export default function FinalCTA() {
-	const copy = ctaCopy[currentGiveaway.status] ?? ctaCopy[GIVEAWAY_STATUS.ENDED];
+export default function FinalCTA({ giveaway }) {
+	if (!giveaway) return null;
+	const activeGiveaway = giveaway;
+	const copy = ctaCopy[activeGiveaway.status] ?? ctaCopy[GIVEAWAY_STATUS.ENDED];
 
 	return (
 		<section className={styles.section} aria-labelledby="final-cta-title">
@@ -35,7 +37,7 @@ export default function FinalCTA() {
 					<h2 id="final-cta-title">{copy.title}</h2>
 					<p className={styles.description}>{copy.description}</p>
 				</div>
-				<Link className={styles.cta} to={`/giveaway/${currentGiveaway.id}`}>
+				<Link className={styles.cta} to={`/giveaway/${activeGiveaway.id}`}>
 					{copy.label}
 					<FiArrowRight aria-hidden="true" />
 				</Link>

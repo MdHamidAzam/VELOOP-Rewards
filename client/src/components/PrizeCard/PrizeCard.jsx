@@ -9,7 +9,8 @@ const currencyLabels = {
 };
 
 export default function PrizeCard({ prize, giveawayId }) {
-	const { amount, currency } = prize.entryFee;
+	const amount = prize.entryFee?.amount;
+	const currency = prize.entryFee?.currency;
 
 	return (
 		<article className={styles.card}>
@@ -32,7 +33,7 @@ export default function PrizeCard({ prize, giveawayId }) {
 						{prize.winnerCount} {prize.winnerCount === 1 ? "winner" : "winners"}
 					</span>
 					<span className={styles.entry}>
-						{amount.toLocaleString()} {currencyLabels[currency] ?? currency}
+						{amount == null ? "-" : `${amount.toLocaleString()} ${currencyLabels[currency] ?? currency ?? ""}`}
 					</span>
 				</div>
 

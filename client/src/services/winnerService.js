@@ -1,1 +1,3 @@
-// Winner service implementation will be added later.
+import { getGiveawayWinners, getPreviousWinners } from "./giveawayApi.js";
+
+export { getGiveawayWinners, getPreviousWinners };

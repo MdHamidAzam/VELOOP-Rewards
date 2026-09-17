@@ -1,0 +1,158 @@
+import { GIVEAWAY_STATUS } from "../data/giveawayData.js";
+import { PRIZES } from "../data/prizeData.js";
+
+export const DEMO_MODE = import.meta.env.DEV && !import.meta.env.VITE_API_BASE_URL;
+export const DEMO_USERS = Object.freeze([
+	{ id: "VE10025", label: "Winner - VE10025" },
+	{ id: "VE10028", label: "Gift-card winner - VE10028" },
+	{ id: "VE10026", label: "Non-winner - VE10026" },
+	{ id: "VE10027", label: "New participant - VE10027" },
+]);
+
+const DEMO_PARTICIPATIONS_KEY = "veloop.demo.participations";
+const DEMO_CLAIMS_KEY = "veloop.demo.claims";
+
+const activeGiveaway = {
+	id: "GW-2026-09",
+	title: "September 2026 Giveaway",
+	slug: "september-2026-giveaway",
+	status: GIVEAWAY_STATUS.ACTIVE,
+	startAt: "2026-09-01T00:00:00.000Z",
+	endAt: "2026-09-30T23:59:59.000Z",
+	description: "Development demo giveaway record for the September 2026 event.",
+	rules: ["One participation per user and giveaway.", "The configured entry fee is deducted by the backend in production."],
+	eligibility: { minAge: 18, countries: [], requiresVerifiedUser: false },
+	participationSettings: { maxParticipationsPerUser: 1 },
+	prizes: PRIZES.map((prize) => ({ ...prize, status: "AVAILABLE" })),
+	participantCount: 1842,
+	statistics: { totalGiveaways: 24, participants: 1842, prizesWon: 1200 },
+	winners: [],
+};
+
+const archivedGiveaway = {
+	id: "GW-2026-08",
+	title: "August 2026 Giveaway",
+	slug: "august-2026-giveaway",
+	status: GIVEAWAY_STATUS.ARCHIVED,
+	startAt: "2026-08-01T00:00:00.000Z",
+	endAt: "2026-08-31T23:59:59.000Z",
+	winnersFinalizedAt: "2026-08-31T23:59:59.000Z",
+	description: "Completed development demo giveaway record for August 2026.",
+	rules: activeGiveaway.rules,
+	eligibility: activeGiveaway.eligibility,
+	participationSettings: activeGiveaway.participationSettings,
+	prizes: PRIZES.map((prize) => ({ ...prize, id: `${prize.id}-GW-2026-08`, status: "AWARDED" })),
+	participantCount: 1620,
+	statistics: { totalGiveaways: 24, participants: 1620, prizesWon: 1 },
+	winners: [{
+		id: "demo-winner-aug-watch",
+		prizeId: "PRIZE-APPLE-WATCH-GW-2026-08",
+		prizeName: "Apple Watch",
+		prizeImage: PRIZES[1].image,
+		maskedId: "VE****25",
+		status: "SELECTED",
+		selectedAt: "2026-08-31T23:59:59.000Z",
+	}, {
+		id: "demo-winner-aug-gift-card",
+		prizeId: "PRIZE-AMAZON-2000-GW-2026-08",
+		prizeName: "₹2,000 Amazon Gift Card",
+		prizeImage: PRIZES[3].image,
+		maskedId: "VE****28",
+		status: "SELECTED",
+		selectedAt: "2026-08-31T23:59:59.000Z",
+	}],
+};
+
+function clone(value) {
+	return JSON.parse(JSON.stringify(value));
+}
+
+function readJson(key, fallback) {
+	try { return JSON.parse(window.sessionStorage.getItem(key) ?? JSON.stringify(fallback)); } catch { return fallback; }
+}
+
+function writeJson(key, value) {
+	try { window.sessionStorage.setItem(key, JSON.stringify(value)); } catch { /* Demo state is best effort. */ }
+}
+
+export function getDemoUserId() {
+	const token = window.sessionStorage.getItem("veloop.accessToken") ?? "";
+	return token.startsWith("demo-token:") ? token.slice("demo-token:".length) : null;
+}
+
+export function getDemoGiveaway(giveawayId) {
+	if (giveawayId === activeGiveaway.id) return clone(activeGiveaway);
+	if (giveawayId === archivedGiveaway.id) return clone(archivedGiveaway);
+	return null;
+}
+
+export function getDemoCurrentGiveaway() { return clone(activeGiveaway); }
+export function getDemoPreviousGiveaways() { return [clone(archivedGiveaway)]; }
+export function getDemoPreviousWinners() {
+	return [{
+		giveaway: {
+			id: archivedGiveaway.id,
+			title: archivedGiveaway.title,
+			status: archivedGiveaway.status,
+			endAt: archivedGiveaway.endAt,
+			winnersFinalizedAt: archivedGiveaway.winnersFinalizedAt,
+		},
+		winners: clone(archivedGiveaway.winners),
+	}];
+}
+
+export function getDemoWallet(currency = "VES") {
+	const balances = { VE10025: 850, VE10026: 850, VE10027: 850 };
+	const normalizedCurrency = String(currency).toUpperCase();
+	const currencyBalances = { VES: balances[getDemoUserId()] ?? 850, SVES: 900, TOKENS: 5000 };
+	return { userId: getDemoUserId(), currency: normalizedCurrency, balance: currencyBalances[normalizedCurrency] ?? 850 };
+}
+
+export function getDemoStatus(giveawayId) {
+	const userId = getDemoUserId();
+	const participations = readJson(DEMO_PARTICIPATIONS_KEY, {});
+	const claims = readJson(DEMO_CLAIMS_KEY, {});
+	const participationKey = `${userId}:${giveawayId}`;
+	const winner = giveawayId === archivedGiveaway.id
+		? archivedGiveaway.winners.find((candidate) => candidate.maskedId === `VE****${userId?.slice(-2)}`) ?? null
+		: null;
+	return {
+		giveawayId,
+		participating: Boolean(participations[participationKey]) || Boolean(winner),
+		entries: participations[participationKey] ? 1 : winner ? 1 : 0,
+		winner: winner ? { ...winner, claimType: winner.prizeId.includes("AMAZON") ? "EMAIL" : "PHYSICAL", claimDeadline: "2026-09-07T23:59:59.000Z" } : null,
+		claim: claims[participationKey] ?? null,
+	};
+}
+
+export function joinDemoGiveaway(giveawayId, prizeId) {
+	const userId = getDemoUserId();
+	const key = `${userId}:${giveawayId}`;
+	const participations = readJson(DEMO_PARTICIPATIONS_KEY, {});
+	if (participations[key]) return { giveawayId, prizeId, entryId: `demo-entry-${key}`, transactionId: `demo-transaction-${key}`, idempotent: true };
+	participations[key] = { prizeId, createdAt: new Date().toISOString() };
+	writeJson(DEMO_PARTICIPATIONS_KEY, participations);
+	return { giveawayId, prizeId, entryId: `demo-entry-${key}`, transactionId: `demo-transaction-${key}` };
+}
+
+export function submitDemoClaim(giveawayId, claimData) {
+	const userId = getDemoUserId();
+	const status = getDemoStatus(giveawayId);
+	if (!status.winner) throw new Error("Only a verified winner can claim this prize.");
+	const key = `${userId}:${giveawayId}`;
+	const claims = readJson(DEMO_CLAIMS_KEY, {});
+	if (claims[key]) throw new Error("A claim has already been submitted for this prize.");
+	const claim = { id: `demo-claim-${key}`, giveawayId, prizeId: status.winner.prizeId, claimType: status.winner.claimType, status: "SUBMITTED", submittedAt: new Date().toISOString(), expiresAt: status.winner.claimDeadline, claimData };
+	claims[key] = claim;
+	writeJson(DEMO_CLAIMS_KEY, claims);
+	return claim;
+}
+
+export function isDemoFallbackError(error) {
+	return DEMO_MODE && (error?.code === "NETWORK_ERROR" || error?.status === 404 || error?.status >= 500 || error?.code === "INVALID_RESPONSE");
+}
+
+export function getDemoClaim(giveawayId) {
+	const userId = getDemoUserId();
+	return readJson(DEMO_CLAIMS_KEY, {})[`${userId}:${giveawayId}`] ?? null;
+}

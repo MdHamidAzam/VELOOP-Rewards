@@ -2,6 +2,7 @@ import { FiAward, FiCheckCircle } from "react-icons/fi";
 import styles from "./WinnerCard.module.css";
 
 export default function WinnerCard({ winner, giveaway, prize }) {
+	if (!prize) return null;
 	return (
 		<article className={styles.card}>
 			<div className={styles.imageArea}>
@@ -18,7 +19,7 @@ export default function WinnerCard({ winner, giveaway, prize }) {
 				<p className={styles.giveaway}>{giveaway.title}</p>
 				<p className={styles.status}>
 					<FiCheckCircle aria-hidden="true" />
-					Claim status: {winner.claimStatus}
+					Winner status: {winner.status ?? "SELECTED"}
 				</p>
 			</div>
 		</article>

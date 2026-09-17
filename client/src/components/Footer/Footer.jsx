@@ -7,6 +7,8 @@ const navigationLinks = [
 	{ label: "How It Works", to: "/#how-it-works-title" },
 	{ label: "Rules", to: "/#giveaway-rules-title" },
 	{ label: "FAQ", to: "/#faq-title" },
+	{ label: "Terms", to: "/#giveaway-rules-title" },
+	{ label: "Privacy", to: "/#trust-section-title" },
 ];
 
 export default function Footer() {
@@ -25,6 +27,10 @@ export default function Footer() {
 						))}
 					</ul>
 				</nav>
+				<div className={styles.navigation}>
+					<p className={styles.navigationTitle}>Support</p>
+					<p>Contact VELOOP Rewards support for questions about participation or prize claims.</p>
+				</div>
 			</div>
 			<div className={`${styles.bottom} container`}>
 				<p>&copy; {new Date().getFullYear()} VELOOP. Development project.</p>

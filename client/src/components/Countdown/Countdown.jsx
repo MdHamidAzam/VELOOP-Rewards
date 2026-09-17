@@ -1,8 +1,13 @@
 import { FiArrowRight, FiClock } from "react-icons/fi";
 import { Link } from "react-router-dom";
-import { CURRENT_GIVEAWAY as currentGiveaway, GIVEAWAY_STATUS } from "../../data/giveawayData.js";
 import useCountdown from "../../hooks/useCountdown.js";
 import styles from "./Countdown.module.css";
+
+const GIVEAWAY_STATUS = Object.freeze({
+	UPCOMING: "UPCOMING",
+	ACTIVE: "ACTIVE",
+	ENDED: "ENDED",
+});
 
 const timeUnits = [
 	["days", "Days"],
@@ -15,10 +20,12 @@ function formatValue(value) {
 	return String(value).padStart(2, "0");
 }
 
-export default function Countdown({ giveaway = currentGiveaway }) {
+export default function Countdown({ giveaway }) {
 	const isUpcoming = giveaway.status === GIVEAWAY_STATUS.UPCOMING;
 	const isInitiallyActive = giveaway.status === GIVEAWAY_STATUS.ACTIVE;
-	const targetDate = isUpcoming ? giveaway.startDate : isInitiallyActive ? giveaway.endDate : null;
+	const startAt = giveaway.startAt ?? giveaway.startDate;
+	const endAt = giveaway.endAt ?? giveaway.endDate;
+	const targetDate = isUpcoming ? startAt : isInitiallyActive ? endAt : null;
 	const { timeLeft, isEnded } = useCountdown(targetDate);
 	const isActive = isInitiallyActive && !isEnded;
 	const effectiveStatus = isActive

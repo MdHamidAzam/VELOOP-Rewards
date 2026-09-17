@@ -1,16 +1,16 @@
 .section {
 	padding: 0 0 clamp(3.5rem, 7vw, 6rem);
-	background: var(--color-background);
+	background: linear-gradient(180deg, rgba(5, 11, 22, 1), rgba(7, 12, 23, 1));
 }
 
 .container {
 	display: grid;
-	grid-template-columns: minmax(13rem, 0.75fr) minmax(0, 1.25fr) auto;
+	grid-template-columns: minmax(13rem, 0.7fr) minmax(0, 1.3fr) auto;
 	align-items: center;
-	gap: var(--space-6);
+	gap: 1.25rem;
 	min-width: 0;
-	padding-top: var(--space-5);
-	padding-bottom: var(--space-5);
+	padding-top: 1.2rem;
+	padding-bottom: 1.2rem;
 	border-top: 1px solid var(--color-border);
 	border-bottom: 1px solid var(--color-border);
 }
@@ -22,10 +22,10 @@
 .eyebrow {
 	display: inline-flex;
 	align-items: center;
-	gap: var(--space-2);
+	gap: 0.5rem;
 	margin: 0;
-	color: var(--color-primary-dark);
-	font-size: 0.75rem;
+	color: #d0b5ff;
+	font-size: 0.72rem;
 	font-weight: 800;
 	letter-spacing: 0.12em;
 	text-transform: uppercase;
@@ -37,52 +37,54 @@
 }
 
 .copy h2 {
-	margin-top: var(--space-2);
+	margin-top: 0.5rem;
 	color: var(--color-text-strong);
-	font-size: clamp(1.5rem, 3vw, 2.25rem);
-	font-weight: 750;
-	letter-spacing: -0.03em;
+	font-size: clamp(1.6rem, 3vw, 2.4rem);
+	font-weight: 800;
+	letter-spacing: -0.05em;
 	line-height: 1.1;
 }
 
 .copy > p:last-child {
 	max-width: 25rem;
-	margin-top: var(--space-3);
+	margin-top: 0.6rem;
 	color: var(--color-muted);
-	font-size: 0.875rem;
-	line-height: 1.55;
+	font-size: 0.9rem;
+	line-height: 1.6;
 }
 
 .countdown {
 	display: grid;
 	grid-template-columns: repeat(4, minmax(4rem, 1fr));
-	gap: var(--space-2);
+	gap: 0.55rem;
 	min-width: 0;
 }
 
 .unit {
 	display: grid;
 	min-width: 0;
-	padding: var(--space-3) var(--space-2);
-	border: 1px solid var(--color-border);
-	border-radius: var(--radius-sm);
-	background: var(--color-surface);
+	padding: 0.9rem 0.55rem;
+	border: 1px solid rgba(156, 107, 255, 0.2);
+	border-radius: 0.9rem;
+	background: linear-gradient(145deg, rgba(17, 27, 45, 0.96), rgba(11, 17, 29, 0.96));
+	box-shadow: 0 10px 22px rgba(8, 12, 20, 0.24);
+	font-variant-numeric: tabular-nums;
 	text-align: center;
 }
 
 .unit strong {
 	color: var(--color-text-strong);
-	font-size: clamp(1.5rem, 3vw, 2.25rem);
-	font-weight: 750;
-	letter-spacing: -0.03em;
+	font-size: clamp(1.4rem, 2.5vw, 2.1rem);
+	font-weight: 800;
+	letter-spacing: -0.04em;
 	line-height: 1;
 }
 
 .unit span {
-	margin-top: var(--space-2);
+	margin-top: 0.45rem;
 	color: var(--color-muted);
-	font-size: 0.6875rem;
-	font-weight: 750;
+	font-size: 0.68rem;
+	font-weight: 800;
 	letter-spacing: 0.08em;
 	text-transform: uppercase;
 }
@@ -92,46 +94,46 @@
 	display: inline-flex;
 	align-items: center;
 	justify-content: center;
-	gap: var(--space-2);
-	min-height: 2.875rem;
-	padding: var(--space-3) var(--space-4);
-	border-radius: var(--radius-sm);
-	font-size: 0.8125rem;
-	font-weight: 750;
+	gap: 0.5rem;
+	min-height: 3rem;
+	padding: 0.8rem 1.1rem;
+	border-radius: 0.8rem;
+	font-size: 0.82rem;
+	font-weight: 800;
 	white-space: nowrap;
 }
 
 .cta {
-	border: 1px solid var(--color-primary);
-	background: var(--color-primary);
+	border: 1px solid rgba(156, 107, 255, 0.8);
+	background: linear-gradient(135deg, rgba(156, 107, 255, 1), rgba(115, 95, 255, 1));
 	color: #ffffff;
-	transition: background-color var(--transition-fast), border-color var(--transition-fast), transform var(--transition-fast);
+	box-shadow: 0 16px 32px rgba(122, 74, 224, 0.28);
+	transition: transform var(--transition-fast), box-shadow var(--transition-fast);
 }
 
 .cta:hover {
-	border-color: var(--color-primary-dark);
-	background: var(--color-primary-dark);
 	transform: translateY(-1px);
+	box-shadow: 0 18px 34px rgba(122, 74, 224, 0.34);
 }
 
 .cta:focus-visible {
-	outline: 3px solid rgba(15, 118, 110, 0.35);
+	outline: 3px solid rgba(156, 107, 255, 0.6);
 	outline-offset: 3px;
 }
 
 .inactiveCta {
-	border: 1px solid var(--color-border);
-	background: var(--color-background-soft);
+	border: 1px solid rgba(163, 175, 200, 0.2);
+	background: rgba(17, 27, 45, 0.8);
 	color: var(--color-muted);
 }
 
 .endedPanel {
-	padding: var(--space-4) var(--space-5);
-	border: 1px solid var(--color-border);
-	border-radius: var(--radius-sm);
-	background: var(--color-surface);
+	padding: 1rem 1.2rem;
+	border: 1px solid rgba(163, 175, 200, 0.18);
+	border-radius: 0.9rem;
+	background: rgba(17, 27, 45, 0.8);
 	color: var(--color-muted);
-	font-size: 0.875rem;
+	font-size: 0.9rem;
 	line-height: 1.5;
 }
 
@@ -142,7 +144,7 @@
 @media (max-width: 900px) {
 	.container {
 		grid-template-columns: minmax(12rem, 0.8fr) minmax(0, 1.2fr);
-		gap: var(--space-4);
+		gap: 1rem;
 	}
 
 	.cta,
@@ -157,9 +159,9 @@
 		display: flex;
 		flex-direction: column;
 		align-items: stretch;
-		gap: var(--space-4);
-		padding-top: var(--space-4);
-		padding-bottom: var(--space-4);
+		gap: 0.9rem;
+		padding-top: 1rem;
+		padding-bottom: 1rem;
 	}
 
 	.countdown {

@@ -11,7 +11,7 @@ export default function PreviousWinnerCard({ winner, giveaway, prize }) {
 				<p className={styles.giveaway}>{giveaway.title}</p>
 				<p className={styles.status}>
 					<FiCheckCircle aria-hidden="true" />
-					Claim status: {winner.claimStatus}
+					Winner status: {winner.status ?? "SELECTED"}
 				</p>
 			</div>
 			<div className={styles.archiveIcon} aria-hidden="true">

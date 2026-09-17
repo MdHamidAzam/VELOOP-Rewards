@@ -1,6 +1,4 @@
 import { useRef, useState } from "react";
-import { GIVEAWAYS, PREVIOUS_GIVEAWAYS } from "../../data/giveawayData.js";
-import { WINNER_ANNOUNCEMENTS, WINNERS } from "../../data/winnerData.js";
 import PreviousWinnerCard from "../PreviousWinnerCard/PreviousWinnerCard.jsx";
 import WinnerCard from "../WinnerCard/WinnerCard.jsx";
 import styles from "./WinnersTabs.module.css";
@@ -10,22 +8,15 @@ const tabs = [
 	{ id: "previous-winners", label: "Previous Winners" },
 ];
 
-function resolveWinner(winner) {
-	const giveaway = GIVEAWAYS.find(({ id }) => id === winner.giveawayId);
-	const prize = giveaway?.prizes.find(({ id }) => id === winner.prizeId);
-
-	return { winner, giveaway, prize };
-}
-
-export default function WinnersTabs() {
+export default function WinnersTabs({ giveaway, previousWinners, loading, error, onRetry }) {
 	const [activeTab, setActiveTab] = useState("current-winners");
 	const tabRefs = useRef([]);
-	const currentWinners = WINNERS.map(resolveWinner).filter(({ giveaway, prize }) => giveaway && prize);
-	const previousGiveawayIds = new Set(PREVIOUS_GIVEAWAYS.map(({ id }) => id));
-	const previousWinners = WINNER_ANNOUNCEMENTS
-		.filter(({ giveawayId }) => previousGiveawayIds.has(giveawayId))
-		.map(resolveWinner)
-		.filter(({ giveaway, prize }) => giveaway && prize);
+	const currentWinners = giveaway?.winners ?? [];
+	const currentEmptyMessage = giveaway?.status === "ENDED" || giveaway?.status === "ARCHIVED"
+		? "No finalized winners are available for this giveaway."
+		: giveaway?.status === "UPCOMING"
+			? "Winners will appear after this giveaway is completed."
+			: "This giveaway is still live. Winners will be announced after it ends.";
 
 	const selectTab = (tabId) => setActiveTab(tabId);
 	const handleTabKeyDown = (event, index) => {
@@ -43,7 +34,7 @@ export default function WinnersTabs() {
 	};
 
 	return (
-		<section className={styles.section} aria-labelledby="winners-title">
+		<section id="previous-winners" className={styles.section} aria-labelledby="winners-title">
 			<div className={`${styles.container} container`}>
 				<div className={styles.headingGroup}>
 					<p className={styles.eyebrow}>Community highlights</p>
@@ -57,6 +48,7 @@ export default function WinnersTabs() {
 							className={`${styles.tab} ${activeTab === tab.id ? styles.activeTab : ""}`}
 							key={tab.id}
 							ref={(element) => { tabRefs.current[index] = element; }}
+							id={tab.id}
 							type="button"
 							role="tab"
 							aria-selected={activeTab === tab.id}
@@ -78,18 +70,25 @@ export default function WinnersTabs() {
 					tabIndex={0}
 				>
 					{activeTab === "current-winners" ? (
+						currentWinners.length > 0 ? (
+							<div className={styles.grid}>
+								{currentWinners.map((winner) => {
+									const prize = giveaway?.prizes?.find(({ id }) => id === winner.prizeId);
+									return <WinnerCard key={winner.id} winner={winner} giveaway={giveaway} prize={prize} />;
+								})}
+							</div>
+						) : <p className={styles.emptyState}>{currentEmptyMessage}</p>
+					) : loading ? (
+						<p className={styles.emptyState} aria-live="polite">Loading previous winners...</p>
+					) : error ? (
+						<div className={styles.emptyState} role="alert"><p>Previous winners could not be loaded.</p><button type="button" onClick={onRetry}>Try again</button></div>
+					) : previousWinners.length > 0 ? (
 						<div className={styles.grid}>
-							{currentWinners.map(({ winner, giveaway, prize }) => (
-								<WinnerCard key={`${winner.giveawayId}-${winner.prizeId}-${winner.maskedId}`} winner={winner} giveaway={giveaway} prize={prize} />
-							))}
+							{previousWinners.flatMap(({ giveaway: historicalGiveaway, winners }) => winners.map((winner) => (
+								<PreviousWinnerCard key={winner.id} winner={winner} giveaway={historicalGiveaway} prize={{ name: winner.prizeName, image: winner.prizeImage }} />
+							)))}
 						</div>
-					) : (
-						<div className={styles.grid}>
-							{previousWinners.map(({ winner, giveaway, prize }) => (
-								<PreviousWinnerCard key={`${winner.giveawayId}-${winner.prizeId}-${winner.maskedId}`} winner={winner} giveaway={giveaway} prize={prize} />
-							))}
-						</div>
-					)}
+					) : <p className={styles.emptyState}>Previous winners will appear here after a giveaway is completed.</p>}
 				</div>
 			</div>
 		</section>

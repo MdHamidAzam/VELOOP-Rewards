@@ -1,0 +1,7 @@
+.loader { display: grid; justify-items: center; gap: .75rem; padding: 6rem 1rem; color: var(--color-muted); }
+.icon { display: grid; place-items: center; width: 4rem; height: 4rem; border: 1px solid var(--color-accent); border-radius: 1rem; color: var(--color-accent); animation: pulse 1.6s ease-in-out infinite; }
+.icon svg { width: 1.75rem; height: 1.75rem; }
+.loader p { margin: 0; font-weight: 700; }
+.dots { color: var(--color-accent); letter-spacing: .35rem; animation: fade 1.4s ease-in-out infinite; }
+@keyframes pulse { 50% { transform: translateY(-.25rem); box-shadow: 0 .75rem 1.5rem rgb(25 118 210 / 16%); } }
+@keyframes fade { 50% { opacity: .35; } }

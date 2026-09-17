@@ -5,7 +5,9 @@
   "type": "module",
   "scripts": {
     "dev": "nodemon src/server.js",
-    "start": "node src/server.js"
+    "start": "node src/server.js",
+    "seed:giveaways": "node src/scripts/seedGiveaways.js",
+    "seed:wallets": "node src/scripts/seedWallets.js"
   },
   "dependencies": {
     "bcryptjs": "latest",

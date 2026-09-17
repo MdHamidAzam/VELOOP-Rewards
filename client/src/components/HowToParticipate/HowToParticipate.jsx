@@ -4,26 +4,26 @@ import styles from "./HowToParticipate.module.css";
 const steps = [
 	{
 		number: "01",
-		title: "Choose a Giveaway",
-		description: "Explore an available giveaway and choose the reward you want to pursue.",
+		title: "Sign Up / Login",
+		description: "Use an authenticated VELOOP account before participating.",
 		Icon: FiSearch,
 	},
 	{
 		number: "02",
-		title: "Check Your Eligibility",
-		description: "Review the giveaway details, eligibility, and rules before participating.",
+		title: "Complete Eligible Activities",
+		description: "Review the configured requirements and complete eligible activities where provided.",
 		Icon: FiCheckCircle,
 	},
 	{
 		number: "03",
-		title: "Join with the Required Currency",
-		description: "Use the entry fee and currency specified for your selected giveaway.",
+		title: "Earn Entries and Participate",
+		description: "Review the required currency, confirm the entry fee, and submit one participation.",
 		Icon: FiCreditCard,
 	},
 	{
 		number: "04",
 		title: "Wait for the Winner Announcement",
-		description: "After the giveaway ends, selected winners are announced for the available rewards.",
+		description: "After the giveaway ends, the backend selects winners and publishes finalized results.",
 		Icon: FiBell,
 	},
 ];

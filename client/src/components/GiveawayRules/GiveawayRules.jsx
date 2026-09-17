@@ -39,6 +39,12 @@ const rules = [
 		description: "Suspicious, abusive, or rule-breaking activity may be reviewed and can affect participation eligibility.",
 		Icon: FiAlertTriangle,
 	},
+	{
+		id: "terms-and-entry-policy",
+		title: "Terms & Conditions",
+		description: "Review the configured giveaway terms before joining. Refund and entry-reversal policies remain subject to VELOOP policy confirmation.",
+		Icon: FiList,
+	},
 ];
 
 export default function GiveawayRules() {
