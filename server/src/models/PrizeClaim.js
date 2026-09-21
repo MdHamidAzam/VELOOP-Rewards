@@ -22,7 +22,7 @@ const prizeClaimSchema = new Schema(
 		prizeId: { type: Schema.Types.ObjectId, ref: "Prize", required: true },
 		winnerId: { type: Schema.Types.ObjectId, ref: "GiveawayWinner", required: true },
 		claimType: { type: String, required: true, enum: ["PHYSICAL", "EMAIL", "GIFT_CARD", "DIGITAL"] },
-		status: { type: String, required: true, enum: ["SUBMISSION", "SUBMITTED", "PROCESSING", "COMPLETED", "EXPIRED"], default: "SUBMISSION" },
+		status: { type: String, required: true, enum: ["SUBMITTED", "PROCESSING", "COMPLETED", "EXPIRED"], default: "SUBMITTED" },
 		submittedAt: { type: Date },
 		processedAt: { type: Date },
 		completedAt: { type: Date },

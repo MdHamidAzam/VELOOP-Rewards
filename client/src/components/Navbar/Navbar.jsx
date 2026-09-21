@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { FiMenu, FiX } from "react-icons/fi";
-import { Link } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 import styles from "./Navbar.module.css";
 import { useAuth } from "../../hooks/useAuth.js";
 
@@ -20,7 +20,8 @@ export default function Navbar() {
 			<nav className={`${styles.navbar} container`} aria-label="Primary navigation">
 				<Link className={styles.brand} to="/" onClick={closeMenu} aria-label="VELOOP home">
 					<span className={styles.brandMark} aria-hidden="true">V</span>
-					<span>VELOOP</span>
+					<span className={styles.brandText}>VELOOP</span>
+					<span className={styles.productBadge}>Rewards</span>
 				</Link>
 
 				<button
@@ -40,12 +41,23 @@ export default function Navbar() {
 				>
 					<div className={styles.links}>
 						{navigationItems.map((item) => (
-							<Link key={item.label} className={styles.navLink} to={item.to} onClick={closeMenu}>
+							<NavLink
+								key={item.label}
+								className={({ isActive }) => `${styles.navLink} ${isActive ? styles.navLinkActive : ""}`.trim()}
+								to={item.to}
+								onClick={closeMenu}
+							>
 								{item.label}
-							</Link>
+							</NavLink>
 						))}
 					</div>
-					{isAuthenticated ? <button className={styles.loginLink} type="button" onClick={() => { logout(); closeMenu(); }}>Log out</button> : <Link className={styles.loginLink} to="/login" onClick={closeMenu}>Login</Link>}
+					{isAuthenticated ? (
+						<button className={styles.loginLink} type="button" onClick={() => { logout(); closeMenu(); }}>
+							Log out
+						</button>
+					) : (
+						<Link className={styles.loginLink} to="/login" onClick={closeMenu}>Login</Link>
+					)}
 				</div>
 			</nav>
 		</header>

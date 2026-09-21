@@ -1,5 +1,10 @@
 import jwt from "jsonwebtoken";
+import bcrypt from "bcryptjs";
+import { randomUUID } from "node:crypto";
 import { env } from "../config/env.js";
+import User from "../models/User.js";
+
+const PASSWORD_MIN_LENGTH = 8;
 
 class AuthConfigurationError extends Error {
 	constructor(message) {
@@ -19,6 +24,29 @@ function getJwtSecret() {
 	}
 
 	throw new AuthConfigurationError("JWT_SECRET is not configured.");
+}
+
+function normalizeEmail(email) {
+	if (typeof email !== "string" || !/^\S+@\S+\.\S+$/.test(email.trim())) {
+		throw new AuthServiceError("A valid email and password are required.", 400);
+	}
+
+	return email.trim().toLowerCase();
+}
+
+function validatePassword(password) {
+	if (typeof password !== "string" || password.length < PASSWORD_MIN_LENGTH) {
+		throw new AuthServiceError("A valid email and password are required.", 400);
+	}
+}
+
+class AuthServiceError extends Error {
+	constructor(message, statusCode) {
+		super(message);
+		this.name = "AuthServiceError";
+		this.statusCode = statusCode;
+		this.code = statusCode === 409 ? "AUTH_ACCOUNT_EXISTS" : "AUTH_VALIDATION_ERROR";
+	}
 }
 
 export function generateAccessToken({ userId }) {
@@ -53,4 +81,46 @@ export function verifyAccessToken(token) {
 	return { userId: payload.userId.trim() };
 }
 
-export { AuthConfigurationError };
+export async function registerUser({ email, password }) {
+	const normalizedEmail = normalizeEmail(email);
+	validatePassword(password);
+
+	try {
+		const user = await User.create({
+			userId: `USR-${randomUUID()}`,
+			email: normalizedEmail,
+			passwordHash: await bcrypt.hash(password, 12),
+			status: "ACTIVE",
+			role: "USER",
+		});
+
+		return {
+			userId: user.userId,
+			email: user.email,
+			accessToken: generateAccessToken({ userId: user.userId }),
+			tokenType: "Bearer",
+		};
+	} catch (error) {
+		if (error?.code === 11000) throw new AuthServiceError("An account already exists for that email.", 409);
+		throw error;
+	}
+}
+
+export async function loginUser({ email, password }) {
+	const normalizedEmail = normalizeEmail(email);
+	validatePassword(password);
+	const user = await User.findOne({ email: normalizedEmail }).select("+passwordHash").lean();
+
+	if (!user || user.status !== "ACTIVE" || !(await bcrypt.compare(password, user.passwordHash))) {
+		throw new AuthServiceError("Invalid email or password.", 401);
+	}
+
+	return {
+		userId: user.userId,
+		email: user.email,
+		accessToken: generateAccessToken({ userId: user.userId }),
+		tokenType: "Bearer",
+	};
+}
+
+export { AuthConfigurationError, AuthServiceError };

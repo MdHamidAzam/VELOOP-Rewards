@@ -3,6 +3,7 @@ import { useAuthContext } from "../context/AuthContext.jsx";
 import {
 	clearStoredAccessToken,
 	devLogin as requestDevLogin,
+	login as requestLogin,
 	getStoredAccessToken,
 	isAuthenticated as hasStoredAuthentication,
 } from "../services/authApi.js";
@@ -17,6 +18,12 @@ export function useAuth() {
 		return result;
 	}, []);
 
+	const login = useCallback(async (email, password) => {
+		const result = await requestLogin(email, password);
+		setToken(result.accessToken);
+		return result;
+	}, []);
+
 	const logout = useCallback(() => {
 		clearStoredAccessToken();
 		setToken(null);
@@ -26,6 +33,7 @@ export function useAuth() {
 		token,
 		isAuthenticated: Boolean(token) && hasStoredAuthentication(),
 		devLogin,
+		login,
 		logout,
 	};
 

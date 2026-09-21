@@ -25,11 +25,11 @@ function requireValue(value, fieldName) {
 	return value.trim();
 }
 
-function getClaimExpiry(selectedAt) {
+export function getClaimExpiry(selectedAt) {
 	return new Date(new Date(selectedAt).getTime() + CLAIM_WINDOW_DAYS * 24 * 60 * 60 * 1000);
 }
 
-function validateClaimData(prize, payload) {
+export function validateClaimData(prize, payload) {
 	if (prize.claimType === "PHYSICAL") {
 		for (const field of PHYSICAL_CLAIM_FIELDS) requireValue(payload[field], field);
 		return {
@@ -71,7 +71,7 @@ function serializeClaim(claim) {
 async function expireClaimIfNeeded(claim, session) {
 	if (!claim || claim.status === "EXPIRED" || new Date() < new Date(claim.expiresAt)) return claim;
 	const expiredClaim = await PrizeClaim.findOneAndUpdate(
-		{ _id: claim._id, status: { $in: ["SUBMISSION", "SUBMITTED", "PROCESSING"] } },
+		{ _id: claim._id, status: { $in: ["SUBMITTED", "PROCESSING"] } },
 		{ $set: { status: "EXPIRED" } },
 		{ new: true, session },
 	).lean();
@@ -195,7 +195,6 @@ export async function updateClaimStatus({ giveawayId, claimId, status, actorId }
 				PROCESSING: ["COMPLETED", "EXPIRED"],
 				COMPLETED: [],
 				EXPIRED: [],
-				SUBMISSION: ["PROCESSING", "EXPIRED"],
 			};
 			if (!allowedTransitions[claim.status]?.includes(status)) throw new ClaimServiceError("This claim status transition is not allowed.", { code: "CLAIM_STATUS_INVALID", statusCode: 422 });
 			const update = { status };

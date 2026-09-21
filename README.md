@@ -41,6 +41,8 @@ The app focuses on:
 ### API surface
 
 - POST /api/auth/dev-login
+- POST /api/auth/register
+- POST /api/auth/login
 - GET /api/giveaways/current
 - GET /api/giveaways/previous
 - GET /api/giveaways/:giveawayId
@@ -53,7 +55,7 @@ The app focuses on:
 - GET /api/giveaways/:giveawayId/claim
 - PATCH /api/giveaways/:giveawayId/claims/:claimId/status
 
-## Setup
+## Local development
 
 From the project root:
 
@@ -63,15 +65,19 @@ cd client && npm install
 cd ../server && npm install
 ```
 
-Run the project:
+Run the client and server together:
 
 ```bash
 npm run dev
 ```
 
+The Vite development proxy sends `/api` requests to `http://localhost:5000`. The client uses demo data only when running in Vite development mode without `VITE_API_BASE_URL`.
+
 ## Environment variables
 
-The server reads from server/.env using the template in server/.env.example:
+Copy the templates before editing local values. Never commit `.env` files.
+
+Backend `server/.env`:
 
 ```env
 PORT=5000
@@ -83,55 +89,68 @@ CLIENT_URL=http://localhost:5173
 ADMIN_USER_IDS=
 ```
 
-## MongoDB requirement
+- `MONGO_URI` is required for MongoDB-backed operation and production.
+- `JWT_SECRET` is required in production and must be a strong random secret.
+- `ADMIN_USER_IDS` is a comma-separated list used by admin-only routes.
+- `NODE_ENV=production` disables development login and requires MongoDB/JWT configuration.
+- `PORT` defaults to `5000`; hosting platforms provide their own value.
+- `CLIENT_URL` is the exact deployed frontend origin used by CORS.
+- `REFRESH_SECRET` is currently loaded but no refresh-token route consumes it.
 
-MongoDB is required for the full database-backed version of the app. In this workspace, MONGO_URI is not configured, so the server starts in development demo mode without claiming persistence.
+Frontend `client/.env`:
 
-## Seed scripts
+```env
+VITE_API_BASE_URL=/api
+```
+
+Use `/api` with the local Vite proxy. For a separately hosted frontend, set `VITE_API_BASE_URL` to the deployed backend API base URL, including `/api`.
+
+## MongoDB and seed scripts
+
+MongoDB Atlas is required for persistence. Run seed scripts only against the intended development database:
 
 ```bash
 cd server
 npm run seed:giveaways
 npm run seed:wallets
+npm run seed:winner-fixture
 ```
 
-These scripts are intended only for a configured MongoDB environment.
+The winner fixture is development-only and should not be run against production data.
 
-## Development authentication
+## Production deployment
 
-The dev login flow is intentionally labelled as development authentication. It stores a local session token and is not production auth.
+The simplest supported architecture is:
 
-## Demo mode
+1. Deploy the existing `server` Express application to a Node hosting provider such as Render, Railway, or Fly.io.
+2. Configure the provider start command as `npm start` from the `server` directory.
+3. Set production backend variables in the provider dashboard: `MONGO_URI`, `JWT_SECRET`, `ADMIN_USER_IDS`, `NODE_ENV=production`, provider `PORT`, and `CLIENT_URL`.
+4. Deploy the existing `client` Vite application to Vercel.
+5. Set `VITE_API_BASE_URL` in Vercel to the deployed backend API base URL. Do not use localhost in the production value.
+6. Build the frontend with `npm run build` and publish the generated `client/dist` output through the Vercel build configuration.
 
-Demo mode is used for local UI validation when backend persistence is unavailable.
+The backend remains authoritative for authentication, wallets, participation, winner selection, and claims. The frontend never connects directly to MongoDB.
 
-Supported demo behaviors:
+## Production authentication
 
-- browse giveaways and prizes
-- view rules and FAQ
-- view winner history
-- validate loading and error states
-- exercise login and participation UI flows
+Production accounts use `POST /api/auth/register` and `POST /api/auth/login` with an email and password. Passwords are stored as bcrypt hashes, and successful responses contain only the generated access token, user ID, email, and token type. New accounts receive a generated `USR-...` user ID; wallet balances are provisioned separately through the existing wallet architecture and are never invented during registration.
 
-Not claimed in demo mode:
+`POST /api/auth/dev-login` remains available only when `NODE_ENV` is `development` or `test`. Existing seeded development wallet IDs continue to work with that flow. Do not enable or use development login in production.
 
-- real MongoDB persistence
-- real wallet deduction
-- real winner finalization
-- real claim storage
+## Security notes
 
-## Known limitations
+- Keep `.env` and provider secrets out of source control.
+- Use a unique strong `JWT_SECRET` in production.
+- Restrict `CLIENT_URL` to the exact frontend origin; do not use `*`.
+- Use a MongoDB user scoped to the application database and restrict Atlas network access.
+- Do not use development seed data or demo mode as production storage.
 
-- MongoDB-backed winner selection and participation persistence cannot be verified here because MONGO_URI is unset.
-- No external deployment or production credentials are configured in this workspace.
-- Some backend behaviors remain modelled for demo validation rather than live database execution.
+## Verification
 
-## Verification status
+```bash
+npm --prefix client run build
+cd server
+npm start
+```
 
-The project was validated with:
-
-- Vite production build
-- dev server startup in demo mode
-- browser smoke checks for login and giveaway navigation
-
-The database-backed lifecycle remains unverified in this environment due to the missing MongoDB configuration.
+The MongoDB-backed E2E validation completed for authentication, wallet, participation, winner finalization, claims, authorization, and transactions. Browser checks were run separately in demo mode and through the same-origin Vite proxy.

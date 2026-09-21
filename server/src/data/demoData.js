@@ -68,7 +68,7 @@ const prizeCatalog = Object.freeze([
     claimType: "EMAIL",
     entryFee: { amount: 2000, currency: "TOKENS" },
   },
-});
+]);
 
 const activeGiveaway = Object.freeze({
   id: DEMO_GIVEAWAY_ID,

@@ -37,6 +37,34 @@ export async function devLogin(userId) {
 	return { accessToken };
 }
 
+export async function login(email, password) {
+	const response = await apiRequest("auth/login", {
+		method: "POST",
+		body: JSON.stringify({ email, password }),
+	});
+	const accessToken = response?.data?.accessToken;
+	if (!response?.success || typeof accessToken !== "string" || !accessToken) {
+		throw new ApiError("The authentication API returned an invalid response.", { code: "INVALID_RESPONSE" });
+	}
+
+	setStoredAccessToken(accessToken);
+	return { accessToken };
+}
+
+export async function register(email, password) {
+	const response = await apiRequest("auth/register", {
+		method: "POST",
+		body: JSON.stringify({ email, password }),
+	});
+	const accessToken = response?.data?.accessToken;
+	if (!response?.success || typeof accessToken !== "string" || !accessToken) {
+		throw new ApiError("The authentication API returned an invalid response.", { code: "INVALID_RESPONSE" });
+	}
+
+	setStoredAccessToken(accessToken);
+	return { accessToken };
+}
+
 export {
 	getStoredAccessToken,
 	setStoredAccessToken,

@@ -1,5 +1,5 @@
 import { createContext, useContext, useMemo, useState } from "react";
-import { devLogin as requestDevLogin, getStoredAccessToken, clearStoredAccessToken, isAuthenticated as hasStoredAuthentication } from "../services/authApi.js";
+import { devLogin as requestDevLogin, getStoredAccessToken, clearStoredAccessToken, isAuthenticated as hasStoredAuthentication, login as requestLogin, register as requestRegister } from "../services/authApi.js";
 
 const AuthContext = createContext(null);
 
@@ -10,6 +10,16 @@ export function AuthProvider({ children }) {
 		isAuthenticated: Boolean(token) && hasStoredAuthentication(),
 		devLogin: async (userId) => {
 			const result = await requestDevLogin(userId);
+			setToken(result.accessToken);
+			return result;
+		},
+		login: async (email, password) => {
+			const result = await requestLogin(email, password);
+			setToken(result.accessToken);
+			return result;
+		},
+		register: async (email, password) => {
+			const result = await requestRegister(email, password);
 			setToken(result.accessToken);
 			return result;
 		},

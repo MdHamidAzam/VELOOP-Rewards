@@ -7,7 +7,8 @@
     "dev": "nodemon src/server.js",
     "start": "node src/server.js",
     "seed:giveaways": "node src/scripts/seedGiveaways.js",
-    "seed:wallets": "node src/scripts/seedWallets.js"
+    "seed:wallets": "node src/scripts/seedWallets.js",
+    "seed:winner-fixture": "node src/scripts/seedWinnerFixture.js"
   },
   "dependencies": {
     "bcryptjs": "latest",

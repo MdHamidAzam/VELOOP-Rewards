@@ -39,7 +39,7 @@ async function seedGiveaways() {
 
 			await GiveawayWinner.findOneAndUpdate(
 				{ userId: winnerData.userId, giveawayId: giveaway._id, prizeId: prize._id },
-				{ $set: winnerData },
+				{ $set: { ...winnerData, prizeId: prize._id } },
 				{ new: true, upsert: true, setDefaultsOnInsert: true },
 			);
 		}

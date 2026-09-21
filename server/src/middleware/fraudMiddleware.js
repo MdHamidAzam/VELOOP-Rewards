@@ -28,6 +28,11 @@ export async function participationFraudGuard(req, res, next) {
 				reasonCode: "FORBIDDEN_FIELDS",
 			},
 		});
+		return sendError(res, {
+			statusCode: HTTP_STATUS.FORBIDDEN,
+			code: PARTICIPATION_ERROR_CODES.FRAUD_REJECTED,
+			message: "Participation was rejected by the fraud review layer.",
+		});
 	}
 
 	if (req.participationFraudRejected) {

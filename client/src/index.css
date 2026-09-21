@@ -1,30 +1,40 @@
 :root {
-  font-family: "Avenir Next", Avenir, "Segoe UI", sans-serif;
-  color: #edf2ff;
-  background: #050b16;
+  font-family: "Inter", "Segoe UI", sans-serif;
+  color: #edf3ff;
+  background: #070d1b;
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
-  --color-primary: #9c6bff;
-  --color-primary-dark: #7a4ae0;
-  --color-secondary: #f5c773;
+  --color-primary: #f5c96d;
+  --color-primary-strong: #f9d98d;
+  --color-primary-soft: rgba(245, 201, 109, 0.12);
+  --color-primary-dark: #d7a854;
+  --color-secondary: #9c6bff;
+  --color-secondary-soft: rgba(156, 107, 255, 0.14);
+  --color-blue: #6bb8ff;
+  --color-green: #6fe7b7;
+  --color-orange: #ff9d66;
+  --color-pink: #f08ecd;
   --color-accent-cyan: #61eae8;
-  --color-background: #050b16;
-  --color-background-soft: #0d1628;
-  --color-surface: #101a2f;
-  --color-surface-raised: #151f37;
-  --color-elevated: #1b2945;
-  --color-text: #d9def0;
-  --color-text-strong: #f5f7ff;
-  --color-muted: #95a4c3;
-  --color-border: rgba(160, 171, 205, 0.18);
+  --color-background: #070d1b;
+  --color-background-soft: #111b2f;
+  --color-surface: #0f1a2d;
+  --color-surface-raised: #16243e;
+  --color-surface-elevated: #1b2b45;
+  --color-text: #dfe8ff;
+  --color-text-strong: #ffffff;
+  --color-muted: #9aa9c5;
+  --color-border: rgba(180, 190, 214, 0.16);
   --color-success: #6fe7b7;
   --color-warning: #ffc96d;
   --color-danger: #ff7c8a;
-  --shadow-soft: 0 18px 44px rgba(5, 11, 22, 0.42);
+  --shadow-soft: 0 18px 44px rgba(5, 11, 22, 0.44);
+  --shadow-elevated: 0 28px 54px rgba(8, 13, 22, 0.52);
+  --radius-xs: 0.5rem;
   --radius-sm: 0.75rem;
   --radius-md: 1rem;
   --radius-lg: 1.5rem;
+  --radius-xl: 2rem;
   --container-max-width: 1280px;
   --space-1: 0.25rem;
   --space-2: 0.5rem;
@@ -52,9 +62,9 @@ body {
   min-height: 100vh;
   margin: 0;
   background:
-    radial-gradient(circle at 15% 0%, rgba(122, 74, 224, 0.2), transparent 38%),
-    radial-gradient(circle at 90% 10%, rgba(105, 222, 255, 0.10), transparent 24%),
-    var(--color-background);
+    radial-gradient(circle at top left, rgba(156, 107, 255, 0.18), transparent 26%),
+    radial-gradient(circle at top right, rgba(97, 234, 232, 0.08), transparent 20%),
+    linear-gradient(180deg, #070d1b 0%, #081220 100%);
   color: var(--color-text);
   font-size: 1rem;
   line-height: 1.5;
@@ -85,8 +95,8 @@ a {
   margin-inline: auto;
 }
 
-:where(button, a, select):focus-visible {
-  outline: 3px solid rgba(156, 107, 255, 0.65);
+:where(button, a, select, input, textarea):focus-visible {
+  outline: 3px solid rgba(245, 201, 109, 0.7);
   outline-offset: 3px;
 }
 

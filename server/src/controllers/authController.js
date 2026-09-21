@@ -1,7 +1,56 @@
 import { env } from "../config/env.js";
 import { HTTP_STATUS, PARTICIPATION_ERROR_CODES } from "../utils/constants.js";
 import { sendError, sendSuccess } from "../utils/apiResponse.js";
-import { AuthConfigurationError, generateAccessToken } from "../utils/authService.js";
+import {
+	AuthConfigurationError,
+	AuthServiceError,
+	generateAccessToken,
+	loginUser,
+	registerUser,
+} from "../utils/authService.js";
+
+function handleAuthError(res, error) {
+	if (error instanceof AuthServiceError) {
+		return sendError(res, {
+			statusCode: error.statusCode,
+			code: error.code,
+			message: error.message,
+		});
+	}
+
+	if (error instanceof AuthConfigurationError) {
+		return sendError(res, {
+			statusCode: HTTP_STATUS.INTERNAL_SERVER_ERROR,
+			code: PARTICIPATION_ERROR_CODES.AUTH_CONFIGURATION_ERROR,
+			message: "Authentication is not configured on the server.",
+		});
+	}
+
+	console.error("Authentication operation failed.");
+	return sendError(res, {
+		statusCode: HTTP_STATUS.INTERNAL_SERVER_ERROR,
+		code: PARTICIPATION_ERROR_CODES.AUTH_CONFIGURATION_ERROR,
+		message: "Authentication could not be completed.",
+	});
+}
+
+export async function register(req, res) {
+	try {
+		const result = await registerUser({ email: req.body?.email, password: req.body?.password });
+		return sendSuccess(res, { statusCode: 201, message: "Account created.", data: result });
+	} catch (error) {
+		return handleAuthError(res, error);
+	}
+}
+
+export async function login(req, res) {
+	try {
+		const result = await loginUser({ email: req.body?.email, password: req.body?.password });
+		return sendSuccess(res, { message: "Signed in.", data: result });
+	} catch (error) {
+		return handleAuthError(res, error);
+	}
+}
 
 export function devLogin(req, res) {
 	if (!["development", "test"].includes(env.nodeEnv)) {
