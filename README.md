@@ -120,14 +120,21 @@ The winner fixture is development-only and should not be run against production 
 
 ## Production deployment
 
-The simplest supported architecture is:
+Current deployment:
 
-1. Deploy the existing `server` Express application to a Node hosting provider such as Render, Railway, or Fly.io.
-2. Configure the provider start command as `npm start` from the `server` directory.
-3. Set production backend variables in the provider dashboard: `MONGO_URI`, `JWT_SECRET`, `ADMIN_USER_IDS`, `NODE_ENV=production`, provider `PORT`, and `CLIENT_URL`.
-4. Deploy the existing `client` Vite application to Vercel.
-5. Set `VITE_API_BASE_URL` in Vercel to the deployed backend API base URL. Do not use localhost in the production value.
-6. Build the frontend with `npm run build` and publish the generated `client/dist` output through the Vercel build configuration.
+- Frontend: [https://veloop-giveaway-nu.vercel.app/](https://veloop-giveaway-nu.vercel.app/)
+- Backend API: [https://veloop-rewards-api.onrender.com/](https://veloop-rewards-api.onrender.com/)
+- Database: MongoDB Atlas
+
+The production API base URL is `https://veloop-rewards-api.onrender.com/api`.
+
+The deployment architecture is:
+
+1. The existing `server` Express application runs on Render with `npm start` from the `server` directory.
+2. Render requires `MONGO_URI`, `JWT_SECRET`, `ADMIN_USER_IDS`, `NODE_ENV=production`, its provided `PORT`, and the deployed frontend origin in `CLIENT_URL`.
+3. The existing `client` Vite application runs on Vercel.
+4. Vercel uses `VITE_API_BASE_URL=https://veloop-rewards-api.onrender.com/api`; no MongoDB or JWT secrets are exposed to the frontend.
+5. The frontend is built with `npm run build`.
 
 The backend remains authoritative for authentication, wallets, participation, winner selection, and claims. The frontend never connects directly to MongoDB.
 
@@ -153,4 +160,28 @@ cd server
 npm start
 ```
 
-The MongoDB-backed E2E validation completed for authentication, wallet, participation, winner finalization, claims, authorization, and transactions. Browser checks were run separately in demo mode and through the same-origin Vite proxy.
+### Runtime verified
+
+- MongoDB connection and seed scripts
+- Development login and JWT-protected requests
+- Production registration/login and production rejection of `dev-login` before the final token-boundary hardening
+- Wallet reads, participation, authoritative deduction, transaction creation, duplicate protection, and MongoDB transaction behavior
+- Winner finalization, persistence, masking, repeat-finalization rejection, and admin authorization
+- Digital claim submission, duplicate protection, winner-only access, and `SUBMITTED` -> `PROCESSING` -> `COMPLETED`
+- Active, ended, archived, previous-winner, and non-winner states using the real API
+- Frontend build and same-origin browser smoke flows
+
+### Code-level verified or not runtime verified
+
+- Production demo-token rejection, disabled-account checks, and authentication rate limiting are covered by source inspection and focused configuration probes; the final live MongoDB regression run after this hardening was blocked by a local server startup timeout.
+- Eligibility fields (`minAge`, countries, verified-user requirement) are modeled and displayed but are not enforced because User has no corresponding profile fields and the participation service does not apply them.
+- No upcoming giveaway exists in the current database, so upcoming-state runtime verification is blocked.
+- Physical claim submission, claim expiry execution, and the `EXPIRED` transition were not runtime executed.
+- Rate-limit behavior was inspected in code; no abusive/high-volume runtime test was performed.
+- The backend has no public admin giveaway/prize management workflow; seeded data is the configuration path.
+- `REFRESH_SECRET` is loaded for configuration compatibility but no refresh-token route exists.
+- Deployment credentials and provider dashboards are not configured in this local workspace.
+
+Deployment status is documented from the supplied current deployment state. Post-deployment runtime verification of these public URLs was not performed in this audit.
+
+The final image audit found no missing imports or raw browser-relative image URLs. The ₹500 gift-card asset is mapped by prize ID, while the generic unused artwork remains intentionally unreferenced.

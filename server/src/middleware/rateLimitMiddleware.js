@@ -36,3 +36,15 @@ export const claimRateLimiter = rateLimit({
 		message: "Too many claim requests. Please try again later.",
 	}),
 });
+
+export const authRateLimiter = rateLimit({
+	limit: 10,
+	windowMs: 60 * 1000,
+	standardHeaders: "draft-7",
+	legacyHeaders: false,
+	handler: (req, res) => sendError(res, {
+		statusCode: HTTP_STATUS.TOO_MANY_REQUESTS,
+		code: PARTICIPATION_ERROR_CODES.RATE_LIMITED,
+		message: "Too many authentication requests. Please try again later.",
+	}),
+});

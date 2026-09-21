@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { getPreviousWinners } from "../services/giveawayApi.js";
+import { resolvePrizeImage } from "../utils/giveawayViewModel.js";
 
 export function usePreviousWinners() {
 	const [data, setData] = useState([]);
@@ -14,7 +15,13 @@ export function usePreviousWinners() {
 		setError(null);
 
 		try {
-			const winners = await getPreviousWinners();
+			const winners = (await getPreviousWinners()).map((entry) => ({
+				...entry,
+				winners: entry.winners.map((winner) => ({
+					...winner,
+					prizeImage: resolvePrizeImage(winner.prizeImage, winner.prizeId),
+				})),
+			}));
 			if (requestId.current === currentRequestId) setData(winners);
 			return winners;
 		} catch (requestError) {

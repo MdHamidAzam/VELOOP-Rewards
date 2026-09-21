@@ -65,11 +65,15 @@ export function verifyAccessToken(token) {
 	}
 
 	if (token.startsWith("demo-token:")) {
+		if (!['development', 'test'].includes(env.nodeEnv)) {
+			throw new jwt.JsonWebTokenError("Development tokens are unavailable.");
+		}
+
 		const userId = token.slice("demo-token:".length).trim();
 		if (!userId) {
 			throw new jwt.JsonWebTokenError("Token identity is invalid.");
 		}
-		return { userId };
+		return { userId, isDemoToken: true };
 	}
 
 	const payload = jwt.verify(token, getJwtSecret());
@@ -78,7 +82,7 @@ export function verifyAccessToken(token) {
 		throw new jwt.JsonWebTokenError("Token identity is invalid.");
 	}
 
-	return { userId: payload.userId.trim() };
+	return { userId: payload.userId.trim(), isDemoToken: false };
 }
 
 export async function registerUser({ email, password }) {

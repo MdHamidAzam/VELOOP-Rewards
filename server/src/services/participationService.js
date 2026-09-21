@@ -4,6 +4,7 @@ import Giveaway from "../models/Giveaway.js";
 import GiveawayEntryTransaction from "../models/GiveawayEntryTransaction.js";
 import GiveawayParticipation from "../models/GiveawayParticipation.js";
 import Prize from "../models/Prize.js";
+import User from "../models/User.js";
 import { deductWalletAtomically, WalletServiceError } from "./walletService.js";
 import { FRAUD_EVENT_TYPES, recordFraudEvent } from "./fraudService.js";
 
@@ -34,6 +35,38 @@ function mapWalletError(error) {
 		code: error.code,
 		statusCode: error.code === "WALLET_NOT_FOUND" ? 422 : error.statusCode,
 	});
+}
+
+async function assertEligibility(giveaway, userId, session) {
+	const eligibility = giveaway.eligibility ?? {};
+	const countries = Array.isArray(eligibility.countries)
+		? eligibility.countries.map((country) => String(country).trim().toUpperCase()).filter(Boolean)
+		: [];
+	const requiresAge = Number.isFinite(eligibility.minAge);
+	const requiresCountry = countries.length > 0;
+	const requiresVerification = eligibility.requiresVerifiedUser === true;
+
+	if (!requiresAge && !requiresCountry && !requiresVerification) return;
+
+	const user = await User.findOne({ userId, status: "ACTIVE" })
+		.select("age country isVerified")
+		.session(session)
+		.lean();
+	const normalizedCountry = user?.country?.trim().toUpperCase();
+
+	const eligible = Boolean(
+		user
+		&& (!requiresAge || (Number.isFinite(user.age) && user.age >= eligibility.minAge))
+		&& (!requiresCountry || countries.includes(normalizedCountry))
+		&& (!requiresVerification || user.isVerified === true),
+	);
+
+	if (!eligible) {
+		throw new ParticipationServiceError("You do not meet this giveaway's eligibility requirements.", {
+			code: "USER_NOT_ELIGIBLE",
+			statusCode: 422,
+		});
+	}
 }
 
 export async function createParticipation({ userId, giveawayId, prizeId, idempotencyKey, deviceHash }) {
@@ -73,6 +106,8 @@ export async function createParticipation({ userId, giveawayId, prizeId, idempot
 					statusCode: 422,
 				});
 			}
+
+			await assertEligibility(giveaway, authenticatedUserId, session);
 
 			if (typeof idempotencyKey === "string" && idempotencyKey.trim()) {
 				const previousParticipation = await GiveawayParticipation.findOne({

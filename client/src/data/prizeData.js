@@ -1,6 +1,7 @@
 import airpodsImage from "../assets/images/ChatGPT Image Aug 19, 2026, 02_06_07 PM.png";
 import appleWatchImage from "../assets/images/ChatGPT Image Aug 19, 2026, 01_55_25 PM.png";
 import amazon2000GiftCardImage from "../assets/images/ChatGPT Image Aug 19, 2026, 03_22_24 PM.png";
+import amazon500GiftCardImage from "../assets/images/ChatGPT Image Aug 19, 2026, 03_27_44 PM.png";
 import iphone15ProImage from "../assets/images/ChatGPT Image Aug 19, 2026, 01_49_05 PM.png";
 import voucher20Image from "../assets/images/ChatGPT Image Aug 19, 2026, 05_07_43 PM.png";
 
@@ -74,7 +75,7 @@ export const AMAZON_500_GIFT_CARD_PRIZE = Object.freeze({
 	id: "PRIZE-AMAZON-500",
 	name: "₹500 Amazon Gift Card",
 	position: 5,
-	image: null,
+	image: amazon500GiftCardImage,
 	description: "Amazon gift card prize for ten selected winners.",
 	winnerCount: 10,
 	prizeType: PRIZE_TYPES.GIFT_CARD,
