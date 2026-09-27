@@ -9,6 +9,7 @@ import PrizeCard from "../../components/PrizeCard/PrizeCard.jsx";
 import TrustSection from "../../components/TrustSection/TrustSection.jsx";
 import ParticipationModal from "../../components/ParticipationModal/ParticipationModal.jsx";
 import PrizeClaimModal from "../../components/PrizeClaimModal/PrizeClaimModal.jsx";
+import WinnerCard from "../../components/WinnerCard/WinnerCard.jsx";
 import { useAuth } from "../../hooks/useAuth.js";
 import { useGiveawayStatus } from "../../hooks/useGiveawayStatus.js";
 import { useGiveawayDetails } from "../../hooks/useGiveawayDetails.js";
@@ -95,13 +96,13 @@ export default function GiveawayDetails() {
 
 	const isActive = giveaway.status === GIVEAWAY_STATUS.ACTIVE;
 	const isUpcoming = giveaway.status === GIVEAWAY_STATUS.UPCOMING;
-	const participationLabel = userStatus.data?.participating
-		? "You're Participating"
-		: isActive
-			? "Continue to participation"
-		: isUpcoming
-			? "Participation opens soon"
-			: "Participation closed";
+	const participationLabel = !isActive
+		? isUpcoming
+			? "Notify Me"
+			: "Participation closed"
+		: userStatus.data?.participating
+			? "You're Participating"
+			: "Continue to participation";
 	const eligibility = giveaway.eligibility && typeof giveaway.eligibility === "object" ? giveaway.eligibility : {};
 	const participationSettings = giveaway.participationSettings && typeof giveaway.participationSettings === "object" ? giveaway.participationSettings : {};
 	const hasConfiguredDetails = Object.keys(eligibility).length > 0 || Object.keys(participationSettings).length > 0 || (Array.isArray(giveaway.rules) && giveaway.rules.length > 0);
@@ -220,6 +221,22 @@ export default function GiveawayDetails() {
 					) : <p className={styles.unavailable}>No prize information is available for this giveaway.</p>}
 				</section>
 
+				{giveaway.status === "ENDED" && giveaway.winners.length > 0 && (
+					<section className={styles.section} aria-labelledby="winner-information-title">
+						<div className={styles.sectionHeading}>
+							<p className={styles.eyebrow}>Giveaway results</p>
+							<h2 id="winner-information-title">Winner Information</h2>
+							<p>The winners selected for this ended giveaway are published below.</p>
+						</div>
+						<div className={styles.prizeGrid}>
+							{giveaway.winners.map((winner) => (
+								<WinnerCard key={winner.id} winner={winner} giveaway={giveaway} prize={giveaway.prizes.find(({ id }) => id === winner.prizeId)} />
+							))}
+						</div>
+						<Link className={styles.loginLink} to="/#previous-winners">View Winners</Link>
+					</section>
+				)}
+
 				{!isActive && isAuthenticated && userStatus.data?.winner && (
 					<section className={styles.participation} aria-labelledby="winner-claim-title">
 						<div>
@@ -273,7 +290,7 @@ export default function GiveawayDetails() {
 							</div>
 						) : (
 							<button className={styles.primaryButton} type="button" disabled={!isActive || Boolean(userStatus.data?.participating) || !selectedPrizeAvailable || joinState === "checking"} onClick={handleJoin}>
-								{joinState === "checking" ? "Checking balance..." : !isAuthenticated ? "Login Required" : participationLabel}
+								{joinState === "checking" ? "Checking balance..." : isActive && !isAuthenticated ? "Login Required" : participationLabel}
 								{isActive && joinState !== "checking" && <FiArrowRight aria-hidden="true" />}
 							</button>
 						)}

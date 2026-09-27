@@ -77,6 +77,10 @@ function historicalPrize(prize) {
 	return { ...prize, id: `${prize.id}-GW-2026-08` };
 }
 
+function upcomingPrize(prize) {
+	return { ...prize, id: `${prize.id}-GW-2026-10` };
+}
+
 export const GIVEAWAY_SEED_DATA = [
 	{
 		id: "GW-2026-09",
@@ -97,7 +101,7 @@ export const GIVEAWAY_SEED_DATA = [
 		id: "GW-2026-08",
 		title: "August 2026 Giveaway",
 		slug: "august-2026-giveaway",
-		status: "ARCHIVED",
+		status: "ENDED",
 		startAt: "2026-08-01T00:00:00.000Z",
 		endAt: "2026-08-31T23:59:59.000Z",
 		winnersFinalizedAt: "2026-08-31T23:59:59.000Z",
@@ -115,5 +119,20 @@ export const GIVEAWAY_SEED_DATA = [
 				selectionMethod: "CRYPTOGRAPHIC_RANDOM",
 			},
 		],
+	},
+	{
+		id: "GW-2026-10",
+		title: "October 2026 Giveaway",
+		slug: "october-2026-giveaway",
+		status: "UPCOMING",
+		startAt: "2026-10-15T00:00:00.000Z",
+		endAt: "2026-11-15T23:59:59.000Z",
+		winnersFinalizedAt: null,
+		description: "Upcoming development giveaway record for the October 2026 event.",
+		rules: [],
+		eligibility: {},
+		participationSettings: { maxParticipationsPerUser: 1 },
+		prizes: currentPrizes.map(upcomingPrize),
+		winners: [],
 	},
 ];

@@ -31,7 +31,7 @@ export const PREVIOUS_GIVEAWAYS = Object.freeze([
 		id: "GW-2026-08",
 		title: "August 2026 Giveaway",
 		slug: "august-2026-giveaway",
-		status: GIVEAWAY_STATUS.ARCHIVED,
+		status: GIVEAWAY_STATUS.ENDED,
 		startDate: "2026-08-01T00:00:00.000Z",
 		endDate: "2026-08-31T23:59:59.000Z",
 		description: "Completed development giveaway record for August 2026.",

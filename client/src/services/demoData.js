@@ -33,7 +33,7 @@ const archivedGiveaway = {
 	id: "GW-2026-08",
 	title: "August 2026 Giveaway",
 	slug: "august-2026-giveaway",
-	status: GIVEAWAY_STATUS.ARCHIVED,
+	status: GIVEAWAY_STATUS.ENDED,
 	startAt: "2026-08-01T00:00:00.000Z",
 	endAt: "2026-08-31T23:59:59.000Z",
 	winnersFinalizedAt: "2026-08-31T23:59:59.000Z",
@@ -63,6 +63,23 @@ const archivedGiveaway = {
 	}],
 };
 
+const upcomingGiveaway = {
+	id: "GW-2026-10",
+	title: "October 2026 Giveaway",
+	slug: "october-2026-giveaway",
+	status: GIVEAWAY_STATUS.UPCOMING,
+	startAt: "2026-10-15T00:00:00.000Z",
+	endAt: "2026-11-15T23:59:59.000Z",
+	description: "Upcoming development demo giveaway record for the October 2026 event.",
+	rules: activeGiveaway.rules,
+	eligibility: activeGiveaway.eligibility,
+	participationSettings: activeGiveaway.participationSettings,
+	prizes: PRIZES.map((prize) => ({ ...prize, id: `${prize.id}-GW-2026-10`, status: "UPCOMING" })),
+	participantCount: 0,
+	statistics: { totalGiveaways: 25, participants: 0, prizesWon: 1200 },
+	winners: [],
+};
+
 function clone(value) {
 	return JSON.parse(JSON.stringify(value));
 }
@@ -83,6 +100,7 @@ export function getDemoUserId() {
 export function getDemoGiveaway(giveawayId) {
 	if (giveawayId === activeGiveaway.id) return clone(activeGiveaway);
 	if (giveawayId === archivedGiveaway.id) return clone(archivedGiveaway);
+	if (giveawayId === upcomingGiveaway.id) return clone(upcomingGiveaway);
 	return null;
 }
 

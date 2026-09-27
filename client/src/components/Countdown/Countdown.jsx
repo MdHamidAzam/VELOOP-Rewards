@@ -40,7 +40,7 @@ export default function Countdown({ giveaway }) {
 			description: "There is still time to explore this giveaway and review its entry details.",
 		},
 		[GIVEAWAY_STATUS.UPCOMING]: {
-			label: "Coming soon",
+			label: "Starts In",
 			description: "Participation will become available when this giveaway starts.",
 		},
 		[GIVEAWAY_STATUS.ENDED]: {

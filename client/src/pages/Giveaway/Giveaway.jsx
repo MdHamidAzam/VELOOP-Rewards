@@ -11,6 +11,7 @@ import FAQ from "../../components/FAQ/FAQ.jsx";
 import FinalCTA from "../../components/FinalCTA/FinalCTA.jsx";
 import Footer from "../../components/Footer/Footer.jsx";
 import GiveawayLoader from "../../components/common/GiveawayLoader.jsx";
+import GiveawayStateLinks from "../../components/common/GiveawayStateLinks.jsx";
 import { useGiveaway } from "../../hooks/useGiveaway.js";
 import { usePreviousWinners } from "../../hooks/usePreviousWinners.js";
 import { mapCurrentGiveaway } from "../../utils/giveawayViewModel.js";
@@ -49,6 +50,7 @@ export default function Giveaway() {
 					<FeaturedGiveaways giveaway={giveaway} />
 				</>
 			) : <CurrentGiveawayState loading={loading} error={error} onRetry={reload} />}
+			<GiveawayStateLinks />
 			<GiveawayRules />
 			<HowToParticipate />
 			<WinnerSlider giveaway={giveaway} previousWinners={previousWinners.data} loading={previousWinners.loading} error={previousWinners.error} onRetry={previousWinners.reload} />
