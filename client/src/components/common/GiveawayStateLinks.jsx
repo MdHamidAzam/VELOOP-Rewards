@@ -8,6 +8,8 @@ const QA_GIVEAWAYS = [
 ];
 
 export default function GiveawayStateLinks() {
+	if (!import.meta.env.DEV) return null;
+
 	return (
 		<section className={styles.section} aria-labelledby="giveaway-state-links-title">
 			<div className={`${styles.container} container`}>
