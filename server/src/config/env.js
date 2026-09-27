@@ -28,6 +28,7 @@ export const env = {
 	clientUrl: process.env.CLIENT_URL?.trim() ?? "",
 	jwtSecret,
 	refreshSecret: process.env.REFRESH_SECRET?.trim() ?? "",
+	seedGiveawaysOnBoot: process.env.SEED_GIVEAWAYS_ON_BOOT === "true",
 	adminUserIds: new Set(
 		(process.env.ADMIN_USER_IDS ?? "")
 			.split(",")

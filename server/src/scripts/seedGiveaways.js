@@ -1,3 +1,5 @@
+import { fileURLToPath } from "node:url";
+import { resolve } from "node:path";
 import mongoose from "mongoose";
 import { connectDB } from "../config/db.js";
 import Giveaway from "../models/Giveaway.js";
@@ -5,9 +7,7 @@ import GiveawayWinner from "../models/GiveawayWinner.js";
 import Prize from "../models/Prize.js";
 import { GIVEAWAY_SEED_DATA } from "../data/giveawaySeedData.js";
 
-async function seedGiveaways() {
-	await connectDB();
-
+export async function seedGiveaways() {
 	for (const seedGiveaway of GIVEAWAY_SEED_DATA) {
 		const { prizes, winners, ...giveawayData } = seedGiveaway;
 		const giveaway = await Giveaway.findOneAndUpdate(
@@ -27,9 +27,6 @@ async function seedGiveaways() {
 		}
 
 		await Giveaway.updateOne({ _id: giveaway._id }, { $set: { prizes: prizeIds } });
-		if (winners.length === 0) {
-			await GiveawayWinner.deleteMany({ giveawayId: giveaway._id });
-		}
 
 		for (const winnerData of winners) {
 			const prize = await Prize.findOne({ id: winnerData.prizeId, giveawayId: giveaway._id }).select("_id");
@@ -48,13 +45,19 @@ async function seedGiveaways() {
 	console.log(`Seeded ${GIVEAWAY_SEED_DATA.length} giveaways idempotently.`);
 }
 
-try {
-	await seedGiveaways();
-} catch (error) {
-	console.error(`Giveaway seed failed: ${error.message}`);
-	process.exitCode = 1;
-} finally {
-	if (mongoose.connection.readyState !== 0) {
-		await mongoose.disconnect();
+
+const isMainModule = process.argv[1] && resolve(process.argv[1]) === fileURLToPath(import.meta.url);
+
+if (isMainModule) {
+	try {
+		await connectDB();
+		await seedGiveaways();
+	} catch (error) {
+		console.error(`Giveaway seed failed: ${error.message}`);
+		process.exitCode = 1;
+	} finally {
+		if (mongoose.connection.readyState !== 0) {
+			await mongoose.disconnect();
+		}
 	}
 }
