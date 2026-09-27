@@ -1,0 +1,16 @@
+{
+  "rewrites": [
+    {
+      "source": "/giveaway/:path*",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/login",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/register",
+      "destination": "/index.html"
+    }
+  ]
+}
