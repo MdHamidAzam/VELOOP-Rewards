@@ -4,6 +4,7 @@ import {
 	clearStoredAccessToken,
 	devLogin as requestDevLogin,
 	login as requestLogin,
+	register as requestRegister,
 	getStoredAccessToken,
 	isAuthenticated as hasStoredAuthentication,
 } from "../services/authApi.js";
@@ -24,6 +25,8 @@ export function useAuth() {
 		return result;
 	}, []);
 
+	const register = useCallback((email, password) => requestRegister(email, password), []);
+
 	const logout = useCallback(() => {
 		clearStoredAccessToken();
 		setToken(null);
@@ -34,6 +37,7 @@ export function useAuth() {
 		isAuthenticated: Boolean(token) && hasStoredAuthentication(),
 		devLogin,
 		login,
+		register,
 		logout,
 	};
 

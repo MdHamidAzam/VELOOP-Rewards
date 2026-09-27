@@ -278,8 +278,10 @@ export default function GiveawayDetails() {
 							</button>
 						)}
 						{joinError && <p className={joinError.insufficient ? styles.insufficient : styles.notice} role="alert">{joinError.message}</p>}
-						{joinError?.type === "login" && <Link className={styles.loginLink} to="/login">Go to Login</Link>}
-						{joinError?.insufficient && <button className={styles.secondaryButton} type="button" disabled>Earn More {selectedPrize?.entryFee?.currency ?? ""}</button>}
+						{joinError?.type === "login" && <>
+							<Link className={styles.loginLink} to="/login">Log in</Link>
+							<Link className={styles.loginLink} to="/register">Create an account</Link>
+						</>}
 					</div>
 				</section>
 			</div>

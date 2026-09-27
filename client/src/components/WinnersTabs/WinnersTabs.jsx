@@ -8,7 +8,7 @@ const tabs = [
 	{ id: "previous-winners", label: "Previous Winners" },
 ];
 
-export default function WinnersTabs({ giveaway, previousWinners, loading, error, onRetry }) {
+export default function WinnersTabs({ giveaway, previousWinners = [], loading, error, onRetry }) {
 	const [activeTab, setActiveTab] = useState("current-winners");
 	const tabRefs = useRef([]);
 	const currentWinners = giveaway?.winners ?? [];
@@ -16,7 +16,9 @@ export default function WinnersTabs({ giveaway, previousWinners, loading, error,
 		? "No finalized winners are available for this giveaway."
 		: giveaway?.status === "UPCOMING"
 			? "Winners will appear after this giveaway is completed."
-			: "This giveaway is still live. Winners will be announced after it ends.";
+			: giveaway?.status === "ACTIVE"
+				? "This giveaway is still live. Winners will be announced after it ends."
+				: "Winner information is unavailable until a giveaway is selected.";
 
 	const selectTab = (tabId) => setActiveTab(tabId);
 	const handleTabKeyDown = (event, index) => {
@@ -48,7 +50,7 @@ export default function WinnersTabs({ giveaway, previousWinners, loading, error,
 							className={`${styles.tab} ${activeTab === tab.id ? styles.activeTab : ""}`}
 							key={tab.id}
 							ref={(element) => { tabRefs.current[index] = element; }}
-							id={tab.id}
+							id={`${tab.id}-tab`}
 							type="button"
 							role="tab"
 							aria-selected={activeTab === tab.id}
@@ -62,29 +64,24 @@ export default function WinnersTabs({ giveaway, previousWinners, loading, error,
 					))}
 				</div>
 
-				<div
-					className={styles.panel}
-					id={`${activeTab}-panel`}
-					role="tabpanel"
-					aria-labelledby={activeTab}
-					tabIndex={0}
-				>
-					{activeTab === "current-winners" ? (
-						currentWinners.length > 0 ? (
-							<div className={styles.grid}>
-								{currentWinners.map((winner) => {
-									const prize = giveaway?.prizes?.find(({ id }) => id === winner.prizeId);
-									return <WinnerCard key={winner.id} winner={winner} giveaway={giveaway} prize={prize} />;
-								})}
-							</div>
-						) : <p className={styles.emptyState}>{currentEmptyMessage}</p>
-					) : loading ? (
+				<div className={styles.panel} id="current-winners-panel" role="tabpanel" aria-labelledby="current-winners-tab" tabIndex={0} hidden={activeTab !== "current-winners"}>
+					{currentWinners.length > 0 ? (
+						<div className={styles.grid}>
+							{currentWinners.map((winner) => {
+								const prize = giveaway?.prizes?.find(({ id }) => id === winner.prizeId);
+								return <WinnerCard key={winner.id} winner={winner} giveaway={giveaway} prize={prize} />;
+							})}
+						</div>
+					) : <p className={styles.emptyState} aria-live="polite">{currentEmptyMessage}</p>}
+				</div>
+				<div className={styles.panel} id="previous-winners-panel" role="tabpanel" aria-labelledby="previous-winners-tab" tabIndex={0} hidden={activeTab !== "previous-winners"}>
+					{loading ? (
 						<p className={styles.emptyState} aria-live="polite">Loading previous winners...</p>
 					) : error ? (
 						<div className={styles.emptyState} role="alert"><p>Previous winners could not be loaded.</p><button type="button" onClick={onRetry}>Try again</button></div>
 					) : previousWinners.length > 0 ? (
 						<div className={styles.grid}>
-							{previousWinners.flatMap(({ giveaway: historicalGiveaway, winners }) => winners.map((winner) => (
+							{previousWinners.flatMap(({ giveaway: historicalGiveaway, winners = [] }) => winners.map((winner) => (
 								<PreviousWinnerCard key={winner.id} winner={winner} giveaway={historicalGiveaway} prize={{ name: winner.prizeName, image: winner.prizeImage }} />
 							)))}
 						</div>

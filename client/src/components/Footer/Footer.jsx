@@ -3,7 +3,7 @@ import styles from "./Footer.module.css";
 
 const navigationLinks = [
 	{ label: "Giveaways", to: "/" },
-	{ label: "Previous Winners", to: "/#winners-title" },
+	{ label: "Previous Winners", to: "/#previous-winners" },
 	{ label: "How It Works", to: "/#how-it-works-title" },
 	{ label: "Rules", to: "/#giveaway-rules-title" },
 	{ label: "FAQ", to: "/#faq-title" },

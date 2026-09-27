@@ -19,9 +19,7 @@ export function AuthProvider({ children }) {
 			return result;
 		},
 		register: async (email, password) => {
-			const result = await requestRegister(email, password);
-			setToken(result.accessToken);
-			return result;
+			return requestRegister(email, password);
 		},
 		logout: () => {
 			clearStoredAccessToken();

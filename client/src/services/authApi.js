@@ -56,13 +56,13 @@ export async function register(email, password) {
 		method: "POST",
 		body: JSON.stringify({ email, password }),
 	});
-	const accessToken = response?.data?.accessToken;
-	if (!response?.success || typeof accessToken !== "string" || !accessToken) {
-		throw new ApiError("The authentication API returned an invalid response.", { code: "INVALID_RESPONSE" });
+	if (!response?.success || !response?.data || typeof response.data !== "object") {
+		throw new ApiError("The authentication API returned an invalid response.", {
+			code: "INVALID_RESPONSE",
+		});
 	}
 
-	setStoredAccessToken(accessToken);
-	return { accessToken };
+	return response.data;
 }
 
 export {
