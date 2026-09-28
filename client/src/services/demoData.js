@@ -3,6 +3,7 @@ import { PRIZES } from "../data/prizeData.js";
 
 export const DEMO_MODE = import.meta.env.DEV && !import.meta.env.VITE_API_BASE_URL;
 export const DEMO_USERS = Object.freeze([
+	...(import.meta.env.DEV ? [{ id: "DEV-USER-1002", label: "Winner E2E - DEV-USER-1002" }] : []),
 	{ id: "VE10025", label: "Winner - VE10025" },
 	{ id: "VE10028", label: "Gift-card winner - VE10028" },
 	{ id: "VE10026", label: "Non-winner - VE10026" },
@@ -63,6 +64,44 @@ const archivedGiveaway = {
 	}],
 };
 
+
+const winnerE2EGiveaway = import.meta.env.DEV ? {
+	id: "GW-2026-WINNER-E2E",
+	title: "Winner Finalization E2E Fixture",
+	slug: "winner-finalization-e2e-fixture",
+	status: GIVEAWAY_STATUS.ENDED,
+	startAt: "2026-09-01T00:00:00.000Z",
+	endAt: "2026-09-20T23:59:59.000Z",
+	winnersFinalizedAt: "2026-09-25T00:00:00.000Z",
+	description: "Development-only fixture for winner claim E2E testing.",
+	rules: ["Development-only winner claim test fixture."],
+	eligibility: { minAge: 18, countries: [], requiresVerifiedUser: false },
+	participationSettings: { maxParticipationsPerUser: 1, entryCurrency: "SVES", entryAmount: 1 },
+	prizes: [{
+		id: "PRIZE-WINNER-E2E",
+		name: "Winner Finalization E2E Prize",
+		position: 1,
+		image: null,
+		description: "Development-only digital prize for winner claim E2E testing.",
+		winnerCount: 1,
+		prizeType: "DIGITAL",
+		claimType: "DIGITAL",
+		entryFee: { amount: 1, currency: "SVES" },
+		status: "AWARDED",
+	}],
+	participantCount: 1,
+	statistics: { totalGiveaways: 25, participants: 1, prizesWon: 1 },
+	winners: [{
+		id: "demo-winner-e2e-1002",
+		prizeId: "PRIZE-WINNER-E2E",
+		prizeName: "Winner Finalization E2E Prize",
+		prizeImage: null,
+		maskedId: "DE****02",
+		status: "SELECTED",
+		selectedAt: "2026-09-25T00:00:00.000Z",
+	}],
+} : null;
+
 const upcomingGiveaway = {
 	id: "GW-2026-10",
 	title: "October 2026 Giveaway",
@@ -79,6 +118,12 @@ const upcomingGiveaway = {
 	statistics: { totalGiveaways: 25, participants: 0, prizesWon: 1200 },
 	winners: [],
 };
+
+const DEMO_WINNER_RECORDS = Object.freeze([
+	{ giveawayId: archivedGiveaway.id, userId: "VE10025", winner: archivedGiveaway.winners[0], claimType: "PHYSICAL" },
+	{ giveawayId: archivedGiveaway.id, userId: "VE10028", winner: archivedGiveaway.winners[1], claimType: "EMAIL" },
+	...(import.meta.env.DEV && winnerE2EGiveaway ? [{ giveawayId: winnerE2EGiveaway.id, userId: "DEV-USER-1002", winner: winnerE2EGiveaway.winners[0], claimType: "DIGITAL" }] : []),
+]);
 
 function clone(value) {
 	return JSON.parse(JSON.stringify(value));
@@ -100,6 +145,7 @@ export function getDemoUserId() {
 export function getDemoGiveaway(giveawayId) {
 	if (giveawayId === activeGiveaway.id) return clone(activeGiveaway);
 	if (giveawayId === archivedGiveaway.id) return clone(archivedGiveaway);
+	if (import.meta.env.DEV && winnerE2EGiveaway && giveawayId === winnerE2EGiveaway.id) return clone(winnerE2EGiveaway);
 	if (giveawayId === upcomingGiveaway.id) return clone(upcomingGiveaway);
 	return null;
 }
@@ -131,14 +177,17 @@ export function getDemoStatus(giveawayId) {
 	const participations = readJson(DEMO_PARTICIPATIONS_KEY, {});
 	const claims = readJson(DEMO_CLAIMS_KEY, {});
 	const participationKey = `${userId}:${giveawayId}`;
-	const winner = giveawayId === archivedGiveaway.id
-		? archivedGiveaway.winners.find((candidate) => candidate.maskedId === `VE****${userId?.slice(-2)}`) ?? null
-		: null;
+	const winnerRecord = DEMO_WINNER_RECORDS.find((record) => record.giveawayId === giveawayId && record.userId === userId);
+	const winner = winnerRecord ? {
+		...clone(winnerRecord.winner),
+		claimType: winnerRecord.claimType,
+		claimDeadline: new Date(new Date(winnerRecord.winner.selectedAt).getTime() + 7 * 24 * 60 * 60 * 1000).toISOString(),
+	} : null;
 	return {
 		giveawayId,
 		participating: Boolean(participations[participationKey]) || Boolean(winner),
 		entries: participations[participationKey] ? 1 : winner ? 1 : 0,
-		winner: winner ? { ...winner, claimType: winner.prizeId.includes("AMAZON") ? "EMAIL" : "PHYSICAL", claimDeadline: "2026-09-07T23:59:59.000Z" } : null,
+		winner,
 		claim: claims[participationKey] ?? null,
 	};
 }

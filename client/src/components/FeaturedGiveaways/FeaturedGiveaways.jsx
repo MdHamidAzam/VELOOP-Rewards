@@ -13,7 +13,7 @@ export default function FeaturedGiveaways({ giveaway }) {
 
 				<div className={styles.grid}>
 					{giveaway.prizes.map((prize) => (
-						<PrizeCard key={prize.id} prize={prize} giveawayId={giveaway.id} />
+						<PrizeCard key={prize.id} prize={prize} giveawayId={giveaway.id} giveawayStatus={giveaway.status} />
 					))}
 				</div>
 			</div>

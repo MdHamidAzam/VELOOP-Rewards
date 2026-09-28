@@ -51,11 +51,11 @@ export default function Giveaway() {
 				</>
 			) : <CurrentGiveawayState loading={loading} error={error} onRetry={reload} />}
 			<GiveawayStateLinks />
-			<GiveawayRules />
 			<HowToParticipate />
 			<WinnerSlider giveaway={giveaway} previousWinners={previousWinners.data} loading={previousWinners.loading} error={previousWinners.error} onRetry={previousWinners.reload} />
 			<WinnersTabs giveaway={giveaway} previousWinners={previousWinners.data} loading={previousWinners.loading} error={previousWinners.error} onRetry={previousWinners.reload} />
 			<TrustSection />
+			<GiveawayRules />
 			<FAQ />
 			<FinalCTA giveaway={giveaway} />
 			<Footer />

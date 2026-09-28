@@ -1,6 +1,6 @@
 .section {
-	padding: 0 0 clamp(4rem, 8vw, 7rem);
-	background: var(--color-background);
+	padding: clamp(3.5rem, 7vw, 6rem) 0;
+	background: #edf2e9;
 }
 
 .container {
@@ -14,7 +14,7 @@
 .headingGroup {
 	position: sticky;
 	top: 6rem;
-	max-width: 24rem;
+	max-width: 27rem;
 }
 
 .eyebrow {
@@ -35,7 +35,7 @@
 	color: var(--color-text-strong);
 	font-size: clamp(2rem, 4vw, 3rem);
 	font-weight: 750;
-	letter-spacing: -0.035em;
+	letter-spacing: 0;
 	line-height: 1.05;
 }
 
@@ -75,8 +75,17 @@
 	text-align: left;
 }
 
+.question {
+	min-height: 4.5rem;
+	font-size: 1.025rem;
+}
+
 .question:hover {
 	color: var(--color-primary-dark);
+}
+
+.question:hover .icon {
+	color: #173d31;
 }
 
 .question:focus-visible {
@@ -85,6 +94,13 @@
 }
 
 .icon {
+	display: grid;
+	width: 2rem;
+	height: 2rem;
+	place-items: center;
+	border: 1px solid rgba(37, 102, 77, 0.13);
+	border-radius: 50%;
+	background: rgba(255, 255, 255, 0.7);
 	flex: 0 0 auto;
 	color: var(--color-primary-dark);
 	font-size: 1.25rem;
@@ -92,6 +108,8 @@
 }
 
 .itemOpen .icon {
+	background: #173d31;
+	color: #ffffff;
 	transform: rotate(180deg);
 }
 

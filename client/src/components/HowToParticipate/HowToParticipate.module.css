@@ -30,7 +30,7 @@
 	color: var(--color-text-strong);
 	font-size: clamp(2rem, 4vw, 3rem);
 	font-weight: 750;
-	letter-spacing: -0.035em;
+	letter-spacing: 0;
 	line-height: 1.05;
 }
 
@@ -118,6 +118,52 @@
 	color: var(--color-muted);
 	font-size: 0.875rem;
 	line-height: 1.6;
+}
+
+.section {
+	padding: clamp(3rem, 6vw, 5rem) 0;
+	background: #edf2e9;
+}
+
+.headingGroup {
+	margin-bottom: clamp(2rem, 4vw, 3.25rem);
+}
+
+.step {
+	padding: 0 0.85rem 0.85rem;
+}
+
+.stepMarker {
+	width: 3.5rem;
+	height: 3.5rem;
+	border: 1px solid rgba(37, 102, 77, 0.22);
+	background: #ffffff;
+	box-shadow: 0 0 0 0.5rem #edf2e9, 0 6px 16px rgba(24, 49, 34, 0.08);
+	color: var(--color-primary-dark);
+}
+
+.step:hover .stepMarker {
+	background: #173d31;
+	color: #d6ed8e;
+}
+
+.step h3 {
+	font-size: 1.05rem;
+}
+
+@media (max-width: 560px) {
+	.section {
+		padding: 3rem 0;
+	}
+
+	.step {
+		padding: 0;
+	}
+
+	.stepMarker {
+		width: 3rem;
+		height: 3rem;
+	}
 }
 
 @media (max-width: 900px) {

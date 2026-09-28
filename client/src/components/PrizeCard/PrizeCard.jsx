@@ -8,14 +8,17 @@ const currencyLabels = {
 	TOKENS: "Tokens",
 };
 
-export default function PrizeCard({ prize, giveawayId }) {
+export default function PrizeCard({ prize, giveawayId, giveawayStatus }) {
 	const amount = prize.entryFee?.amount;
 	const currency = prize.entryFee?.currency;
+	const status = giveawayStatus?.toUpperCase() ?? "ACTIVE";
+	const statusLabel = status === "ACTIVE" ? "Live" : status === "UPCOMING" ? "Upcoming" : "Ended";
 
 	return (
 		<article className={styles.card}>
 			<div className={styles.imageArea}>
 				<span className={styles.position}>Prize {prize.position}</span>
+				<span className={`${styles.status} ${status === "ACTIVE" ? styles.live : ""}`}>{statusLabel}</span>
 				{prize.image ? (
 					<img className={styles.image} src={prize.image} alt={`${prize.name} prize`} />
 				) : (
@@ -33,6 +36,7 @@ export default function PrizeCard({ prize, giveawayId }) {
 						{prize.winnerCount} {prize.winnerCount === 1 ? "winner" : "winners"}
 					</span>
 					<span className={styles.entry}>
+						<span className={styles.entryLabel}>Entry fee</span>
 						{amount == null ? "-" : `${amount.toLocaleString()} ${currencyLabels[currency] ?? currency ?? ""}`}
 					</span>
 				</div>

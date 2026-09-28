@@ -22,6 +22,8 @@ import styles from "./GiveawayDetails.module.css";
 const GIVEAWAY_STATUS = Object.freeze({
 	UPCOMING: "UPCOMING",
 	ACTIVE: "ACTIVE",
+	ENDED: "ENDED",
+	ARCHIVED: "ARCHIVED",
 });
 
 function formatDate(date) {
@@ -96,6 +98,7 @@ export default function GiveawayDetails() {
 
 	const isActive = giveaway.status === GIVEAWAY_STATUS.ACTIVE;
 	const isUpcoming = giveaway.status === GIVEAWAY_STATUS.UPCOMING;
+	const isEnded = giveaway.status === GIVEAWAY_STATUS.ENDED || giveaway.status === GIVEAWAY_STATUS.ARCHIVED;
 	const participationLabel = !isActive
 		? isUpcoming
 			? "Notify Me"
@@ -215,7 +218,7 @@ export default function GiveawayDetails() {
 					{giveaway.prizes.length > 0 ? (
 						<div className={styles.prizeGrid}>
 							{giveaway.prizes.map((prize) => (
-								<PrizeCard key={prize.id} prize={prize} giveawayId={giveaway.id} />
+								<PrizeCard key={prize.id} prize={prize} giveawayId={giveaway.id} giveawayStatus={giveaway.status} />
 							))}
 						</div>
 					) : <p className={styles.unavailable}>No prize information is available for this giveaway.</p>}
@@ -237,7 +240,7 @@ export default function GiveawayDetails() {
 					</section>
 				)}
 
-				{!isActive && isAuthenticated && userStatus.data?.winner && (
+				{isEnded && isAuthenticated && userStatus.data?.winner && (
 					<section className={styles.participation} aria-labelledby="winner-claim-title">
 						<div>
 							<p className={styles.eyebrow}>Winner verified</p>
@@ -254,7 +257,7 @@ export default function GiveawayDetails() {
 					</section>
 				)}
 
-				{!isActive && isAuthenticated && userStatus.data && !userStatus.data.winner && (
+				{isEnded && isAuthenticated && userStatus.data && !userStatus.data.winner && (
 					<section className={styles.participation} aria-labelledby="non-winner-title">
 						<div><p className={styles.eyebrow}>Giveaway results</p><h2 id="non-winner-title">Thanks for participating.</h2><p>Winners have been announced. Keep participating for the next giveaway.</p></div>
 					</section>
@@ -309,7 +312,7 @@ export default function GiveawayDetails() {
 			<TrustSection />
 			{joinState === "confirming" && selectedPrize && wallet.data && <ParticipationModal prize={selectedPrize} wallet={wallet.data} loading={false} error={joinError?.message} onCancel={() => { setJoinState("idle"); setJoinError(null); }} onConfirm={handleConfirm} />}
 			{joinState === "submitting" && selectedPrize && wallet.data && <ParticipationModal prize={selectedPrize} wallet={wallet.data} loading error={null} onCancel={() => undefined} onConfirm={handleConfirm} />}
-			{claimModalOpen && userStatus.data?.winner && <PrizeClaimModal winner={userStatus.data.winner} claim={userStatus.data.claim} loading={claimSubmitting} error={claimError} onCancel={() => setClaimModalOpen(false)} onSubmit={handleClaimSubmit} />}
+			{isEnded && isAuthenticated && claimModalOpen && userStatus.data?.winner && <PrizeClaimModal winner={userStatus.data.winner} claim={userStatus.data.claim} loading={claimSubmitting} error={claimError} onCancel={() => setClaimModalOpen(false)} onSubmit={handleClaimSubmit} />}
 		</main>
 	);
 }

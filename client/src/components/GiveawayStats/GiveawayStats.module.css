@@ -1,5 +1,5 @@
 .section {
-	padding: 0 0 clamp(3.5rem, 7vw, 5.5rem);
+	padding: clamp(1.5rem, 3vw, 2.5rem) 0 clamp(3.5rem, 7vw, 5.5rem);
 	background: var(--color-background);
 }
 
@@ -9,12 +9,12 @@
 
 .list {
 	display: grid;
-	grid-template-columns: repeat(4, minmax(0, 1fr));
-	gap: 1rem;
+	grid-template-columns: repeat(3, minmax(0, 1fr));
+	gap: 0.85rem;
 	margin: 0;
 	padding: 0;
 	list-style: none;
-	margin-top: -0.2rem;
+	margin-top: 0;
 }
 
 .stat {
@@ -22,30 +22,30 @@
 	align-items: center;
 	gap: 1rem;
 	min-width: 0;
-	padding: 1.15rem 1.1rem;
-	border: 1px solid rgba(156, 107, 255, 0.18);
-	border-radius: 1.1rem;
-	background: linear-gradient(145deg, rgba(17, 27, 45, 0.96), rgba(11, 17, 27, 0.96));
-	box-shadow: 0 12px 26px rgba(8, 12, 20, 0.28);
+	padding: 1.15rem 1.25rem;
+	border: 1px solid var(--color-border);
+	border-radius: var(--radius-lg);
+	background: var(--color-surface);
+	box-shadow: 0 8px 22px rgba(24, 49, 34, 0.045);
 	transition: border-color var(--transition-standard), transform var(--transition-standard), box-shadow var(--transition-standard);
 }
 
 .stat:hover {
-	border-color: rgba(156, 107, 255, 0.48);
+	border-color: rgba(37, 102, 77, 0.34);
 	transform: translateY(-2px);
-	box-shadow: 0 18px 32px rgba(14, 18, 30, 0.32);
+	box-shadow: 0 14px 28px rgba(24, 49, 34, 0.09);
 }
 
 .icon {
 	display: grid;
 	flex: 0 0 auto;
-	width: 2.85rem;
-	height: 2.85rem;
+	width: 2.75rem;
+	height: 2.75rem;
 	place-items: center;
-	border: 1px solid rgba(156, 107, 255, 0.28);
-	border-radius: 0.8rem;
-	background: rgba(156, 107, 255, 0.08);
-	color: #d8c5ff;
+	border: 1px solid rgba(37, 102, 77, 0.12);
+	border-radius: var(--radius-md);
+	background: #eef4e8;
+	color: var(--color-primary-dark);
 	font-size: 1.15rem;
 }
 
@@ -58,7 +58,7 @@
 	color: var(--color-text-strong);
 	font-size: clamp(1.5rem, 2.2vw, 2.05rem);
 	font-weight: 800;
-	letter-spacing: -0.04em;
+	letter-spacing: 0;
 	line-height: 1.08;
 }
 
@@ -91,7 +91,28 @@
 
 @media (max-width: 560px) {
 	.list {
-		grid-template-columns: 1fr;
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+	}
+}
+
+@media (max-width: 420px) {
+	.stat {
+		gap: 0.65rem;
+		padding: 0.9rem 0.75rem;
+	}
+
+	.icon {
+		width: 2.35rem;
+		height: 2.35rem;
+		font-size: 1rem;
+	}
+
+	.value {
+		font-size: 1.35rem;
+	}
+
+	.label {
+		font-size: 0.7rem;
 	}
 }
 
