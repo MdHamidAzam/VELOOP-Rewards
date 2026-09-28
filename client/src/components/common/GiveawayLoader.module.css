@@ -3,5 +3,5 @@
 .icon svg { width: 1.75rem; height: 1.75rem; }
 .loader p { margin: 0; font-weight: 700; }
 .dots { color: var(--color-accent); letter-spacing: .35rem; animation: fade 1.4s ease-in-out infinite; }
-@keyframes pulse { 50% { transform: translateY(-.25rem); box-shadow: 0 .75rem 1.5rem rgb(25 118 210 / 16%); } }
+@keyframes pulse { 50% { transform: translateY(-.25rem); box-shadow: 0 .75rem 1.5rem rgb(116 196 145 / 16%); } }
 @keyframes fade { 50% { opacity: .35; } }

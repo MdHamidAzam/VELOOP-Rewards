@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { FiArrowLeft, FiArrowRight, FiCheckCircle } from "react-icons/fi";
-import { Link, useParams } from "react-router-dom";
+import { Link, useParams, useSearchParams } from "react-router-dom";
 import Countdown from "../../components/Countdown/Countdown.jsx";
 import FAQ from "../../components/FAQ/FAQ.jsx";
 import Footer from "../../components/Footer/Footer.jsx";
@@ -86,6 +86,8 @@ function DetailsState({ type, error, onRetry }) {
 
 export default function GiveawayDetails() {
 	const { giveawayId } = useParams();
+	const [searchParams, setSearchParams] = useSearchParams();
+	const requestedPrizeId = searchParams.get("prizeId");
 	const [selectedPrizeId, setSelectedPrizeId] = useState("");
 	const [joinError, setJoinError] = useState(null);
 	const [joinState, setJoinState] = useState("idle");
@@ -100,11 +102,12 @@ export default function GiveawayDetails() {
 	const giveaway = mapCurrentGiveaway(data);
 
 	useEffect(() => {
-		setSelectedPrizeId(giveaway?.prizes?.[0]?.id ?? "");
+		const requestedPrize = giveaway?.prizes?.find(({ id }) => id === requestedPrizeId);
+		setSelectedPrizeId(requestedPrize?.id ?? giveaway?.prizes?.[0]?.id ?? "");
 		setJoinError(null);
 		setSuccess(null);
 		setJoinState("idle");
-	}, [giveaway?.id]);
+	}, [giveaway?.id, requestedPrizeId]);
 
 	if (loading) return <DetailsState type="loading" />;
 	if (error?.status === 404) return <DetailsState type="not-found" error={error} onRetry={reload} />;
@@ -328,7 +331,7 @@ export default function GiveawayDetails() {
 						{giveaway.prizes.length > 0 && (
 							<label className={styles.prizeSelection}>
 								<span>Select a prize to join</span>
-								<select value={selectedPrizeId} onChange={(event) => { setSelectedPrizeId(event.target.value); setJoinError(null); }} disabled={!isActive || joinState === "submitting"}>
+								<select value={selectedPrizeId} onChange={(event) => { setSelectedPrizeId(event.target.value); setJoinError(null); setSearchParams({ prizeId: event.target.value }, { replace: true }); }} disabled={!isActive || joinState === "submitting"}>
 									{giveaway.prizes.map((prize) => <option key={prize.id} value={prize.id} disabled={prize.status !== "AVAILABLE"}>{prize.name}{prize.status !== "AVAILABLE" ? " (Unavailable)" : ""}</option>)}
 								</select>
 							</label>

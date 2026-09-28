@@ -1,6 +1,6 @@
 .section {
 	padding: clamp(3.5rem, 7vw, 6rem) 0;
-	background: #edf2e9;
+	background: #111814;
 }
 
 .container {
@@ -100,7 +100,7 @@
 	place-items: center;
 	border: 1px solid rgba(37, 102, 77, 0.13);
 	border-radius: 50%;
-	background: rgba(255, 255, 255, 0.7);
+	background: rgba(255, 255, 255, 0.035);
 	flex: 0 0 auto;
 	color: var(--color-primary-dark);
 	font-size: 1.25rem;
@@ -108,8 +108,8 @@
 }
 
 .itemOpen .icon {
-	background: #173d31;
-	color: #ffffff;
+	background: var(--color-primary);
+	color: #172014;
 	transform: rotate(180deg);
 }
 

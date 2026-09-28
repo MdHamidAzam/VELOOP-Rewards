@@ -18,14 +18,14 @@
 
 .card {
 	border-radius: 8px;
-	border-color: rgba(37, 102, 77, 0.14);
-	background: #ffffff;
-	box-shadow: 0 8px 22px rgba(24, 49, 34, 0.055);
+	border-color: var(--color-border);
+	background: var(--color-surface);
+	box-shadow: 0 8px 22px rgba(0, 0, 0, 0.18);
 }
 
 .card:hover {
-	border-color: rgba(37, 102, 77, 0.36);
-	box-shadow: 0 13px 28px rgba(24, 49, 34, 0.1);
+	border-color: rgba(184, 230, 91, 0.34);
+	box-shadow: 0 13px 28px rgba(0, 0, 0, 0.26);
 }
 
 .imageArea {
@@ -33,7 +33,7 @@
 	min-height: 12rem;
 	place-items: center;
 	padding: var(--space-4);
-	background: radial-gradient(ellipse at 52% 12%, rgba(198, 232, 106, 0.2), transparent 56%), #edf3e9;
+	background: radial-gradient(ellipse at 52% 12%, rgba(116, 196, 145, 0.12), transparent 56%), #1b2620;
 }
 
 .image {

@@ -1,6 +1,22 @@
 import { ApiError, apiRequest } from "./api.js";
 import { DEMO_MODE, isDemoFallbackError, joinDemoGiveaway } from "./demoData.js";
 
+const DEVICE_ID_KEY = "veloop.deviceId";
+
+function getDeviceId() {
+	try {
+		let deviceId = window.sessionStorage.getItem(DEVICE_ID_KEY);
+		if (!deviceId) {
+			deviceId = globalThis.crypto?.randomUUID?.();
+			if (!deviceId) return undefined;
+			window.sessionStorage.setItem(DEVICE_ID_KEY, deviceId);
+		}
+		return deviceId;
+	} catch {
+		return undefined;
+	}
+}
+
 export async function participateInGiveaway(giveawayId, prizeId) {
 	if (typeof giveawayId !== "string" || !giveawayId.trim() || typeof prizeId !== "string" || !prizeId.trim()) {
 		throw new ApiError("A giveaway and prize are required.", {
@@ -15,7 +31,10 @@ export async function participateInGiveaway(giveawayId, prizeId) {
 		response = await apiRequest(`giveaways/${encodeURIComponent(giveawayId)}/participate`, {
 			method: "POST",
 			authenticated: true,
-			headers: { "X-Idempotency-Key": globalThis.crypto?.randomUUID?.() ?? `${Date.now()}-${Math.random()}` },
+			headers: {
+				"X-Idempotency-Key": globalThis.crypto?.randomUUID?.() ?? `${Date.now()}-${Math.random()}`,
+				...(getDeviceId() ? { "X-Device-Id": getDeviceId() } : {}),
+			},
 			body: JSON.stringify({ prizeId: prizeId.trim() }),
 		});
 	} catch (error) {

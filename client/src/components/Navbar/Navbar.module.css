@@ -2,8 +2,8 @@
 	position: sticky;
 	top: 0;
 	z-index: 30;
-	border-bottom: 1px solid rgba(36, 68, 51, 0.1);
-	background: rgba(244, 247, 242, 0.94);
+	border-bottom: 1px solid var(--color-border);
+	background: rgba(12, 17, 15, 0.92);
 	backdrop-filter: blur(18px);
 }
 
@@ -19,7 +19,7 @@
 	display: inline-flex;
 	align-items: center;
 	gap: 0.7rem;
-	color: #173d31;
+	color: var(--color-text-strong);
 	font-size: 1.1rem;
 	font-weight: 800;
 	letter-spacing: 0.14em;
@@ -31,11 +31,11 @@
 	width: 2.1rem;
 	height: 2.1rem;
 	place-items: center;
-	border: 1px solid #173d31;
+	border: 1px solid rgba(184, 230, 91, 0.28);
 	border-radius: 0.55rem;
-	background: #173d31;
+	background: #1c2a21;
 	box-shadow: 0 8px 18px rgba(23, 61, 49, 0.15);
-	color: #d6ed8e;
+	color: var(--color-primary);
 	font-size: 1rem;
 	letter-spacing: 0;
 }
@@ -46,10 +46,10 @@
 
 .productBadge {
 	padding: 0.35rem 0.6rem;
-	border: 1px solid rgba(37, 102, 77, 0.16);
+	border: 1px solid var(--color-border);
 	border-radius: 999px;
-	background: #e8f0df;
-	color: #35644b;
+	background: var(--color-background-soft);
+	color: var(--color-primary-dark);
 	font-size: 0.58rem;
 	font-weight: 800;
 	letter-spacing: 0.12em;
@@ -72,7 +72,7 @@
 .loginLink {
 	position: relative;
 	padding: 0.55rem 0.7rem;
-	color: #54675d;
+	color: var(--color-muted);
 	font-size: 0.82rem;
 	font-weight: 700;
 	letter-spacing: 0.02em;
@@ -89,7 +89,7 @@
 	bottom: 0.35rem;
 	left: 0.7rem;
 	height: 2px;
-	background: #8bae4a;
+	background: var(--color-primary);
 	content: "";
 	transform: scaleX(0);
 	transform-origin: right;
@@ -100,12 +100,12 @@
 .navLink:focus-visible,
 .loginLink:hover,
 .loginLink:focus-visible {
-	color: #173d31;
+	color: var(--color-text-strong);
 }
 
 .navLinkActive {
-	color: #173d31;
-	background: rgba(37, 102, 77, 0.07);
+	color: var(--color-text-strong);
+	background: rgba(184, 230, 91, 0.08);
 }
 
 .navLinkActive::after,
@@ -117,16 +117,16 @@
 
 .loginLink {
 	padding: 0.7rem 1rem;
-	border: 1px solid rgba(37, 102, 77, 0.18);
+	border: 1px solid rgba(184, 230, 91, 0.32);
 	border-radius: 0.8rem;
-	background: #173d31;
-	color: #ffffff;
+	background: var(--color-primary);
+	color: #172014;
 }
 
 .loginLink:hover,
 .loginLink:focus-visible {
-	background: #285943;
-	color: #ffffff;
+	background: #c9f273;
+	color: #172014;
 	transform: translateY(-1px);
 }
 
@@ -138,8 +138,8 @@
 	height: 2.8rem;
 	border: 1px solid var(--color-border);
 	border-radius: 0.8rem;
-	background: #ffffff;
-	color: #173d31;
+	background: var(--color-surface);
+	color: var(--color-text-strong);
 	font-size: 1.35rem;
 }
 
@@ -175,7 +175,7 @@
 		padding: var(--space-4);
 		border: 1px solid var(--color-border);
 		border-radius: var(--radius-md);
-		background: rgba(255, 255, 255, 0.98);
+		background: #151d19;
 		box-shadow: var(--shadow-soft);
 	}
 

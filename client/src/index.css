@@ -2,37 +2,38 @@
 
 :root {
   font-family: "DM Sans", "Segoe UI", sans-serif;
-  color: #23352d;
-  background: #f4f7f2;
+  color: #d4ded8;
+  background: #0c110f;
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   --font-display: "Manrope", "DM Sans", sans-serif;
-  --color-primary: #c6e86a;
-  --color-primary-strong: #e4f4a7;
-  --color-primary-soft: rgba(198, 232, 106, 0.16);
-  --color-primary-dark: #25664d;
-  --color-secondary: #d79250;
+  --color-primary: #b8e65b;
+  --color-primary-strong: #d0f080;
+  --color-primary-soft: rgba(184, 230, 91, 0.12);
+  --color-primary-dark: #75b98d;
+  --color-accent: #b8e65b;
+  --color-secondary: #d6a664;
   --color-secondary-soft: rgba(215, 146, 80, 0.14);
-  --color-blue: #547f9b;
-  --color-green: #65a87e;
-  --color-orange: #d79250;
-  --color-pink: #bd7383;
+  --color-blue: #7196aa;
+  --color-green: #72b98d;
+  --color-orange: #d6a664;
+  --color-pink: #c7838d;
   --color-accent-cyan: #71b8a4;
-  --color-background: #f4f7f2;
-  --color-background-soft: #eaf0e9;
-  --color-surface: #ffffff;
-  --color-surface-raised: #fbfcfa;
-  --color-surface-elevated: #ffffff;
-  --color-text: #405148;
-  --color-text-strong: #172920;
-  --color-muted: #697970;
-  --color-border: rgba(36, 68, 51, 0.14);
-  --color-success: #347c59;
-  --color-warning: #a66c20;
-  --color-danger: #b54e4e;
-  --shadow-soft: 0 16px 40px rgba(28, 52, 38, 0.09);
-  --shadow-elevated: 0 24px 54px rgba(18, 44, 30, 0.16);
+  --color-background: #0c110f;
+  --color-background-soft: #141c18;
+  --color-surface: #171f1b;
+  --color-surface-raised: #1c2621;
+  --color-surface-elevated: #222e27;
+  --color-text: #c4d0c9;
+  --color-text-strong: #f0f5f1;
+  --color-muted: #8d9d93;
+  --color-border: rgba(196, 218, 202, 0.12);
+  --color-success: #74c491;
+  --color-warning: #d6ad69;
+  --color-danger: #d77979;
+  --shadow-soft: 0 16px 40px rgba(0, 0, 0, 0.22);
+  --shadow-elevated: 0 24px 54px rgba(0, 0, 0, 0.34);
   --radius-xs: 0.25rem;
   --radius-sm: 0.375rem;
   --radius-md: 0.5rem;
@@ -97,7 +98,7 @@ a {
 }
 
 :where(button, a, select, input, textarea):focus-visible {
-  outline: 3px solid rgba(37, 102, 77, 0.52);
+  outline: 3px solid rgba(184, 230, 91, 0.72);
   outline-offset: 3px;
 }
 

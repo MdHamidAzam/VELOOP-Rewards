@@ -20,14 +20,14 @@
 
 .card {
 	border-radius: 8px;
-	border-color: rgba(37, 102, 77, 0.14);
-	background: #ffffff;
-	box-shadow: 0 8px 22px rgba(24, 49, 34, 0.055);
+	border-color: var(--color-border);
+	background: var(--color-surface);
+	box-shadow: 0 8px 22px rgba(0, 0, 0, 0.18);
 }
 
 .card:hover {
-	border-color: rgba(37, 102, 77, 0.36);
-	box-shadow: 0 13px 28px rgba(24, 49, 34, 0.1);
+	border-color: rgba(184, 230, 91, 0.34);
+	box-shadow: 0 13px 28px rgba(0, 0, 0, 0.26);
 }
 
 .content {
@@ -95,7 +95,7 @@
 	place-items: center;
 	border: 1px solid var(--color-border);
 	border-radius: 8px;
-	background: #eef4e8;
+	background: #1e2a23;
 	color: var(--color-primary-dark);
 	font-size: 1.25rem;
 }

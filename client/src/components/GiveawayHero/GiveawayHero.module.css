@@ -2,8 +2,8 @@
 	overflow: hidden;
 	position: relative;
 	padding: clamp(3rem, 7vw, 6.5rem) 0 clamp(3.25rem, 7vw, 6rem);
-	background: #173d31;
-	background-image: radial-gradient(ellipse at 76% 16%, rgba(198, 232, 106, 0.12), transparent 31%);
+	background: #101813;
+	background-image: radial-gradient(ellipse at 78% 18%, rgba(116, 196, 145, 0.11), transparent 34%), linear-gradient(115deg, #101813 8%, #142019 62%, #111a14 100%);
 }
 
 .heroInner {
@@ -26,7 +26,7 @@
 	align-items: center;
 	gap: 0.6rem;
 	margin: 0 0 1.1rem;
-	color: #d7ed8d;
+	color: var(--color-primary);
 	font-size: 0.72rem;
 	font-weight: 800;
 	letter-spacing: 0.08em;
@@ -101,8 +101,8 @@
 	padding: 1rem 1.4rem;
 	border: 1px solid #d6ed8e;
 	border-radius: var(--radius-md);
-	background: #d6ed8e;
-	color: #19372a;
+	background: var(--color-primary);
+	color: #172014;
 	font-size: 1rem;
 	font-weight: 800;
 	box-shadow: 0 12px 24px rgba(8, 28, 19, 0.18);
@@ -135,9 +135,9 @@
 .illustrationAccent {
 	position: absolute;
 	inset: 12% 9% 8% 9%;
-	border: 1px solid rgba(218, 239, 171, 0.24);
+	border: 1px solid rgba(196, 218, 202, 0.15);
 	border-radius: 50%;
-	background: radial-gradient(circle, rgba(198, 232, 106, 0.11), transparent 64%);
+	background: radial-gradient(circle, rgba(116, 196, 145, 0.1), transparent 66%);
 	transform: rotate(-8deg) scale(1.08);
 }
 

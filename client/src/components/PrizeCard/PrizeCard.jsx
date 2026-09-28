@@ -41,7 +41,7 @@ export default function PrizeCard({ prize, giveawayId, giveawayStatus }) {
 					</span>
 				</div>
 
-				<Link className={styles.cta} to={`/giveaway/${giveawayId}`}>
+				<Link className={styles.cta} to={`/giveaway/${giveawayId}?prizeId=${encodeURIComponent(prize.id)}`}>
 					View Giveaway
 					<FiArrowUpRight aria-hidden="true" />
 				</Link>

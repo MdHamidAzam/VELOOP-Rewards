@@ -44,7 +44,7 @@
 	place-items: center;
 	border: 1px solid rgba(37, 102, 77, 0.12);
 	border-radius: var(--radius-md);
-	background: #eef4e8;
+	background: #1e2a23;
 	color: var(--color-primary-dark);
 	font-size: 1.15rem;
 }

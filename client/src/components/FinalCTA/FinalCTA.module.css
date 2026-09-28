@@ -9,14 +9,14 @@
 	align-items: center;
 	gap: var(--space-6);
 	padding: clamp(2rem, 5vw, 3.5rem);
-	border: 1px solid rgba(37, 102, 77, 0.12);
+	border: 1px solid rgba(184, 230, 91, 0.18);
 	border-radius: 8px;
-	background: #e5efcd;
+	background: linear-gradient(110deg, #17251b 0%, #1c2d20 58%, #17231b 100%);
 }
 
 .eyebrow {
 	margin: 0 0 var(--space-3);
-	color: #416741;
+	color: var(--color-primary);
 	font-size: 0.75rem;
 	font-weight: 800;
 	letter-spacing: 0.12em;
@@ -52,18 +52,18 @@
 	gap: var(--space-3);
 	min-height: 3rem;
 	padding: var(--space-3) var(--space-5);
-	border: 1px solid #173d31;
+	border: 1px solid var(--color-primary);
 	border-radius: var(--radius-sm);
-	background: #173d31;
-	color: #ffffff;
+	background: var(--color-primary);
+	color: #172014;
 	font-size: 0.875rem;
 	font-weight: 750;
 	transition: background-color var(--transition-fast), border-color var(--transition-fast), transform var(--transition-fast);
 }
 
 .cta:hover {
-	border-color: #255d46;
-	background: #255d46;
+	border-color: #c9f273;
+	background: #c9f273;
 	transform: translateY(-2px);
 }
 

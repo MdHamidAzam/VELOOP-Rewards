@@ -31,7 +31,7 @@
 .breadcrumbs a:focus-visible,
 .primaryLink:focus-visible,
 .primaryButton:focus-visible {
-	outline: 3px solid rgba(15, 118, 110, 0.35);
+	outline: 3px solid rgba(184, 230, 91, 0.72);
 	outline-offset: 3px;
 }
 
@@ -51,7 +51,7 @@
 	overflow: hidden;
 	border: 1px solid var(--color-border);
 	border-radius: 8px;
-	background: radial-gradient(ellipse at 52% 16%, rgba(198, 232, 106, 0.19), transparent 58%), #edf3e9;
+	background: radial-gradient(ellipse at 52% 16%, rgba(116, 196, 145, 0.11), transparent 58%), #1b2620;
 	color: var(--color-primary-dark);
 }
 
@@ -184,7 +184,7 @@
 	min-height: 14rem;
 	place-items: center;
 	border-radius: 6px;
-	background: #edf3e9;
+	background: #1b2620;
 	color: var(--color-primary-dark);
 }
 
@@ -333,7 +333,7 @@
 	border: 1px solid var(--color-primary);
 	border-radius: var(--radius-sm);
 	background: var(--color-primary);
-	color: #ffffff;
+	color: #172014;
 	font-size: 0.875rem;
 	font-weight: 750;
 	transition: background-color var(--transition-fast), border-color var(--transition-fast), transform var(--transition-fast);
@@ -341,8 +341,8 @@
 
 .primaryButton:hover:not(:disabled),
 .primaryLink:hover {
-	border-color: var(--color-primary-dark);
-	background: var(--color-primary-dark);
+	border-color: #c9f273;
+	background: #c9f273;
 	transform: translateY(-1px);
 }
 

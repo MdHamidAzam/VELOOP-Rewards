@@ -68,7 +68,7 @@
 	width: min(100%, 20rem);
 	height: 13rem;
 	object-fit: contain;
-	mix-blend-mode: multiply;
+	filter: drop-shadow(0 14px 20px rgba(0, 0, 0, 0.28));
 }
 
 .fallbackIcon {
@@ -181,7 +181,7 @@
 	min-height: 20rem;
 	border-radius: 8px;
 	border-color: rgba(37, 102, 77, 0.15);
-	background: #ffffff;
+	background: #18221c;
 	box-shadow: 0 16px 42px rgba(24, 49, 34, 0.075);
 }
 
@@ -189,7 +189,7 @@
 	min-height: 16rem;
 	border: 1px solid rgba(37, 102, 77, 0.08);
 	border-radius: 6px;
-	background: radial-gradient(ellipse at 52% 16%, rgba(198, 232, 106, 0.2), transparent 55%), #edf3e9;
+	background: radial-gradient(ellipse at 52% 16%, rgba(116, 196, 145, 0.12), transparent 56%), #1b2620;
 }
 
 .image {
@@ -214,9 +214,9 @@
 }
 
 .controls button:hover {
-	border-color: #173d31;
-	background: #173d31;
-	color: #ffffff;
+	border-color: var(--color-primary);
+	background: var(--color-primary);
+	color: #172014;
 }
 
 .controls button:focus-visible {
