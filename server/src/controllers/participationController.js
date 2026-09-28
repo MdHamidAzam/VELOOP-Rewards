@@ -18,6 +18,7 @@ export async function createParticipation(req, res) {
 			prizeId: req.body.prizeId,
 			idempotencyKey: req.get("x-idempotency-key"),
 			deviceHash: getDeviceHash(req),
+			requestId: req.get("x-request-id"),
 		});
 		const { auditContext, ...data } = result;
 

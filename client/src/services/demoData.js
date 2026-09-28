@@ -8,6 +8,7 @@ export const DEMO_USERS = Object.freeze([
 	{ id: "VE10028", label: "Gift-card winner - VE10028" },
 	{ id: "VE10026", label: "Non-winner - VE10026" },
 	{ id: "VE10027", label: "New participant - VE10027" },
+	...(import.meta.env.DEV ? [{ id: "VE10029", label: "Insufficient VEs - VE10029" }] : []),
 ]);
 
 const DEMO_PARTICIPATIONS_KEY = "veloop.demo.participations";
@@ -166,7 +167,7 @@ export function getDemoPreviousWinners() {
 }
 
 export function getDemoWallet(currency = "VES") {
-	const balances = { VE10025: 850, VE10026: 850, VE10027: 850 };
+	const balances = { VE10025: 850, VE10026: 850, VE10027: 850, ...(import.meta.env.DEV ? { VE10029: 120 } : {}) };
 	const normalizedCurrency = String(currency).toUpperCase();
 	const currencyBalances = { VES: balances[getDemoUserId()] ?? 850, SVES: 900, TOKENS: 5000 };
 	return { userId: getDemoUserId(), currency: normalizedCurrency, balance: currencyBalances[normalizedCurrency] ?? 850 };

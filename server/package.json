@@ -6,9 +6,11 @@
   "scripts": {
     "dev": "nodemon src/server.js",
     "start": "node src/server.js",
+    "test": "node --test",
     "seed:giveaways": "node src/scripts/seedGiveaways.js",
     "seed:wallets": "node src/scripts/seedWallets.js",
-    "seed:winner-fixture": "node src/scripts/seedWinnerFixture.js"
+    "seed:winner-fixture": "node src/scripts/seedWinnerFixture.js",
+    "classify:winner-fixture": "node src/scripts/markWinnerFixturePrivate.js"
   },
   "dependencies": {
     "bcryptjs": "latest",

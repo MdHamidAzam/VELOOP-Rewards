@@ -3,6 +3,7 @@ import { FiArrowLeft, FiArrowRight, FiCheckCircle } from "react-icons/fi";
 import { Link, useParams } from "react-router-dom";
 import Countdown from "../../components/Countdown/Countdown.jsx";
 import FAQ from "../../components/FAQ/FAQ.jsx";
+import Footer from "../../components/Footer/Footer.jsx";
 import GiveawayRules from "../../components/GiveawayRules/GiveawayRules.jsx";
 import HowToParticipate from "../../components/HowToParticipate/HowToParticipate.jsx";
 import PrizeCard from "../../components/PrizeCard/PrizeCard.jsx";
@@ -37,6 +38,19 @@ function formatDate(date) {
 	}).format(new Date(date));
 }
 
+const CURRENCY_LABELS = Object.freeze({ VES: "VEs", SVES: "SVEs", TOKENS: "Tokens" });
+
+function formatEntryFee(entryFee) {
+	if (!Number.isFinite(entryFee?.amount)) return "Unavailable";
+	return `${entryFee.amount.toLocaleString()} ${CURRENCY_LABELS[entryFee.currency] ?? entryFee.currency ?? ""}`.trim();
+}
+
+function requiredClaimInformation(claimType) {
+	return claimType === "PHYSICAL"
+		? "Full name, phone number, complete address, city, state, and PIN code."
+		: "Email address for digital prize delivery.";
+}
+
 function getStatusLabel(status) {
 	return typeof status === "string" ? status.charAt(0) + status.slice(1).toLowerCase() : "Unavailable";
 }
@@ -46,6 +60,7 @@ function getParticipationErrorMessage(error, currency) {
 	if (error?.status === 404 || error?.code === "GIVEAWAY_NOT_FOUND") return "This giveaway is no longer available.";
 	if (error?.status === 409 || error?.code === "DUPLICATE_PARTICIPATION") return "You're already participating in this giveaway.";
 	if (error?.status === 429 || error?.code === "RATE_LIMITED") return "Too many attempts. Please wait a moment and try again.";
+	if (error?.code === "PARTICIPATION_BLOCKED" || error?.code === "FRAUD_REJECTED") return "We couldn't verify this participation request. Please try again later or contact support if you believe this is an error.";
 	if (error?.code === "GIVEAWAY_NOT_ACTIVE" || error?.code === "GIVEAWAY_ENDED") return "This giveaway has ended.";
 	if (error?.code === "CURRENCY_MISMATCH") return "Your wallet currency does not match this prize.";
 	if (error?.code === "INSUFFICIENT_BALANCE") return `Not enough ${currency ?? "wallet"} to join this giveaway.`;
@@ -137,7 +152,14 @@ export default function GiveawayDetails() {
 				return;
 			}
 			if (currentWallet.balance < amount) {
-				setJoinError({ message: `Not enough ${currency} to join this giveaway. You need ${(amount - currentWallet.balance).toLocaleString()} more ${currency}.`, insufficient: true });
+				setJoinError({
+					message: `Not enough ${currency} to join this giveaway.`,
+					insufficient: true,
+					currency,
+					balance: currentWallet.balance,
+					amount,
+					shortage: amount - currentWallet.balance,
+				});
 				setJoinState("idle");
 				return;
 			}
@@ -180,6 +202,7 @@ export default function GiveawayDetails() {
 	};
 
 	return (
+		<>
 		<main className={styles.page}>
 			<div className={`${styles.container} container`}>
 				<nav className={styles.breadcrumbs} aria-label="Breadcrumb">
@@ -189,6 +212,11 @@ export default function GiveawayDetails() {
 				</nav>
 
 				<header className={styles.header}>
+					<div className={styles.headerVisual}>
+						{selectedPrize?.image
+							? <img src={selectedPrize.image} alt={`${selectedPrize.name} prize`} />
+							: <FiCheckCircle aria-hidden="true" />}
+					</div>
 					<div className={styles.headerCopy}>
 						<p className={styles.statusBadge}>{getStatusLabel(giveaway.status)}</p>
 						<h1>{giveaway.title}</h1>
@@ -224,7 +252,27 @@ export default function GiveawayDetails() {
 					) : <p className={styles.unavailable}>No prize information is available for this giveaway.</p>}
 				</section>
 
-				{giveaway.status === "ENDED" && giveaway.winners.length > 0 && (
+				{selectedPrize && (
+					<section className={`${styles.section} ${styles.prizeDetails}`} aria-labelledby="about-prize-title">
+						<div className={styles.prizeDetailsVisual}>
+							{selectedPrize.image ? <img src={selectedPrize.image} alt={`${selectedPrize.name} prize`} /> : <FiCheckCircle aria-hidden="true" />}
+						</div>
+						<div className={styles.prizeDetailsCopy}>
+							<p className={styles.eyebrow}>Prize information</p>
+							<h2 id="about-prize-title">About the Prize</h2>
+							<h3>{selectedPrize.name}</h3>
+							<p>{selectedPrize.description}</p>
+							<dl className={styles.prizeFacts}>
+								<div><dt>Winners</dt><dd>{selectedPrize.winnerCount}</dd></div>
+								<div><dt>Giveaway participants</dt><dd>{giveaway.participantCount?.toLocaleString() ?? "Unavailable"}</dd></div>
+								<div><dt>Entry requirement</dt><dd>{formatEntryFee(selectedPrize.entryFee)}</dd></div>
+								<div><dt>Claim method</dt><dd>{selectedPrize.claimType === "PHYSICAL" ? "Delivery details" : "Email delivery"}</dd></div>
+							</dl>
+						</div>
+					</section>
+				)}
+
+				{isEnded && giveaway.winners.length > 0 && (
 					<section className={styles.section} aria-labelledby="winner-information-title">
 						<div className={styles.sectionHeading}>
 							<p className={styles.eyebrow}>Giveaway results</p>
@@ -245,7 +293,9 @@ export default function GiveawayDetails() {
 						<div>
 							<p className={styles.eyebrow}>Winner verified</p>
 							<h2 id="winner-claim-title">Congratulations, you won {userStatus.data.winner.prizeName}.</h2>
-							<p>Your winner status was verified by the backend. Submit the required details before the claim deadline.</p>
+								<p>Giveaway: {giveaway.title}</p>
+								<p>Winner status: {userStatus.data.winner.status ?? "SELECTED"}. Claim by {formatDate(userStatus.data.winner.claimDeadline)}.</p>
+								<p>Required information: {requiredClaimInformation(userStatus.data.winner.claimType)}</p>
 						</div>
 						<div className={styles.participationAction}>
 							<button className={styles.primaryButton} type="button" onClick={() => { setClaimError(null); setClaimModalOpen(true); }}>
@@ -278,14 +328,23 @@ export default function GiveawayDetails() {
 						{giveaway.prizes.length > 0 && (
 							<label className={styles.prizeSelection}>
 								<span>Select a prize to join</span>
-								<select value={selectedPrizeId} onChange={(event) => setSelectedPrizeId(event.target.value)} disabled={!isActive || joinState === "submitting"}>
+								<select value={selectedPrizeId} onChange={(event) => { setSelectedPrizeId(event.target.value); setJoinError(null); }} disabled={!isActive || joinState === "submitting"}>
 									{giveaway.prizes.map((prize) => <option key={prize.id} value={prize.id} disabled={prize.status !== "AVAILABLE"}>{prize.name}{prize.status !== "AVAILABLE" ? " (Unavailable)" : ""}</option>)}
 								</select>
 							</label>
 						)}
 					</div>
 					<div className={styles.participationAction}>
-						{success ? (
+						{joinError?.insufficient ? (
+							<div className={styles.insufficientState} role="alert">
+								<strong>Insufficient {CURRENCY_LABELS[joinError.currency] ?? joinError.currency}</strong>
+								<p>Your balance: {formatEntryFee({ amount: joinError.balance, currency: joinError.currency })}</p>
+								<p>Entry fee: {formatEntryFee({ amount: joinError.amount, currency: joinError.currency })}</p>
+								<p>You need {formatEntryFee({ amount: joinError.shortage, currency: joinError.currency })} more to participate.</p>
+								<button className={styles.primaryButton} type="button" disabled>Join unavailable</button>
+								<Link className={styles.primaryLink} to="/#how-it-works-title">Explore ways to earn {CURRENCY_LABELS[joinError.currency] ?? joinError.currency}</Link>
+							</div>
+						) : success ? (
 							<div className={styles.success} role="status">
 								<strong>You're In!</strong>
 								<span>Your participation for {success.prizeName} has been successfully recorded.</span>
@@ -297,7 +356,7 @@ export default function GiveawayDetails() {
 								{isActive && joinState !== "checking" && <FiArrowRight aria-hidden="true" />}
 							</button>
 						)}
-						{joinError && <p className={joinError.insufficient ? styles.insufficient : styles.notice} role="alert">{joinError.message}</p>}
+						{joinError && !joinError.insufficient && <p className={styles.notice} role="alert">{joinError.message}</p>}
 						{joinError?.type === "login" && <>
 							<Link className={styles.loginLink} to="/login">Log in</Link>
 							<Link className={styles.loginLink} to="/register">Create an account</Link>
@@ -308,11 +367,38 @@ export default function GiveawayDetails() {
 
 			<HowToParticipate />
 			<GiveawayRules />
+			<section className={styles.termsSection} id="terms-and-conditions" aria-labelledby="detail-terms-title">
+				<div className={`${styles.container} container`}>
+					<p className={styles.eyebrow}>Before participating</p>
+					<h2 id="detail-terms-title">Terms &amp; Conditions</h2>
+					<p>Eligibility and entry requirements are shown above. The backend determines winner selection and prize claim eligibility. Entry refund or reversal policy is subject to VELOOP policy confirmation.</p>
+				</div>
+			</section>
+			{selectedPrize && (
+				<section className={styles.importantSection} aria-labelledby="important-information-title">
+					<div className={`${styles.container} container`}>
+						<details className={styles.importantDetails}>
+							<summary id="important-information-title">Important Information</summary>
+							<ul>
+								<li>Entry: {formatEntryFee(selectedPrize.entryFee)}.</li>
+								<li>Giveaway duration: {formatDate(giveaway.startAt ?? giveaway.startDate)} to {formatDate(giveaway.endAt ?? giveaway.endDate)} UTC.</li>
+								<li>Configured prize winners: {selectedPrize.winnerCount}.</li>
+								<li>Winner selection and eligibility are verified by the backend.</li>
+								<li>Claim deadline: within 7 days after winner selection.</li>
+								<li>Claim information: {requiredClaimInformation(selectedPrize.claimType)}</li>
+								<li>Suspicious or abusive activity may be held for review under platform rules.</li>
+							</ul>
+						</details>
+					</div>
+				</section>
+			)}
 			<FAQ />
 			<TrustSection />
 			{joinState === "confirming" && selectedPrize && wallet.data && <ParticipationModal prize={selectedPrize} wallet={wallet.data} loading={false} error={joinError?.message} onCancel={() => { setJoinState("idle"); setJoinError(null); }} onConfirm={handleConfirm} />}
 			{joinState === "submitting" && selectedPrize && wallet.data && <ParticipationModal prize={selectedPrize} wallet={wallet.data} loading error={null} onCancel={() => undefined} onConfirm={handleConfirm} />}
 			{isEnded && isAuthenticated && claimModalOpen && userStatus.data?.winner && <PrizeClaimModal winner={userStatus.data.winner} claim={userStatus.data.claim} loading={claimSubmitting} error={claimError} onCancel={() => setClaimModalOpen(false)} onSubmit={handleClaimSubmit} />}
 		</main>
+		<Footer />
+		</>
 	);
 }

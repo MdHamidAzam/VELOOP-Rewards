@@ -5,6 +5,8 @@ import GiveawayParticipation from "../models/GiveawayParticipation.js";
 import GiveawayWinner from "../models/GiveawayWinner.js";
 import Prize from "../models/Prize.js";
 import { recordAuditLog } from "./auditService.js";
+import { publicGiveawayQuery } from "../utils/giveawayVisibility.js";
+import { publicWinnerId } from "../utils/publicWinner.js";
 
 const FINALIZABLE_STATUS = "ENDED";
 const SELECTION_METHOD = "CRYPTOGRAPHIC_RANDOM";
@@ -86,7 +88,7 @@ function serializeWinner(winner, prizeByObjectId) {
 		prizeId: prize?.id ?? winner.prizeId.toString(),
 		prizeName: prize?.name ?? null,
 		prizeImage: prize?.image ?? null,
-		maskedId: winner.maskedId,
+		maskedId: publicWinnerId(winner),
 		status: winner.status,
 		selectedAt: winner.selectedAt,
 	};
@@ -99,7 +101,7 @@ function canExposeWinners(giveaway) {
 
 export async function getGiveawayWinners(giveawayId) {
 	const publicGiveawayId = requireGiveawayId(giveawayId);
-	const giveaway = await Giveaway.findOne({ id: publicGiveawayId }).lean();
+	const giveaway = await Giveaway.findOne(publicGiveawayQuery({ id: publicGiveawayId })).lean();
 	if (!giveaway) return null;
 
 	const prizes = await Prize.find({ giveawayId: giveaway._id }).lean();
@@ -117,10 +119,10 @@ export async function getGiveawayWinners(giveawayId) {
 }
 
 export async function getPreviousWinners() {
-	const giveaways = await Giveaway.find({
+	const giveaways = await Giveaway.find(publicGiveawayQuery({
 		status: { $in: ["ENDED", "ARCHIVED"] },
 		winnersFinalizedAt: { $ne: null },
-	}).sort({ endAt: -1 }).lean();
+	})).sort({ endAt: -1 }).lean();
 
 	return Promise.all(giveaways.map(async (giveaway) => {
 		const winners = await getGiveawayWinners(giveaway.id);

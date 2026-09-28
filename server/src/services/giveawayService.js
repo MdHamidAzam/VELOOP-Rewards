@@ -2,6 +2,8 @@ import Giveaway from "../models/Giveaway.js";
 import GiveawayParticipation from "../models/GiveawayParticipation.js";
 import GiveawayWinner from "../models/GiveawayWinner.js";
 import Prize from "../models/Prize.js";
+import { publicGiveawayQuery } from "../utils/giveawayVisibility.js";
+import { publicWinnerId } from "../utils/publicWinner.js";
 
 const HISTORICAL_STATUSES = ["ENDED", "ARCHIVED"];
 
@@ -41,7 +43,7 @@ function serializeWinner(winner, prizeById) {
 		prizeId: prizeById.get(winner.prizeId.toString())?.id ?? winner.prizeId.toString(),
 		prizeName: prizeById.get(winner.prizeId.toString())?.name ?? null,
 		prizeImage: prizeById.get(winner.prizeId.toString())?.image ?? null,
-		maskedId: winner.maskedId ?? winner.userId,
+		maskedId: publicWinnerId(winner),
 		status: winner.status,
 		selectedAt: winner.selectedAt,
 	};
@@ -50,14 +52,15 @@ function serializeWinner(winner, prizeById) {
 async function serializeGiveaway(giveaway) {
 	const shouldExposeWinners = HISTORICAL_STATUSES.includes(giveaway.status)
 		&& giveaway.winnersFinalizedAt != null;
+	const publicGiveawayIds = await Giveaway.find(publicGiveawayQuery({})).distinct("_id");
 	const [prizes, participantCount, winners, totalGiveaways, prizesWon] = await Promise.all([
 		Prize.find({ giveawayId: giveaway._id }).sort({ position: 1 }).lean(),
 		GiveawayParticipation.countDocuments({ giveawayId: giveaway._id }),
 		shouldExposeWinners
 			? GiveawayWinner.find({ giveawayId: giveaway._id }).sort({ selectedAt: -1 }).lean()
 			: [],
-		Giveaway.countDocuments(),
-		GiveawayWinner.countDocuments({ status: { $in: ["SELECTED", "CLAIMED"] } }),
+		Giveaway.countDocuments(publicGiveawayQuery({})),
+		GiveawayWinner.countDocuments({ giveawayId: { $in: publicGiveawayIds }, status: { $in: ["SELECTED", "CLAIMED"] } }),
 	]);
 	const serializedPrizes = prizes.map(serializePrize);
 	const prizeById = new Map(prizes.map((prize) => [prize._id.toString(), prize]));
@@ -87,19 +90,19 @@ async function serializeGiveaway(giveaway) {
 
 export async function getCurrentGiveaway() {
 	await synchronizeLifecycle();
-	const giveaway = await Giveaway.findOne({ status: "ACTIVE" }).sort({ startAt: -1 }).lean();
+	const giveaway = await Giveaway.findOne(publicGiveawayQuery({ status: "ACTIVE" })).sort({ startAt: -1 }).lean();
 	return giveaway ? serializeGiveaway(giveaway) : null;
 }
 
 export async function getGiveawayById(giveawayId) {
 	await synchronizeLifecycle();
-	const giveaway = await Giveaway.findOne({ id: giveawayId }).lean();
+	const giveaway = await Giveaway.findOne(publicGiveawayQuery({ id: giveawayId })).lean();
 	return giveaway ? serializeGiveaway(giveaway) : null;
 }
 
 export async function getPreviousGiveaways() {
 	await synchronizeLifecycle();
-	const giveaways = await Giveaway.find({ status: { $in: HISTORICAL_STATUSES } })
+	const giveaways = await Giveaway.find(publicGiveawayQuery({ status: { $in: HISTORICAL_STATUSES } }))
 		.sort({ endAt: -1 })
 		.lean();
 	return Promise.all(giveaways.map(serializeGiveaway));

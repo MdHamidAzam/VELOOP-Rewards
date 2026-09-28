@@ -1,6 +1,6 @@
 import AuditLog from "../models/AuditLog.js";
 
-const SAFE_METADATA_KEYS = new Set(["result", "status", "reasonCode", "method", "path", "claimType"]);
+const SAFE_METADATA_KEYS = new Set(["result", "status", "reasonCode", "method", "path", "claimType", "riskLevel", "riskScore", "action"]);
 
 function sanitizeMetadata(metadata) {
 	if (!metadata || typeof metadata !== "object" || Array.isArray(metadata)) return undefined;

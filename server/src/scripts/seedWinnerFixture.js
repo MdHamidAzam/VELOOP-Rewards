@@ -1,5 +1,6 @@
 import mongoose from "mongoose";
 import { connectDB } from "../config/db.js";
+import { env } from "../config/env.js";
 import Giveaway from "../models/Giveaway.js";
 import GiveawayParticipation from "../models/GiveawayParticipation.js";
 import GiveawayWinner from "../models/GiveawayWinner.js";
@@ -13,6 +14,10 @@ const FIXTURE_END_AT = new Date("2026-09-20T23:59:59.000Z");
 const FIXTURE_START_AT = new Date("2026-09-01T00:00:00.000Z");
 
 async function seedWinnerFixture() {
+	if (env.nodeEnv === "production") {
+		throw new Error("The winner E2E fixture cannot be seeded in production.");
+	}
+
 	await connectDB();
 
 	let giveaway = await Giveaway.findOne({ id: FIXTURE_GIVEAWAY_ID });
@@ -37,6 +42,7 @@ async function seedWinnerFixture() {
 			startAt: FIXTURE_START_AT,
 			endAt: new Date("2099-12-31T23:59:59.000Z"),
 			winnersFinalizedAt: null,
+			isTestFixture: true,
 			rules: [],
 			eligibility: {},
 			participationSettings: {
@@ -96,6 +102,7 @@ async function seedWinnerFixture() {
 				startAt: FIXTURE_START_AT,
 				endAt: FIXTURE_END_AT,
 				winnersFinalizedAt: null,
+				isTestFixture: true,
 				prizes: [prize._id],
 			},
 		},

@@ -7,6 +7,8 @@ import Prize from "../models/Prize.js";
 import User from "../models/User.js";
 import { deductWalletAtomically, WalletServiceError } from "./walletService.js";
 import { FRAUD_EVENT_TYPES, recordFraudEvent } from "./fraudService.js";
+import { assessParticipationRisk } from "./participationRisk.js";
+import { recordAuditLog } from "./auditService.js";
 
 export class ParticipationServiceError extends Error {
 	constructor(message, { code, statusCode }) {
@@ -15,6 +17,15 @@ export class ParticipationServiceError extends Error {
 		this.code = code;
 		this.statusCode = statusCode;
 	}
+}
+
+export async function enforceParticipationRisk({ risk, recordFraud, recordAudit }) {
+	if (risk.action === "ALLOW") return;
+	const [fraudRecorded, auditRecorded] = await Promise.all([recordFraud(), recordAudit()]);
+	if (!fraudRecorded || !auditRecorded) {
+		throw new ParticipationServiceError("Participation could not be verified.", { code: "PARTICIPATION_BLOCKED", statusCode: 403 });
+	}
+	throw new ParticipationServiceError("Participation could not be verified.", { code: "PARTICIPATION_BLOCKED", statusCode: 403 });
 }
 
 function requireValue(value, fieldName) {
@@ -69,7 +80,7 @@ async function assertEligibility(giveaway, userId, session) {
 	}
 }
 
-export async function createParticipation({ userId, giveawayId, prizeId, idempotencyKey, deviceHash }) {
+export async function createParticipation({ userId, giveawayId, prizeId, idempotencyKey, deviceHash, requestId }) {
 	const authenticatedUserId = requireValue(userId, "Authenticated user");
 	const publicGiveawayId = requireValue(giveawayId, "giveawayId");
 	const publicPrizeId = requireValue(prizeId, "prizeId");
@@ -174,15 +185,35 @@ export async function createParticipation({ userId, giveawayId, prizeId, idempot
 					userId: { $ne: authenticatedUserId },
 				}).session(session);
 				if (matchingDevice) {
-					await recordFraudEvent({
-						userId: authenticatedUserId,
-						giveawayObjectId: giveaway._id,
-						deviceHash,
-						event: FRAUD_EVENT_TYPES.SUSPICIOUS_REQUEST,
-						reason: "A device signal is associated with another giveaway participant.",
-						riskLevel: "MEDIUM",
-						riskScore: 45,
-						session,
+					const risk = assessParticipationRisk({ sameDeviceMatch: true });
+					await enforceParticipationRisk({
+						risk,
+						recordFraud: () => recordFraudEvent({
+							userId: authenticatedUserId,
+							giveawayObjectId: giveaway._id,
+							deviceHash,
+							event: FRAUD_EVENT_TYPES.SUSPICIOUS_REQUEST,
+							reason: "A device signal is associated with another giveaway participant.",
+							riskLevel: risk.level,
+							riskScore: risk.score,
+							action: risk.action === "REVIEW" ? "FLAGGED" : "BLOCKED",
+						}),
+						recordAudit: () => recordAuditLog({
+							actorId: authenticatedUserId,
+							action: "PARTICIPATION_FLAGGED",
+							entityType: "FRAUD",
+							entityId: randomUUID(),
+							giveawayId: giveaway._id,
+							metadata: {
+								result: "BLOCKED",
+								status: "OPEN",
+								reasonCode: "DEVICE_MATCH_REVIEW",
+								riskLevel: risk.level,
+								riskScore: risk.score,
+								action: risk.action,
+							},
+							requestId,
+						}),
 					});
 				}
 			}

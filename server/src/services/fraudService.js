@@ -35,6 +35,7 @@ export async function recordFraudEvent({
 	reason,
 	riskLevel = "MEDIUM",
 	riskScore,
+	action,
 	metadata,
 	session,
 }) {
@@ -46,6 +47,7 @@ export async function recordFraudEvent({
 			networkHash,
 			event,
 			risk: { level: riskLevel, score: riskScore },
+			action,
 			reason,
 			metadata: sanitizeMetadata(metadata),
 		};

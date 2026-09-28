@@ -13,6 +13,7 @@ const fraudEventSchema = new Schema(
 		level: { type: String, enum: ["LOW", "MEDIUM", "HIGH", "CRITICAL"] },
 		 score: { type: Number, min: 0, max: 100 },
 		},
+		action: { type: String, enum: ["ALLOWED", "FLAGGED", "BLOCKED"] },
 		reason: { type: String, trim: true },
 		metadata: { type: Schema.Types.Mixed },
 		status: { type: String, required: true, enum: ["OPEN", "REVIEWED", "RESOLVED", "IGNORED"], default: "OPEN" },

@@ -54,6 +54,12 @@ The app focuses on:
 - POST /api/giveaways/:giveawayId/claim
 - GET /api/giveaways/:giveawayId/claim
 - PATCH /api/giveaways/:giveawayId/claims/:claimId/status
+- POST /api/giveaways (admin: create giveaway)
+- PATCH /api/giveaways/:giveawayId (admin: update giveaway)
+- POST /api/giveaways/:giveawayId/prizes (admin: add prize configuration)
+- PATCH /api/giveaways/:giveawayId/prizes/:prizeId (admin: update prize configuration)
+
+Giveaway management writes require a valid bearer token whose user ID is listed in `ADMIN_USER_IDS`. Create/update payloads are allow-listed and audited. No delete operation is provided; prize records remain attached to historical records.
 
 ## Local development
 
@@ -117,6 +123,7 @@ npm run seed:winner-fixture
 ```
 
 The winner fixture is development-only and should not be run against production data.
+The fixture seeder rejects `NODE_ENV=production`. For a legacy E2E record already present in production, `npm run classify:winner-fixture` only sets `isTestFixture: true` on the exact `GW-2026-WINNER-E2E` giveaway; in production it additionally requires `CONFIRM_MARK_E2E_FIXTURE_PRIVATE=GW-2026-WINNER-E2E`. The script does not delete winners, participations, transactions, or audit history. Production public giveaway and winner reads exclude both tagged fixtures and this legacy ID.
 
 ## Production deployment
 
@@ -151,6 +158,13 @@ Production accounts use `POST /api/auth/register` and `POST /api/auth/login` wit
 - Restrict `CLIENT_URL` to the exact frontend origin; do not use `*`.
 - Use a MongoDB user scoped to the application database and restrict Atlas network access.
 - Do not use development seed data or demo mode as production storage.
+
+### Participation risk policy
+
+- LOW (0-29): allow participation.
+- MEDIUM (30-59): hold the request for review; do not deduct a balance or create participation while held.
+- HIGH (60-79) and CRITICAL (80-100): block participation.
+- A shared device/network signal is a review signal, not proof of fraud or a permanent account sanction. The current device-match signal produces a medium-risk hold and records a fraud event plus audit event.
 
 ## Verification
 

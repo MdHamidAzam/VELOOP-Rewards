@@ -17,6 +17,7 @@ const giveawaySchema = new Schema(
 		startAt: { type: Date, required: true },
 		endAt: { type: Date, required: true },
 		winnersFinalizedAt: { type: Date, default: null },
+		isTestFixture: { type: Boolean, required: true, default: false, select: false },
 		rules: { type: [String], default: [] },
 		eligibility: {
 			minAge: { type: Number, min: 0 },

@@ -36,11 +36,35 @@
 }
 
 .header {
-	display: flex;
-	align-items: flex-end;
-	justify-content: space-between;
+	display: grid;
+	grid-template-columns: minmax(8rem, 0.34fr) minmax(0, 1.5fr) minmax(10rem, 0.42fr);
+	align-items: center;
 	gap: var(--space-6);
 	padding-bottom: clamp(3rem, 7vw, 6rem);
+}
+
+.headerVisual {
+	display: grid;
+	min-width: 0;
+	min-height: 10rem;
+	place-items: center;
+	overflow: hidden;
+	border: 1px solid var(--color-border);
+	border-radius: 8px;
+	background: radial-gradient(ellipse at 52% 16%, rgba(198, 232, 106, 0.19), transparent 58%), #edf3e9;
+	color: var(--color-primary-dark);
+}
+
+.headerVisual img {
+	width: 100%;
+	height: 11rem;
+	object-fit: contain;
+	filter: drop-shadow(0 12px 16px rgba(24, 49, 34, 0.12));
+}
+
+.headerVisual svg {
+	width: 3rem;
+	height: 3rem;
 }
 
 .headerCopy {
@@ -143,6 +167,81 @@
 	margin: 0;
 }
 
+.prizeDetails {
+	display: grid;
+	grid-template-columns: minmax(10rem, 0.45fr) minmax(0, 1fr);
+	align-items: center;
+	gap: clamp(1.25rem, 4vw, 3rem);
+	padding: clamp(1.25rem, 3vw, 2rem);
+	border: 1px solid var(--color-border);
+	border-radius: 8px;
+	background: var(--color-surface);
+}
+
+.prizeDetailsVisual {
+	display: grid;
+	min-width: 0;
+	min-height: 14rem;
+	place-items: center;
+	border-radius: 6px;
+	background: #edf3e9;
+	color: var(--color-primary-dark);
+}
+
+.prizeDetailsVisual img {
+	width: 100%;
+	height: 13rem;
+	object-fit: contain;
+}
+
+.prizeDetailsVisual svg {
+	width: 3rem;
+	height: 3rem;
+}
+
+.prizeDetailsCopy {
+	min-width: 0;
+}
+
+.prizeDetailsCopy h2,
+.prizeDetailsCopy h3,
+.prizeDetailsCopy > p:last-of-type {
+	margin: 0;
+}
+
+.prizeDetailsCopy h3 {
+	margin-top: var(--space-4);
+	color: var(--color-text-strong);
+	font-size: 1.25rem;
+}
+
+.prizeDetailsCopy > p:last-of-type {
+	margin-top: var(--space-2);
+	color: var(--color-muted);
+	line-height: 1.6;
+}
+
+.prizeFacts {
+	display: grid;
+	grid-template-columns: repeat(2, minmax(0, 1fr));
+	gap: var(--space-3) var(--space-5);
+	margin: var(--space-5) 0 0;
+	padding-top: var(--space-4);
+	border-top: 1px solid var(--color-border);
+}
+
+.prizeFacts dt {
+	color: var(--color-muted);
+	font-size: 0.75rem;
+}
+
+.prizeFacts dd {
+	margin: 0.15rem 0 0;
+	color: var(--color-text-strong);
+	font-size: 0.875rem;
+	font-weight: 750;
+}
+
 .sectionHeading h2,
 .participation h2 {
 	color: var(--color-text-strong);
@@ -207,6 +306,9 @@
 }
 
 .prizeSelection select {
+	width: 100%;
+	min-width: 0;
+	max-width: 100%;
 	min-height: 2.75rem;
 	padding: var(--space-3);
 	border: 1px solid var(--color-border);
@@ -270,6 +372,81 @@
 	color: var(--color-danger);
 	font-size: 0.8125rem;
 	line-height: 1.4;
+}
+
+.insufficientState {
+	display: grid;
+	min-width: 0;
+	gap: var(--space-2);
+	max-width: 22rem;
+	padding: var(--space-4);
+	border: 1px solid rgba(181, 78, 78, 0.2);
+	border-radius: var(--radius-md);
+	background: rgba(181, 78, 78, 0.045);
+}
+
+.insufficientState strong {
+	color: var(--color-danger);
+}
+
+.insufficientState p {
+	margin: 0;
+	color: var(--color-text);
+	font-size: 0.8125rem;
+}
+
+.insufficientState .primaryButton {
+	width: 100%;
+}
+
+.insufficientState .primaryLink {
+	width: 100%;
+	background: #173d31;
+	border-color: #173d31;
+	color: #ffffff;
+}
+
+.termsSection,
+.importantSection {
+	padding: 0 0 clamp(3rem, 6vw, 5rem);
+}
+
+.termsSection h2 {
+	margin: 0;
+	color: var(--color-text-strong);
+	font-size: clamp(1.6rem, 3vw, 2.25rem);
+}
+
+.termsSection p:last-child {
+	max-width: 52rem;
+	margin: var(--space-3) 0 0;
+	color: var(--color-muted);
+	line-height: 1.65;
+}
+
+.importantDetails {
+	border: 1px solid var(--color-border);
+	border-radius: 8px;
+	background: var(--color-surface);
+}
+
+.importantDetails summary {
+	padding: var(--space-4) var(--space-5);
+	color: var(--color-text-strong);
+	font-weight: 750;
+	cursor: pointer;
+}
+
+.importantDetails ul {
+	margin: 0;
+	padding: 0 var(--space-5) var(--space-5) calc(var(--space-5) + 1.25rem);
+	color: var(--color-muted);
+	font-size: 0.875rem;
+	line-height: 1.7;
+}
+
+.importantDetails li + li {
+	margin-top: var(--space-1);
 }
 
 .loginLink,
@@ -396,6 +573,14 @@
 }
 
 @media (max-width: 1000px) {
+	.header {
+		grid-template-columns: minmax(8rem, 0.4fr) minmax(0, 1.6fr);
+	}
+
+	.headerAside {
+		grid-column: 2;
+	}
+
 	.prizeGrid {
 		grid-template-columns: repeat(2, minmax(0, 1fr));
 	}
@@ -407,12 +592,21 @@
 	}
 
 	.header {
-		align-items: flex-start;
-		flex-direction: column;
+		grid-template-columns: minmax(0, 1fr);
+		align-items: stretch;
 		padding-bottom: var(--space-7);
 	}
 
+	.headerVisual {
+		min-height: 13rem;
+	}
+
+	.headerVisual img {
+		height: 12rem;
+	}
+
 	.headerAside {
+		grid-column: auto;
 		width: 100%;
 	}
 
@@ -435,5 +629,34 @@
 	.dateRow {
 		flex-direction: column;
 		gap: var(--space-2);
+	}
+
+	.prizeDetails {
+		grid-template-columns: minmax(0, 1fr);
+	}
+
+	.prizeDetailsVisual {
+		min-height: 11rem;
+	}
+
+	.prizeDetailsVisual img {
+		height: 10rem;
+	}
+
+	.prizeFacts {
+		grid-template-columns: minmax(0, 1fr);
+	}
+
+	.prizeSelection,
+	.prizeSelection select {
+		width: 100%;
+		min-width: 0;
+		max-width: 100%;
+	}
+
+	.participation,
+	.prizeDetails,
+	.importantDetails {
+		min-width: 0;
 	}
 }
