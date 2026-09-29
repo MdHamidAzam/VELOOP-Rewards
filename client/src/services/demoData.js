@@ -27,7 +27,6 @@ const activeGiveaway = {
 	participationSettings: { maxParticipationsPerUser: 1 },
 	prizes: PRIZES.map((prize) => ({ ...prize, status: "AVAILABLE" })),
 	participantCount: 1842,
-	statistics: { totalGiveaways: 24, participants: 1842, prizesWon: 1200 },
 	winners: [],
 };
 
@@ -45,7 +44,6 @@ const archivedGiveaway = {
 	participationSettings: activeGiveaway.participationSettings,
 	prizes: PRIZES.map((prize) => ({ ...prize, id: `${prize.id}-GW-2026-08`, status: "AWARDED" })),
 	participantCount: 1620,
-	statistics: { totalGiveaways: 24, participants: 1620, prizesWon: 1 },
 	winners: [{
 		id: "demo-winner-aug-watch",
 		prizeId: "PRIZE-APPLE-WATCH-GW-2026-08",
@@ -91,7 +89,6 @@ const winnerE2EGiveaway = import.meta.env.DEV ? {
 		status: "AWARDED",
 	}],
 	participantCount: 1,
-	statistics: { totalGiveaways: 25, participants: 1, prizesWon: 1 },
 	winners: [{
 		id: "demo-winner-e2e-1002",
 		prizeId: "PRIZE-WINNER-E2E",
@@ -116,7 +113,6 @@ const upcomingGiveaway = {
 	participationSettings: activeGiveaway.participationSettings,
 	prizes: PRIZES.map((prize) => ({ ...prize, id: `${prize.id}-GW-2026-10`, status: "UPCOMING" })),
 	participantCount: 0,
-	statistics: { totalGiveaways: 25, participants: 0, prizesWon: 1200 },
 	winners: [],
 };
 

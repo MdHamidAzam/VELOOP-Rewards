@@ -8,11 +8,11 @@ export const GIVEAWAY_STATUS = Object.freeze({
 	ARCHIVED: "ARCHIVED",
 });
 
-export const giveawayStats = {
+export const giveawayStats = Object.freeze({
 	totalGiveaways: 24,
 	participants: "8,500+",
 	prizesWon: "1,200+",
-};
+});
 
 export const CURRENT_GIVEAWAY = Object.freeze({
 	id: "GW-2026-09",

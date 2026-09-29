@@ -7,6 +7,14 @@
 	position: relative;
 }
 
+.sampleNotice {
+	margin: 0 0 0.75rem;
+	color: var(--color-muted);
+	font-size: 0.7rem;
+	line-height: 1.4;
+	text-align: right;
+}
+
 .list {
 	display: grid;
 	grid-template-columns: repeat(4, minmax(0, 1fr));
