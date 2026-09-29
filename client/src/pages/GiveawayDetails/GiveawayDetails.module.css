@@ -31,7 +31,7 @@
 .breadcrumbs a:focus-visible,
 .primaryLink:focus-visible,
 .primaryButton:focus-visible {
-	outline: 3px solid rgba(184, 230, 91, 0.72);
+	outline: 3px solid rgba(196, 112, 255, 0.72);
 	outline-offset: 3px;
 }
 
@@ -49,9 +49,9 @@
 	min-height: 10rem;
 	place-items: center;
 	overflow: hidden;
-	border: 1px solid var(--color-border);
+	border: 1px solid var(--color-image-border);
 	border-radius: 8px;
-	background: radial-gradient(ellipse at 52% 16%, rgba(116, 196, 145, 0.11), transparent 58%), #1b2620;
+	background: radial-gradient(ellipse at 52% 12%, var(--color-image-glow), transparent 52%), var(--color-image-surface);
 	color: var(--color-primary-dark);
 }
 
@@ -59,7 +59,7 @@
 	width: 100%;
 	height: 11rem;
 	object-fit: contain;
-	filter: drop-shadow(0 12px 16px rgba(24, 49, 34, 0.12));
+	filter: drop-shadow(0 12px 16px rgba(5, 10, 25, 0.22));
 }
 
 .headerVisual svg {
@@ -84,9 +84,9 @@
 	display: inline-flex;
 	margin: 0 0 var(--space-4);
 	padding: var(--space-1) var(--space-3);
-	border: 1px solid rgba(40, 125, 88, 0.25);
+	border: 1px solid rgba(196, 112, 255, 0.25);
 	border-radius: 999px;
-	background: rgba(40, 125, 88, 0.08);
+	background: rgba(196, 112, 255, 0.08);
 	color: var(--color-success);
 	font-size: 0.75rem;
 	font-weight: 800;
@@ -183,8 +183,9 @@
 	min-width: 0;
 	min-height: 14rem;
 	place-items: center;
-	border-radius: 6px;
-	background: #1b2620;
+	border: 1px solid var(--color-image-border);
+	border-radius: 8px;
+	background: radial-gradient(ellipse at 52% 12%, var(--color-image-glow), transparent 52%), var(--color-image-surface);
 	color: var(--color-primary-dark);
 }
 
@@ -318,7 +319,7 @@
 }
 
 .prizeSelection select:focus-visible {
-	outline: 3px solid rgba(15, 118, 110, 0.35);
+	outline: 3px solid rgba(196, 112, 255, 0.35);
 	outline-offset: 3px;
 }
 
@@ -332,8 +333,8 @@
 	padding: var(--space-3) var(--space-5);
 	border: 1px solid var(--color-primary);
 	border-radius: var(--radius-sm);
-	background: var(--color-primary);
-	color: #172014;
+	background: linear-gradient(135deg, rgba(191, 120, 255, 0.9), rgba(130, 138, 255, 0.9));
+	color: #fff;
 	font-size: 0.875rem;
 	font-weight: 750;
 	transition: background-color var(--transition-fast), border-color var(--transition-fast), transform var(--transition-fast);
@@ -341,8 +342,8 @@
 
 .primaryButton:hover:not(:disabled),
 .primaryLink:hover {
-	border-color: #c9f273;
-	background: #c9f273;
+	border-color: rgba(196, 112, 255, 0.9);
+	background: linear-gradient(135deg, rgba(196, 112, 255, 0.92), rgba(141, 149, 255, 0.9));
 	transform: translateY(-1px);
 }
 
@@ -401,8 +402,8 @@
 
 .insufficientState .primaryLink {
 	width: 100%;
-	background: #173d31;
-	border-color: #173d31;
+	background: linear-gradient(135deg, rgba(191, 120, 255, 0.9), rgba(130, 138, 255, 0.9));
+	border-color: rgba(196, 112, 255, 0.7);
 	color: #ffffff;
 }
 

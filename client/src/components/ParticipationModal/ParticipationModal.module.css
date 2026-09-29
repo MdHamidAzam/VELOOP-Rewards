@@ -5,7 +5,7 @@
 	display: grid;
 	place-items: center;
 	padding: var(--space-4);
-	background: rgba(2, 6, 4, 0.76);
+	background: rgba(4, 7, 18, 0.82);
 }
 
 .dialog {
@@ -37,7 +37,7 @@
 .closeButton:focus-visible,
 .cancelButton:focus-visible,
 .confirmButton:focus-visible {
-	outline: 3px solid rgba(15, 118, 110, 0.35);
+	outline: 3px solid rgba(196, 112, 255, 0.35);
 	outline-offset: 3px;
 }
 
@@ -63,14 +63,15 @@
 	gap: var(--space-3);
 	margin-top: var(--space-5);
 	padding: var(--space-3);
-	border: 1px solid var(--color-border);
+	border: 1px solid var(--color-image-border);
 	border-radius: var(--radius-md);
+	background: radial-gradient(ellipse at 16% 50%, var(--color-image-glow), transparent 58%), var(--color-image-surface);
 }
 
 .prize img {
 	width: 4rem;
 	height: 4rem;
-	object-fit: cover;
+	object-fit: contain;
 	border-radius: var(--radius-sm);
 }
 
@@ -161,8 +162,8 @@
 
 .confirmButton {
 	border: 1px solid var(--color-primary);
-	background: var(--color-primary);
-	color: #172014;
+	background: linear-gradient(135deg, rgba(191, 120, 255, 0.9), rgba(130, 138, 255, 0.9));
+	color: #fff;
 }
 
 .cancelButton:disabled,

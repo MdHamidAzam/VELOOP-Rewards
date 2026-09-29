@@ -52,16 +52,16 @@
 
 .item {
 	margin-bottom: var(--space-3);
-	border: 1px solid var(--color-border);
-	border-radius: 8px;
-	background: var(--color-surface);
-	box-shadow: 0 5px 16px rgba(24, 49, 34, 0.035);
+	border: 1px solid rgba(196, 112, 255, 0.18);
+	border-radius: 1rem;
+	background: linear-gradient(180deg, rgba(17, 24, 43, 0.96), rgba(12, 18, 34, 0.96));
+	box-shadow: 0 10px 20px rgba(5, 10, 25, 0.14);
 	transition: border-color var(--transition-standard), box-shadow var(--transition-standard);
 }
 
 .itemOpen {
-	border-color: rgba(37, 102, 77, 0.32);
-	box-shadow: 0 10px 22px rgba(24, 49, 34, 0.075);
+	border-color: rgba(196, 112, 255, 0.38);
+	box-shadow: 0 14px 24px rgba(5, 10, 25, 0.18);
 }
 
 .titleHeading {
@@ -95,7 +95,7 @@
 }
 
 .trigger:focus-visible {
-	outline: 3px solid rgba(15, 118, 110, 0.3);
+	outline: 3px solid rgba(196, 112, 255, 0.3);
 	outline-offset: 3px;
 }
 
@@ -104,9 +104,9 @@
 	width: 2.25rem;
 	height: 2.25rem;
 	place-items: center;
-	border: 1px solid rgba(184, 230, 91, 0.18);
-	border-radius: 6px;
-	background: #1e2a23;
+	border: 1px solid rgba(196, 112, 255, 0.2);
+	border-radius: 0.75rem;
+	background: rgba(196, 112, 255, 0.08);
 	color: var(--color-primary-dark);
 	font-size: 1.1rem;
 }
@@ -118,7 +118,7 @@
 }
 
 .itemOpen .state {
-	color: #173d31;
+	color: var(--color-primary);
 }
 
 .details {

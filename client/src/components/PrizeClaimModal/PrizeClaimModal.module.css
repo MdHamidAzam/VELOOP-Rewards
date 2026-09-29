@@ -53,8 +53,8 @@
 .actions { display: flex; justify-content: flex-end; gap: .75rem; }
 .cancelButton, .submitButton { padding: .75rem 1rem; border-radius: .5rem; font: inherit; font-weight: 700; cursor: pointer; }
 .cancelButton { border: 1px solid var(--color-border); background: transparent; color: var(--color-text); }
-.submitButton { border: 1px solid var(--color-accent); background: var(--color-accent); color: #172014; }
-.cancelButton:focus-visible, .submitButton:focus-visible, .closeButton:focus-visible, .fields input:focus-visible, .fields textarea:focus-visible { outline: 3px solid rgb(184 230 91 / 75%); outline-offset: 2px; }
+.submitButton { border: 1px solid rgba(196, 112, 255, 0.7); background: linear-gradient(135deg, rgba(191, 120, 255, 0.9), rgba(130, 138, 255, 0.9)); color: #fff; }
+.cancelButton:focus-visible, .submitButton:focus-visible, .closeButton:focus-visible, .fields input:focus-visible, .fields textarea:focus-visible { outline: 3px solid rgba(196, 112, 255, 0.7); outline-offset: 2px; }
 
 @media (max-width: 420px) {
 	.dialog { padding: 1.25rem; }

@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+import giftImage from "../../assets/images/img.png";
 import ticketImage from "../../assets/images/ChatGPT Image Aug 19, 2026, 01_36_29 PM.png";
 import styles from "./GiveawayHero.module.css";
 
@@ -28,6 +29,7 @@ export default function GiveawayHero({ giveaway }) {
 				</div>
 
 				<div className={styles.illustrationFrame}>
+					<img className={styles.leftGift} src={giftImage} alt="" aria-hidden="true" />
 					<div className={styles.illustrationAccent} aria-hidden="true" />
 					<img
 						className={styles.illustration}

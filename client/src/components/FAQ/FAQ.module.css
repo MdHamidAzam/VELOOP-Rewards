@@ -1,6 +1,6 @@
 .section {
 	padding: clamp(3.5rem, 7vw, 6rem) 0;
-	background: #111814;
+	background: var(--color-background);
 }
 
 .container {
@@ -85,11 +85,11 @@
 }
 
 .question:hover .icon {
-	color: #173d31;
+	color: var(--color-primary);
 }
 
 .question:focus-visible {
-	outline: 3px solid rgba(15, 118, 110, 0.3);
+	outline: 3px solid rgba(196, 112, 255, 0.3);
 	outline-offset: 4px;
 }
 
@@ -108,8 +108,8 @@
 }
 
 .itemOpen .icon {
-	background: var(--color-primary);
-	color: #172014;
+	background: linear-gradient(135deg, rgba(191, 120, 255, 0.9), rgba(130, 138, 255, 0.9));
+	color: #fff;
 	transform: rotate(180deg);
 }
 

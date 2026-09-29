@@ -1,5 +1,5 @@
 .section {
-	padding: 0 0 clamp(4.5rem, 8vw, 7.5rem);
+	padding: 0 0 clamp(4.25rem, 7vw, 6.25rem);
 	background: var(--color-background);
 }
 
@@ -16,7 +16,7 @@
 	align-items: flex-end;
 	justify-content: space-between;
 	gap: 1.5rem;
-	margin-bottom: clamp(1.75rem, 3.5vw, 2.75rem);
+	margin-bottom: clamp(2rem, 3.5vw, 2.9rem);
 }
 
 .eyebrow {
@@ -35,9 +35,9 @@
 
 .headingGroup h2 {
 	color: var(--color-text-strong);
-	font-size: clamp(2rem, 4vw, 3.1rem);
+	font-size: clamp(2rem, 4vw, 3.2rem);
 	font-weight: 800;
-	letter-spacing: 0;
+	letter-spacing: -0.04em;
 	line-height: 1.05;
 }
 
@@ -56,42 +56,44 @@
 
 .controls button {
 	display: grid;
-	width: 2.8rem;
-	height: 2.8rem;
+	width: 2.85rem;
+	height: 2.85rem;
 	place-items: center;
-	border: 1px solid var(--color-border);
-	border-radius: 50%;
-	background: var(--color-surface);
+	border: 1px solid rgba(196, 112, 255, 0.35);
+	border-radius: 999px;
+	background: rgba(17, 24, 43, 0.96);
 	color: var(--color-text-strong);
 	font-size: 1.25rem;
 	transition: background-color var(--transition-fast), border-color var(--transition-fast), color var(--transition-fast), transform var(--transition-fast);
 }
 
 .controls button:hover {
-	border-color: var(--color-primary);
-	background: var(--color-primary);
-	color: #172014;
+	border-color: rgba(196, 112, 255, 0.7);
+	background: linear-gradient(135deg, rgba(196, 112, 255, 0.22), rgba(130, 138, 255, 0.2));
+	color: #fff;
 	transform: translateY(-1px);
 }
 
 .carousel {
 	display: flex;
-	gap: 1rem;
+	gap: 1.1rem;
 	min-width: 0;
 	margin-inline: -0.5rem;
-	padding: 0.5rem 0.5rem 1.25rem;
+	padding: 0.75rem 0.75rem 1.4rem;
 	overflow-x: auto;
+	overflow-y: hidden;
+	overflow-scrolling: touch;
 	overscroll-behavior-inline: contain;
 	touch-action: pan-x pan-y;
 	-webkit-overflow-scrolling: touch;
 	scroll-behavior: smooth;
 	scroll-snap-type: x mandatory;
 	scrollbar-width: thin;
-	scrollbar-color: rgba(184, 230, 91, 0.35) transparent;
+	scrollbar-color: rgba(196, 112, 255, 0.38) rgba(10, 15, 29, 0.2);
 }
 
 .carousel > * {
-	flex: 0 0 clamp(16rem, calc((100% - 3rem) / 3.25), 23rem);
+	flex: 0 0 clamp(18.5rem, calc((100% - 4rem) / 3), 23.5rem);
 	min-width: 0;
 	scroll-snap-align: start;
 }

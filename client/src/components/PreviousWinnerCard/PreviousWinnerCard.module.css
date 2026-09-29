@@ -5,29 +5,17 @@
 	gap: var(--space-5);
 	min-width: 0;
 	padding: var(--space-5);
-	border: 1px solid var(--color-border);
-	border-radius: var(--radius-md);
-	background: var(--color-surface);
-	box-shadow: 0 8px 22px rgba(22, 33, 43, 0.05);
+	border: 1px solid rgba(196, 112, 255, 0.2);
+	border-radius: 1rem;
+	background: linear-gradient(180deg, rgba(17, 24, 43, 0.96), rgba(12, 18, 34, 0.96));
+	box-shadow: 0 12px 26px rgba(5, 10, 25, 0.14);
 	transition: border-color var(--transition-standard), box-shadow var(--transition-standard), transform var(--transition-standard);
 }
 
 .card:hover {
-	border-color: rgba(15, 118, 110, 0.4);
-	box-shadow: 0 12px 26px rgba(22, 33, 43, 0.08);
+	border-color: rgba(196, 112, 255, 0.42);
+	box-shadow: 0 16px 30px rgba(5, 10, 25, 0.22);
 	transform: translateY(-2px);
-}
-
-.card {
-	border-radius: 8px;
-	border-color: var(--color-border);
-	background: var(--color-surface);
-	box-shadow: 0 8px 22px rgba(0, 0, 0, 0.18);
-}
-
-.card:hover {
-	border-color: rgba(184, 230, 91, 0.34);
-	box-shadow: 0 13px 28px rgba(0, 0, 0, 0.26);
 }
 
 .content {
@@ -93,9 +81,9 @@
 	width: 3rem;
 	height: 3rem;
 	place-items: center;
-	border: 1px solid var(--color-border);
-	border-radius: 8px;
-	background: #1e2a23;
+	border: 1px solid rgba(196, 112, 255, 0.2);
+	border-radius: 0.8rem;
+	background: rgba(196, 112, 255, 0.08);
 	color: var(--color-primary-dark);
 	font-size: 1.25rem;
 }

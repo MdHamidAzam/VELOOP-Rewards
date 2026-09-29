@@ -46,14 +46,14 @@
 	max-width: 100%;
 	gap: var(--space-1);
 	padding: var(--space-1);
-	border: 1px solid var(--color-border);
-	border-radius: var(--radius-md);
-	background: var(--color-background-soft);
+	border: 1px solid rgba(196, 112, 255, 0.18);
+	border-radius: 1rem;
+	background: rgba(12, 18, 34, 0.96);
 }
 
 .tab {
 	padding: var(--space-3) var(--space-5);
-	border-radius: var(--radius-sm);
+	border-radius: 0.8rem;
 	background: transparent;
 	color: var(--color-muted);
 	font-size: 0.875rem;
@@ -68,13 +68,13 @@
 }
 
 .activeTab {
-	background: var(--color-surface);
-	box-shadow: 0 3px 8px rgba(22, 33, 43, 0.08);
+	background: linear-gradient(135deg, rgba(191, 120, 255, 0.18), rgba(130, 138, 255, 0.14));
+	box-shadow: 0 3px 8px rgba(5, 10, 25, 0.18);
 	color: var(--color-text-strong);
 }
 
 .tab:focus-visible {
-	outline: 3px solid rgba(15, 118, 110, 0.35);
+	outline: 3px solid rgba(196, 112, 255, 0.3);
 	outline-offset: 2px;
 }
 
@@ -84,14 +84,14 @@
 }
 
 .panel:focus-visible {
-	outline: 3px solid rgba(15, 118, 110, 0.25);
+	outline: 3px solid rgba(196, 112, 255, 0.25);
 	outline-offset: 4px;
 }
 
 .emptyState {
 	margin: 0;
 	padding: 2rem;
-	border: 1px dashed var(--color-border);
+	border: 1px dashed rgba(196, 112, 255, 0.2);
 	color: var(--color-muted);
 	text-align: center;
 }
@@ -104,7 +104,7 @@
 
 .section {
 	padding: clamp(3.5rem, 7vw, 6rem) 0;
-	background: #131b16;
+	background: var(--color-background);
 }
 
 .headingGroup {
@@ -131,14 +131,14 @@
 }
 
 .activeTab {
-	background: var(--color-primary);
+	background: linear-gradient(135deg, rgba(191, 120, 255, 0.18), rgba(130, 138, 255, 0.14));
 	box-shadow: 0 4px 10px rgba(0, 0, 0, 0.24);
-	color: #172014;
+	color: var(--color-text-strong);
 }
 
 .activeTab:hover,
 .activeTab:focus-visible {
-	color: #172014;
+	color: var(--color-text-strong);
 }
 
 .panel {
@@ -148,9 +148,9 @@
 
 .emptyState {
 	padding: clamp(2rem, 4vw, 3.5rem);
-	border: 1px dashed rgba(184, 230, 91, 0.24);
+	border: 1px dashed rgba(196, 112, 255, 0.24);
 	border-radius: 8px;
-	background: rgba(23, 31, 27, 0.7);
+	background: rgba(12, 18, 34, 0.68);
 }
 
 @media (max-width: 700px) {

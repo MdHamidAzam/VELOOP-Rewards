@@ -74,9 +74,9 @@
 	height: 3.25rem;
 	place-items: center;
 	margin-bottom: var(--space-5);
-	border: 1px solid rgba(15, 118, 110, 0.25);
+	border: 1px solid rgba(196, 112, 255, 0.3);
 	border-radius: 50%;
-	background: var(--color-surface);
+	background: linear-gradient(180deg, rgba(17,24,43,0.96), rgba(12,18,34,0.96));
 	box-shadow: 0 0 0 0.5rem var(--color-background);
 	color: var(--color-primary-dark);
 	font-size: 1.25rem;
@@ -84,7 +84,7 @@
 }
 
 .step:hover .stepMarker {
-	background: var(--color-primary);
+	background: linear-gradient(135deg, rgba(191, 120, 255, 0.92), rgba(130, 138, 255, 0.9));
 	color: #ffffff;
 	transform: translateY(-2px);
 }
@@ -122,7 +122,7 @@
 
 .section {
 	padding: clamp(3rem, 6vw, 5rem) 0;
-	background: #131b16;
+	background: var(--color-background);
 }
 
 .headingGroup {
@@ -136,15 +136,15 @@
 .stepMarker {
 	width: 3.5rem;
 	height: 3.5rem;
-	border: 1px solid rgba(184, 230, 91, 0.2);
-	background: #1b2520;
-	box-shadow: 0 0 0 0.5rem #131b16, 0 6px 16px rgba(0, 0, 0, 0.22);
+		border: 1px solid rgba(196, 112, 255, 0.28);
+		background: linear-gradient(180deg, rgba(17,24,43,0.96), rgba(12,18,34,0.96));
+		box-shadow: 0 0 0 0.5rem rgba(9, 13, 25, 0.86), 0 6px 16px rgba(0, 0, 0, 0.18);
 	color: var(--color-primary-dark);
 }
 
 .step:hover .stepMarker {
-	background: var(--color-primary);
-	color: #172014;
+		background: linear-gradient(135deg, rgba(191, 120, 255, 0.92), rgba(130, 138, 255, 0.9));
+		color: #fff;
 }
 
 .step h3 {

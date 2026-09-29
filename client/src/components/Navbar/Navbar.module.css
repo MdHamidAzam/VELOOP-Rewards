@@ -2,8 +2,8 @@
 	position: sticky;
 	top: 0;
 	z-index: 30;
-	border-bottom: 1px solid var(--color-border);
-	background: rgba(12, 17, 15, 0.92);
+	border-bottom: 1px solid rgba(180, 190, 255, 0.18);
+	background: rgba(5, 12, 27, 0.82);
 	backdrop-filter: blur(18px);
 }
 
@@ -11,45 +11,45 @@
 	display: flex;
 	align-items: center;
 	justify-content: space-between;
-	min-height: 5.2rem;
+	min-height: 5.6rem;
 	gap: var(--space-6);
 }
 
 .brand {
 	display: inline-flex;
 	align-items: center;
-	gap: 0.7rem;
-	color: var(--color-text-strong);
-	font-size: 1.1rem;
+	gap: 0.72rem;
+	color: #f8f4ff;
+	font-size: 1.18rem;
 	font-weight: 800;
-	letter-spacing: 0.14em;
+	letter-spacing: 0.06em;
 	text-transform: uppercase;
 }
 
 .brandMark {
 	display: grid;
-	width: 2.1rem;
-	height: 2.1rem;
+	width: 2.45rem;
+	height: 2.45rem;
 	place-items: center;
-	border: 1px solid rgba(184, 230, 91, 0.28);
-	border-radius: 0.55rem;
-	background: #1c2a21;
-	box-shadow: 0 8px 18px rgba(23, 61, 49, 0.15);
+	border: 1px solid rgba(199, 112, 255, 0.5);
+	border-radius: 0.75rem;
+	background: linear-gradient(135deg, rgba(179, 86, 255, 0.22), rgba(96, 119, 255, 0.18));
+	box-shadow: 0 12px 24px rgba(98, 86, 255, 0.27);
 	color: var(--color-primary);
-	font-size: 1rem;
+	font-size: 1.1rem;
 	letter-spacing: 0;
 }
 
 .brandText {
-	letter-spacing: 0.14em;
+	letter-spacing: 0.08em;
 }
 
 .productBadge {
-	padding: 0.35rem 0.6rem;
-	border: 1px solid var(--color-border);
+	padding: 0.38rem 0.7rem;
+	border: 1px solid rgba(199, 112, 255, 0.5);
 	border-radius: 999px;
-	background: var(--color-background-soft);
-	color: var(--color-primary-dark);
+	background: rgba(192, 102, 255, 0.09);
+	color: var(--color-primary);
 	font-size: 0.58rem;
 	font-weight: 800;
 	letter-spacing: 0.12em;
@@ -65,13 +65,13 @@
 .links {
 	display: flex;
 	align-items: center;
-	gap: 1.25rem;
+	gap: 0.9rem;
 }
 
 .navLink,
 .loginLink {
 	position: relative;
-	padding: 0.55rem 0.7rem;
+	padding: 0.68rem 0.95rem;
 	color: var(--color-muted);
 	font-size: 0.82rem;
 	font-weight: 700;
@@ -83,19 +83,6 @@
 	border-radius: 0.8rem;
 }
 
-.navLink::after {
-	position: absolute;
-	right: 0.7rem;
-	bottom: 0.35rem;
-	left: 0.7rem;
-	height: 2px;
-	background: var(--color-primary);
-	content: "";
-	transform: scaleX(0);
-	transform-origin: right;
-	transition: transform var(--transition-standard);
-}
-
 .navLink:hover,
 .navLink:focus-visible,
 .loginLink:hover,
@@ -105,28 +92,21 @@
 
 .navLinkActive {
 	color: var(--color-text-strong);
-	background: rgba(184, 230, 91, 0.08);
-}
-
-.navLinkActive::after,
-.navLink:hover::after,
-.navLink:focus-visible::after {
-	transform: scaleX(1);
-	transform-origin: left;
+	background: rgba(196, 112, 255, 0.1);
 }
 
 .loginLink {
 	padding: 0.7rem 1rem;
-	border: 1px solid rgba(184, 230, 91, 0.32);
-	border-radius: 0.8rem;
-	background: var(--color-primary);
-	color: #172014;
+	border: 1px solid rgba(196, 112, 255, 0.6);
+	border-radius: 0.9rem;
+	background: linear-gradient(135deg, rgba(196, 112, 255, 0.22), rgba(130, 120, 255, 0.2));
+	color: #f7ebff;
 }
 
 .loginLink:hover,
 .loginLink:focus-visible {
-	background: #c9f273;
-	color: #172014;
+	background: linear-gradient(135deg, rgba(196, 112, 255, 0.33), rgba(150, 123, 255, 0.32));
+	color: #fff;
 	transform: translateY(-1px);
 }
 
@@ -138,7 +118,7 @@
 	height: 2.8rem;
 	border: 1px solid var(--color-border);
 	border-radius: 0.8rem;
-	background: var(--color-surface);
+	background: rgba(16, 24, 48, 0.9);
 	color: var(--color-text-strong);
 	font-size: 1.35rem;
 }
@@ -153,7 +133,7 @@
 	}
 
 	.brandText {
-		letter-spacing: 0.1em;
+		letter-spacing: 0.08em;
 	}
 
 	.productBadge {
@@ -175,7 +155,7 @@
 		padding: var(--space-4);
 		border: 1px solid var(--color-border);
 		border-radius: var(--radius-md);
-		background: #151d19;
+		background: rgba(13, 19, 39, 0.98);
 		box-shadow: var(--shadow-soft);
 	}
 
@@ -194,11 +174,6 @@
 	.loginLink {
 		display: block;
 		padding: var(--space-3);
-	}
-
-	.navLink::after {
-		right: var(--space-3);
-		left: var(--space-3);
 	}
 
 	.loginLink {

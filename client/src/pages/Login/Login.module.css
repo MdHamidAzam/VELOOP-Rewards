@@ -12,5 +12,8 @@
 .accountPrompt { margin: 1.25rem 0 0; font-size: .9rem; }
 .accountPrompt a { color: var(--color-accent); font-weight: 700; }
 .accountPrompt a:hover, .accountPrompt a:focus-visible { text-decoration: underline; }
-.primaryButton { width: fit-content; padding: .75rem 1rem; border: 1px solid var(--color-accent); border-radius: .5rem; background: var(--color-accent); color: white; font: inherit; font-weight: 700; cursor: pointer; }
-.primaryButton:focus-visible, .card input:focus-visible, .card select:focus-visible, .accountPrompt a:focus-visible { outline: 3px solid rgb(25 118 210 / 35%); outline-offset: 2px; }
+.primaryButton { width: fit-content; padding: .75rem 1rem; border: 1px solid rgba(191, 120, 255, .7); border-radius: .75rem; background: linear-gradient(135deg, rgba(191, 120, 255, .9), rgba(130, 138, 255, .9)); color: #fff; font: inherit; font-weight: 700; cursor: pointer; box-shadow: 0 10px 22px rgba(122, 92, 255, .28); transition: background-color var(--transition-fast), border-color var(--transition-fast), transform var(--transition-fast), box-shadow var(--transition-fast); }
+.primaryButton:hover:not(:disabled) { border-color: rgba(196, 112, 255, .9); background: linear-gradient(135deg, rgba(196, 112, 255, .92), rgba(141, 149, 255, .9)); transform: translateY(-1px); box-shadow: 0 12px 26px rgba(122, 92, 255, .34); }
+.primaryButton:disabled { cursor: not-allowed; opacity: .65; }
+.primaryButton:focus-visible { outline: 3px solid rgba(196, 112, 255, .35); outline-offset: 2px; }
+.card input:focus-visible, .card select:focus-visible, .accountPrompt a:focus-visible { outline: 3px solid rgb(25 118 210 / 35%); outline-offset: 2px; }

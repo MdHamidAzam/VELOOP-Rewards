@@ -10,6 +10,7 @@ const prizeAssets = Object.freeze({
 	"ChatGPT Image Aug 19, 2026, 01_55_25 PM.png": appleWatchImage,
 	"ChatGPT Image Aug 19, 2026, 02_06_07 PM.png": airpodsImage,
 	"ChatGPT Image Aug 19, 2026, 03_22_24 PM.png": amazon2000GiftCardImage,
+	"ChatGPT Image Aug 19, 2026, 03_27_44 PM.png": amazon500GiftCardImage,
 	"ChatGPT Image Aug 19, 2026, 05_07_43 PM.png": voucher20Image,
 });
 

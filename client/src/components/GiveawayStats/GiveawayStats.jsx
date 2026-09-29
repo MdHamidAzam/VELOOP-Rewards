@@ -1,11 +1,19 @@
-import { FiAward, FiGift, FiUsers } from "react-icons/fi";
+import { FiAward, FiClock, FiGift, FiUsers } from "react-icons/fi";
+import useCountdown from "../../hooks/useCountdown.js";
 import styles from "./GiveawayStats.module.css";
 
-export default function GiveawayStats({ participantCount, statistics }) {
+export default function GiveawayStats({ participantCount, statistics, giveaway }) {
+	const targetDate = giveaway?.endAt ?? giveaway?.endDate;
+	const { timeLeft, isEnded } = useCountdown(targetDate);
+	const endsIn = isEnded
+		? "Ended"
+		: `${String(timeLeft.days).padStart(2, "0")}d : ${String(timeLeft.hours).padStart(2, "0")}h : ${String(timeLeft.minutes).padStart(2, "0")}m`;
+
 	const statItems = [
 		{ id: "total-giveaways", label: "Total Giveaways", value: statistics?.totalGiveaways ?? "-", Icon: FiGift },
 		{ id: "participants", label: "Participants", value: statistics?.participants ?? participantCount ?? "-", Icon: FiUsers },
 		{ id: "prizes-won", label: "Prizes Won", value: statistics?.prizesWon ?? "-", Icon: FiAward },
+		{ id: "ends-in", label: "Ends In", value: endsIn, Icon: FiClock, countdown: true },
 	];
 
 	return (
@@ -15,8 +23,8 @@ export default function GiveawayStats({ participantCount, statistics }) {
 					Giveaway statistics
 				</h2>
 				<ul className={styles.list}>
-					{statItems.map(({ id, label, value, Icon }) => (
-						<li className={styles.stat} key={id}>
+					{statItems.map(({ id, label, value, Icon, countdown }) => (
+						<li className={`${styles.stat} ${countdown ? styles.countdown : ""}`.trim()} key={id}>
 							<div className={styles.icon} aria-hidden="true">
 								<Icon />
 							</div>

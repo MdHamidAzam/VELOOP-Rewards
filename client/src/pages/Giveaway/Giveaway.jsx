@@ -46,7 +46,7 @@ export default function Giveaway() {
 				<>
 					<GiveawayHero giveaway={giveaway} />
 					<Countdown giveaway={giveaway} />
-					<GiveawayStats participantCount={giveaway.participantCount} statistics={giveaway.statistics} />
+					<GiveawayStats participantCount={giveaway.participantCount} statistics={giveaway.statistics} giveaway={giveaway} />
 					<FeaturedGiveaways giveaway={giveaway} />
 				</>
 			) : <CurrentGiveawayState loading={loading} error={error} onRetry={reload} />}
