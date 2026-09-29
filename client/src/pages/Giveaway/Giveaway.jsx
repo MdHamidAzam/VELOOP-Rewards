@@ -2,6 +2,7 @@ import GiveawayHero from "../../components/GiveawayHero/GiveawayHero.jsx";
 import GiveawayStats from "../../components/GiveawayStats/GiveawayStats.jsx";
 import Countdown from "../../components/Countdown/Countdown.jsx";
 import FeaturedGiveaways from "../../components/FeaturedGiveaways/FeaturedGiveaways.jsx";
+import BrowseGiveaways from "../../components/BrowseGiveaways/BrowseGiveaways.jsx";
 import GiveawayRules from "../../components/GiveawayRules/GiveawayRules.jsx";
 import HowToParticipate from "../../components/HowToParticipate/HowToParticipate.jsx";
 import WinnerSlider from "../../components/WinnerSlider/WinnerSlider.jsx";
@@ -13,6 +14,7 @@ import Footer from "../../components/Footer/Footer.jsx";
 import GiveawayLoader from "../../components/common/GiveawayLoader.jsx";
 import GiveawayStateLinks from "../../components/common/GiveawayStateLinks.jsx";
 import { useGiveaway } from "../../hooks/useGiveaway.js";
+import { useBrowseGiveaways } from "../../hooks/useBrowseGiveaways.js";
 import { usePreviousWinners } from "../../hooks/usePreviousWinners.js";
 import { mapCurrentGiveaway } from "../../utils/giveawayViewModel.js";
 import styles from "./Giveaway.module.css";
@@ -36,6 +38,7 @@ function CurrentGiveawayState({ loading, error, onRetry }) {
 
 export default function Giveaway() {
 	const { data, loading, error, reload } = useGiveaway();
+	const browseGiveaways = useBrowseGiveaways();
 	const previousWinners = usePreviousWinners();
 	const giveaway = mapCurrentGiveaway(data);
 	const hasCurrentGiveaway = !loading && !error && giveaway;
@@ -50,6 +53,12 @@ export default function Giveaway() {
 					<FeaturedGiveaways giveaway={giveaway} />
 				</>
 			) : <CurrentGiveawayState loading={loading} error={error} onRetry={reload} />}
+			<BrowseGiveaways
+				giveaways={browseGiveaways.data}
+				loading={browseGiveaways.loading}
+				error={browseGiveaways.error}
+				onRetry={browseGiveaways.reload}
+			/>
 			<GiveawayStateLinks />
 			<HowToParticipate />
 			<WinnerSlider giveaway={giveaway} previousWinners={previousWinners.data} loading={previousWinners.loading} error={previousWinners.error} onRetry={previousWinners.reload} />

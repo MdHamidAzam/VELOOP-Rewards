@@ -1,5 +1,5 @@
 import { ApiError, apiRequest } from "./api.js";
-import { DEMO_MODE, getDemoCurrentGiveaway, getDemoGiveaway, getDemoPreviousGiveaways, getDemoPreviousWinners, isDemoFallbackError } from "./demoData.js";
+import { DEMO_MODE, getDemoBrowseGiveaways, getDemoCurrentGiveaway, getDemoGiveaway, getDemoPreviousGiveaways, getDemoPreviousWinners, isDemoFallbackError } from "./demoData.js";
 
 function unwrapData(payload) {
 	if (!payload?.success || payload.data === undefined) {
@@ -31,6 +31,19 @@ function unwrapData(payload) {
 export async function getCurrentGiveaway(options) {
 	if (DEMO_MODE) return getDemoCurrentGiveaway();
 	try { return unwrapData(await apiRequest("giveaways/current", options)); } catch (error) { if (isDemoFallbackError(error)) return getDemoCurrentGiveaway(); throw error; }
+}
+
+export async function getBrowseGiveaways(options) {
+	if (DEMO_MODE) return getDemoBrowseGiveaways();
+	let data;
+	try { data = unwrapData(await apiRequest("giveaways/browse", options)); } catch (error) { if (isDemoFallbackError(error)) return getDemoBrowseGiveaways(); throw error; }
+	if (!Array.isArray(data)) {
+		throw new ApiError("The giveaway browse API returned an invalid response.", {
+			code: "INVALID_RESPONSE",
+		});
+	}
+
+	return data;
 }
 
 export async function getGiveawayById(giveawayId, options) {

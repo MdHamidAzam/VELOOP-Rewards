@@ -148,6 +148,9 @@ export function getDemoGiveaway(giveawayId) {
 }
 
 export function getDemoCurrentGiveaway() { return clone(activeGiveaway); }
+export function getDemoBrowseGiveaways() {
+	return [activeGiveaway, upcomingGiveaway, archivedGiveaway].map(clone);
+}
 export function getDemoPreviousGiveaways() { return [clone(archivedGiveaway)]; }
 export function getDemoPreviousWinners() {
 	return [{

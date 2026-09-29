@@ -6,6 +6,7 @@ import { publicGiveawayQuery } from "../utils/giveawayVisibility.js";
 import { publicWinnerId } from "../utils/publicWinner.js";
 
 const HISTORICAL_STATUSES = ["ENDED", "ARCHIVED"];
+const BROWSE_STATUSES = ["ACTIVE", "UPCOMING", ...HISTORICAL_STATUSES];
 
 async function synchronizeLifecycle() {
 	const now = new Date();
@@ -106,4 +107,19 @@ export async function getPreviousGiveaways() {
 		.sort({ endAt: -1 })
 		.lean();
 	return Promise.all(giveaways.map(serializeGiveaway));
+}
+
+export async function getBrowseGiveaways() {
+	await synchronizeLifecycle();
+	const giveaways = await Giveaway.find(publicGiveawayQuery({ status: { $in: BROWSE_STATUSES } }))
+		.sort({ startAt: -1 })
+		.lean();
+	return giveaways.map(({ id, title, description, status, startAt, endAt }) => ({
+		id,
+		title,
+		description,
+		status,
+		startAt,
+		endAt,
+	}));
 }

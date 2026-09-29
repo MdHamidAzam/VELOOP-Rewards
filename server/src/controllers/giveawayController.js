@@ -3,6 +3,7 @@ import { sendError, sendSuccess } from "../utils/apiResponse.js";
 import {
 	getCurrentGiveaway,
 	getGiveawayById,
+	getBrowseGiveaways,
 	getPreviousGiveaways,
 } from "../services/giveawayService.js";
 
@@ -53,6 +54,15 @@ export async function getPreviousGiveawaysController(req, res) {
 	try {
 		const giveaways = await getPreviousGiveaways();
 		return sendSuccess(res, { message: "Previous giveaways retrieved.", data: giveaways });
+	} catch (error) {
+		return handleGiveawayError(res, error);
+	}
+}
+
+export async function getBrowseGiveawaysController(req, res) {
+	try {
+		const giveaways = await getBrowseGiveaways();
+		return sendSuccess(res, { message: "Giveaways retrieved.", data: giveaways });
 	} catch (error) {
 		return handleGiveawayError(res, error);
 	}
