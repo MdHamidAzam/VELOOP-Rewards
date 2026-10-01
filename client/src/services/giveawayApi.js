@@ -30,7 +30,11 @@ function unwrapData(payload) {
 
 export async function getCurrentGiveaway(options) {
 	if (DEMO_MODE) return getDemoCurrentGiveaway();
-	try { return unwrapData(await apiRequest("giveaways/current", options)); } catch (error) { if (isDemoFallbackError(error)) return getDemoCurrentGiveaway(); throw error; }
+	try { return unwrapData(await apiRequest("giveaways/current", options)); } catch (error) {
+		if (error?.status === 404 && error?.code === "GIVEAWAY_NOT_FOUND") return null;
+		if (isDemoFallbackError(error)) return getDemoCurrentGiveaway();
+		throw error;
+	}
 }
 
 export async function getBrowseGiveaways(options) {

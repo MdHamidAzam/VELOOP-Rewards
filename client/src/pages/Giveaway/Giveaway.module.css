@@ -12,10 +12,23 @@
 }
 
 .dataState p {
+	max-width: 38rem;
 	margin: 0;
+	line-height: 1.6;
 }
 
-.dataState button {
+.dataState h2 {
+	margin: 0;
+	color: var(--color-text-strong);
+	font-size: clamp(1.5rem, 2.5vw, 2rem);
+	font-weight: 800;
+}
+
+.dataState button,
+.browseLink {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
 	margin-top: var(--space-4);
 	padding: var(--space-3) var(--space-4);
 	border-radius: var(--radius-sm);
@@ -24,7 +37,12 @@
 	font-weight: 750;
 }
 
-.dataState button:focus-visible {
+.browseLink {
+	text-decoration: none;
+}
+
+.dataState button:focus-visible,
+.browseLink:focus-visible {
 	outline: 3px solid rgba(196, 112, 255, 0.72);
 	outline-offset: 3px;
 }

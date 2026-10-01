@@ -28,12 +28,18 @@ function CurrentGiveawayState({ loading, error, onRetry }) {
 		return (
 			<section className={styles.dataState} role="alert">
 				<p>We could not load the current giveaway.</p>
-				<button type="button" onClick={onRetry}>Try again</button>
+				<button type="button" onClick={onRetry}>Try Again</button>
 			</section>
 		);
 	}
 
-	return <section className={styles.dataState} aria-live="polite"><p>No current giveaway is available right now.</p></section>;
+	return (
+		<section className={styles.dataState} aria-live="polite">
+			<h2>No Active Giveaway</h2>
+			<p>There is no active giveaway right now. Check our upcoming giveaways for the next reward.</p>
+			<a className={styles.browseLink} href="#browse-giveaways">Explore Upcoming Giveaways</a>
+		</section>
+	);
 }
 
 export default function Giveaway() {

@@ -69,7 +69,7 @@ export default function BrowseGiveaways({ giveaways = [], loading, error, onRetr
 	};
 
 	return (
-		<section className={styles.section} aria-labelledby="browse-giveaways-title">
+		<section className={styles.section} id="browse-giveaways" aria-labelledby="browse-giveaways-title">
 			<div className={`${styles.container} container`}>
 				<div className={styles.headingGroup}>
 					<p className={styles.eyebrow}>Find your next reward</p>
